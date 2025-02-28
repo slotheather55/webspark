@@ -204,13 +204,18 @@ def extract_tags(soup: BeautifulSoup, html: str) -> Dict[str, Any]:
                     tag_config = match.group(2)
                     
                     # Check if tag is active
-                    is_active = 'load:"0"' not in tag_config
+                    is_active = 'load:"0"' not in tag_config and "load:'0'" not in tag_config
                     
-                    # Identify tag type based on ID
-                    tag_type = identify_tag_type(tag_id)
+                    # Extract tag name if available
+                    name_match = re.search(r'name\s*:\s*[\'"]([^\'"]+)[\'"]', tag_config)
+                    tag_name = name_match.group(1) if name_match else f"Tag {tag_id}"
+                    
+                    # Identify tag type based on ID or name
+                    tag_type = identify_tag_type(tag_id, tag_name)
                     
                     tags["details"].append({
                         "id": tag_id,
+                        "name": tag_name,
                         "type": tag_type,
                         "active": is_active
                     })
@@ -249,6 +254,79 @@ def extract_tags(soup: BeautifulSoup, html: str) -> Dict[str, Any]:
     
     return tags
 
+
+def identify_tag_type(tag_id: str, tag_name: str) -> str:
+    """Identify tag type based on ID and name"""
+    tag_id = tag_id.lower()
+    tag_name = tag_name.lower()
+    
+    # Expanded tag mapping with more vendors
+    tag_mapping = {
+        # Analytics
+        "ga": "google_analytics",
+        "google": "google_analytics",
+        "analytics": "analytics",
+        "adobe": "adobe_analytics",
+        "omniture": "adobe_analytics",
+        "sitecatalyst": "adobe_analytics",
+        "amplitude": "analytics",
+        "mixpanel": "analytics",
+        "segment": "analytics",
+        "heap": "analytics",
+        "clarity": "analytics",
+        
+        # Advertising
+        "floodlight": "google_floodlight",
+        "doubleclick": "google_doubleclick",
+        "facebook": "facebook_pixel",
+        "fb": "facebook_pixel",
+        "twitter": "twitter_pixel",
+        "pinterest": "pinterest_pixel",
+        "linkedin": "linkedin_pixel",
+        "bing": "bing_ads",
+        "criteo": "advertising",
+        "adroll": "advertising",
+        "tiktok": "advertising",
+        "snapchat": "advertising",
+        
+        # Tag Management
+        "gtm": "google_tag_manager",
+        "tealium": "tag_management",
+        
+        # Testing & Optimization
+        "optimizely": "optimization",
+        "vwo": "optimization",
+        "ab tasty": "optimization",
+        "google optimize": "optimization",
+        
+        # User Experience
+        "hotjar": "user_experience",
+        "crazyegg": "user_experience",
+        "clicktale": "user_experience",
+        "sessioncam": "user_experience",
+        "fullstory": "user_experience",
+        "logrocket": "user_experience",
+        
+        # Customer Feedback
+        "medallia": "feedback",
+        "qualtrics": "feedback",
+        "surveygizmo": "feedback",
+        "surveymonkey": "feedback",
+        
+        # CRM & Marketing
+        "marketo": "marketing",
+        "hubspot": "marketing",
+        "salesforce": "crm",
+        "pardot": "marketing",
+        "eloqua": "marketing"
+    }
+    
+    # Try to match either tag_id or tag_name against our mapping
+    for key, value in tag_mapping.items():
+        if key in tag_id or key in tag_name:
+            return value
+    
+    return "other"
 
 def identify_tag_type(tag_id: str) -> str:
     """Identify tag type based on ID"""

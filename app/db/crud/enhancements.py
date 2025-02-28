@@ -19,10 +19,9 @@ def create_enhancement(
         categories=enhancement.categories
     )
     
-    # Add name if provided
-    if enhancement.name:
-        db_enhancement.name = enhancement.name
-        
+    # Add name if it exists in the model (we'll skip this check since it doesn't)
+    # The model doesn't have a name field, so we'll remove this check
+    
     db.add(db_enhancement)
     db.commit()
     db.refresh(db_enhancement)
@@ -114,4 +113,4 @@ def delete_enhancement(db: Session, enhancement_id: uuid.UUID):
     
     db.delete(db_enhancement)
     db.commit()
-    return True 
+    return True

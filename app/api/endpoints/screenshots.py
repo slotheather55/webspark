@@ -1,4 +1,5 @@
-from typing import Any, Dict, Optional
+import uuid
+from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -31,8 +32,17 @@ async def get_screenshots(
     
     Returns URLs to the screenshots for each device type.
     """
+    # Convert string ID to UUID object
+    try:
+        analysis_uuid = uuid.UUID(analysis_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid analysis ID format"
+        )
+    
     # Get analysis from database
-    analysis = crud.analysis.get_analysis(db, analysis_id)
+    analysis = crud.analysis.get_analysis(db, analysis_uuid)
     
     if not analysis:
         raise HTTPException(
@@ -57,7 +67,7 @@ async def get_screenshots(
     screenshot_urls = {}
     for screenshot in screenshots:
         # Generate signed URL for the screenshot
-        url = get_screenshot_url(screenshot.storage_path)
+        url = await get_screenshot_url(screenshot.storage_path)
         screenshot_urls[screenshot.device_type] = url
     
     return {"screenshots": screenshot_urls}
@@ -105,4 +115,4 @@ async def get_screenshot_image(
     
     # Implementation would redirect to or serve the actual image
     # For now, we'll just return a placeholder response
-    return {"url": get_screenshot_url(screenshot.storage_path)} 
+    return {"url": await get_screenshot_url(screenshot.storage_path)}

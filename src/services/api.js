@@ -151,9 +151,9 @@ export const generateEnhancements = async (analysisId, categories) => {
     
     const data = await response.json();
     
-    // If needed, map id to analysis_id for backward compatibility
-    if (data.id && !data.analysis_id) {
-      data.analysis_id = data.id;
+    // If needed, map id to enhancement_id for backward compatibility
+    if (data.id && !data.enhancement_id) {
+      data.enhancement_id = data.id;
     }
     
     return data;
@@ -190,4 +190,4 @@ export const getEnhancement = async (enhancementId) => {
     console.error('API Error:', error);
     throw error;
   }
-}; 
+};

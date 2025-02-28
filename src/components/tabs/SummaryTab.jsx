@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Share2, Copy, ChevronDown, ChevronRight, Check, Bot, MessageSquare, FileText, Target, Layers } from 'lucide-react';
 import { SECTIONS } from '../../ProductManagerEnhancer';
-import { generateEnhancements } from '../../services/api';
+import { generateEnhancements, getEnhancement } from '../../services/api';
 
 const SummaryTab = ({ expandedSections, toggleSection, analysisId, analysisResults }) => {
   const [enhancements, setEnhancements] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showAllSuggestions, setShowAllSuggestions] = useState({});
+  const [enhancementId, setEnhancementId] = useState(null);
 
   useEffect(() => {
     const fetchEnhancements = async () => {
@@ -15,21 +16,53 @@ const SummaryTab = ({ expandedSections, toggleSection, analysisId, analysisResul
       
       try {
         setLoading(true);
+        setError(null);
+        
         // If enhancements are already in the analysis results, use them
         if (analysisResults?.enhancements) {
           setEnhancements(analysisResults.enhancements);
-        } else {
-          // Otherwise, generate them
-          const response = await generateEnhancements(analysisId, [
-            'value_proposition', 'content', 'features', 'conversion'
-          ]);
-          setEnhancements(response.enhancements);
+          setLoading(false);
+          return;
         }
-        setLoading(false);
+        
+        // Otherwise, generate them
+        const response = await generateEnhancements(analysisId, [
+          'value_proposition', 'content_strategy', 'feature_development', 'conversion_optimization'
+        ]);
+        
+        // Save the enhancement ID for polling
+        setEnhancementId(response.enhancement_id);
+        
+        // Start polling for enhancement completion
+        checkEnhancementStatus(response.enhancement_id);
       } catch (error) {
         setError('Failed to load enhancement suggestions');
         setLoading(false);
         console.error('Error fetching enhancements:', error);
+      }
+    };
+
+    // Poll for enhancement status
+    const checkEnhancementStatus = async (id) => {
+      try {
+        // Wait a bit before first check to allow processing time
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        const enhancementData = await getEnhancement(id);
+        
+        if (enhancementData.status === 'completed' && enhancementData.recommendations) {
+          setEnhancements(enhancementData.recommendations);
+          setLoading(false);
+        } else if (enhancementData.status === 'failed') {
+          setError('Enhancement generation failed: ' + (enhancementData.error || 'Unknown error'));
+          setLoading(false);
+        } else {
+          // Still in progress, check again in a few seconds
+          setTimeout(() => checkEnhancementStatus(id), 2000);
+        }
+      } catch (error) {
+        setError('Error checking enhancement status: ' + error.message);
+        setLoading(false);
       }
     };
 
@@ -68,12 +101,34 @@ const SummaryTab = ({ expandedSections, toggleSection, analysisId, analysisResul
     );
   }
 
+  // Map backend categories to frontend sections
+  const categoryMapping = {
+    'value_proposition': 'value_proposition',
+    'content_strategy': 'content',
+    'feature_development': 'features',
+    'conversion_optimization': 'conversion'
+  };
+
+  // Process enhancements to match frontend format
+  const processedEnhancements = {};
+  
+  Object.entries(enhancements).forEach(([category, data]) => {
+    const frontendCategory = Object.entries(categoryMapping).find(([backendKey, frontendKey]) => 
+      backendKey === category || frontendKey === category
+    );
+    
+    if (frontendCategory) {
+      const [backendKey, frontendKey] = frontendCategory;
+      processedEnhancements[frontendKey] = data.recommendations || [];
+    }
+  });
+
   const {
     value_proposition = [],
     content = [],
     features = [],
     conversion = []
-  } = enhancements;
+  } = processedEnhancements;
 
   // Calculate total number of suggestions
   const totalSuggestions = value_proposition.length + content.length + features.length + conversion.length;
@@ -372,4 +427,4 @@ const SummaryTab = ({ expandedSections, toggleSection, analysisId, analysisResul
   );
 };
 
-export default SummaryTab; 
+export default SummaryTab;

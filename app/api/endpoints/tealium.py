@@ -1,3 +1,4 @@
+import uuid
 from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -30,8 +31,17 @@ async def get_tealium_analysis(
     
     Returns the Tealium analysis data including data layer, events, and tags.
     """
+    # Convert string ID to UUID object
+    try:
+        analysis_uuid = uuid.UUID(analysis_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid analysis ID format"
+        )
+    
     # Get analysis from database
-    analysis = crud.analysis.get_analysis(db, analysis_id)
+    analysis = crud.analysis.get_analysis(db, analysis_uuid)
     
     if not analysis:
         raise HTTPException(
@@ -82,4 +92,4 @@ async def validate_tealium(
         validation_request.expected_schema
     )
     
-    return validation_result 
+    return validation_result

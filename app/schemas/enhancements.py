@@ -7,11 +7,12 @@ from pydantic import BaseModel, AnyUrl, Field, validator
 
 class EnhancementCreate(BaseModel):
     """Create enhancement request"""
+    analysis_id: uuid.UUID
     categories: List[str] = ["value_proposition", "content_strategy", "feature_development", "conversion_optimization", "technical_implementation"]
     
     @validator("categories")
     def validate_categories(cls, v):
-        """Validate enhancement categories"""
+        """Validate enhancement categories and map to standard values"""
         valid_categories = [
             "value_proposition", 
             "content_strategy", 
@@ -19,14 +20,30 @@ class EnhancementCreate(BaseModel):
             "conversion_optimization", 
             "technical_implementation"
         ]
+        
+        # Category mapping from frontend to backend formats
+        category_mapping = {
+            "content": "content_strategy",
+            "features": "feature_development",
+            "conversion": "conversion_optimization"
+        }
+        
+        # Transform categories to standard format
+        transformed_categories = []
         for category in v:
-            if category not in valid_categories:
+            if category in valid_categories:
+                transformed_categories.append(category)
+            elif category in category_mapping:
+                transformed_categories.append(category_mapping[category])
+            else:
                 raise ValueError(f"Invalid category: {category}. Valid categories are: {valid_categories}")
-        return v
+        
+        return transformed_categories
 
     class Config:
         schema_extra = {
             "example": {
+                "analysis_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
                 "categories": [
                     "value_proposition", 
                     "content_strategy", 
@@ -145,4 +162,4 @@ class ExportResponse(BaseModel):
             "example": {
                 "download_url": "https://example.com/downloads/enhancement-123.pdf"
             }
-        } 
+        }

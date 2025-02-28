@@ -54,8 +54,8 @@ async def create_enhancement(
     # Create enhancement record
     enhancement = crud.enhancements.create_enhancement(
         db=db,
-        analysis_id=analysis.id,
-        categories=data.categories
+        enhancement=data, 
+        analysis_id=analysis.id
     )
     
     # Trigger enhancement generation in background
@@ -65,12 +65,8 @@ async def create_enhancement(
     )
     
     return {
-        "id": enhancement.id,
-        "analysis_id": enhancement.analysis_id,
-        "status": enhancement.status,
-        "categories": enhancement.categories,
-        "created_at": enhancement.created_at,
-        "message": "Enhancement generation started"
+        "enhancement_id": enhancement.id,
+        "status": enhancement.status
     }
 
 
@@ -91,9 +87,19 @@ async def get_enhancement(
     
     Returns the enhancement suggestions for a specific enhancement ID.
     """
-    # Get enhancement from database
-    enhancement = crud.enhancements.get_enhancement(db, enhancement_id)
+    # Convert string to UUID
+    try:
+        enhancement_uuid = uuid.UUID(enhancement_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=404,
+            detail="Invalid enhancement ID format"
+        )
     
+    # Get enhancement from database
+    enhancement = crud.enhancements.get_enhancement(db, enhancement_uuid)
+    
+    # Rest of the function remains the same...    
     if not enhancement:
         raise HTTPException(
             status_code=404,
@@ -187,4 +193,4 @@ async def export_enhancement(
     # For now, we'll just return a placeholder response
     return {
         "download_url": f"https://example.com/downloads/enhancement-{enhancement.id}.{export_request.format}"
-    } 
+    }

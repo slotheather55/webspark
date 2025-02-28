@@ -424,110 +424,120 @@ async def take_screenshot(page: Page, device_type: str) -> Dict[str, Any]:
 async def analyze_tealium(page: Page) -> Dict[str, Any]:
     """Analyze Tealium implementation on a page"""
     try:
-        # Check if Tealium is present
-        tealium_detected = await page.evaluate("""
+        # First check if Tealium is present and get basic info
+        basic_info = await page.evaluate("""
             () => {
                 return {
-                    utag_present: typeof window.utag !== 'undefined',
-                    data_layer_present: typeof window.utag_data !== 'undefined'
+                    detected: typeof window.utag !== 'undefined',
+                    version: window.utag && window.utag.cfg ? window.utag.cfg.v : null,
+                    data_layer: window.utag_data ? {...window.utag_data} : {}
                 };
             }
         """)
         
-        if not tealium_detected["utag_present"]:
+        if not basic_info["detected"]:
             return {
                 "detected": False,
                 "data_layer": {"variables": {}, "issues": []},
-                "tags": {"total": 0, "active": 0, "inactive": 0, "vendor_distribution": {}, "details": [], "issues": []},
-                "performance": {"recommendations": []}
+                "tags": {"total": 0, "active": 0, "inactive": 0, "vendor_distribution": {}, "details": [], "issues": []}
             }
         
-        # Extract Tealium info when present
-        tealium_info = await page.evaluate("""
+        # Extract tag configuration separately with a simpler script
+        tag_config_raw = await page.evaluate("""
             () => {
-                // Extract Tealium version and profile
-                let version = null;
-                let profile = null;
+                if (!window.utag || !window.utag.loader || !window.utag.loader.cfg) {
+                    return {};
+                }
                 
-                if (window.utag && window.utag.cfg) {
-                    version = window.utag.cfg.v || null;
-                    
-                    // Try to extract profile from script sources
-                    const tealiumScripts = Array.from(document.querySelectorAll('script[src*="tealium"]'));
-                    for (const script of tealiumScripts) {
-                        const src = script.src;
-                        const profileMatch = src.match(/\/([^\/]+)\/utag\.js/);
-                        if (profileMatch && profileMatch[1]) {
-                            profile = profileMatch[1];
-                            break;
-                        }
+                // Convert the configuration to a simple object with just what we need
+                const result = {};
+                for (const key in window.utag.loader.cfg) {
+                    // Only include numeric keys (tag IDs)
+                    if (/^\\d+$/.test(key)) {
+                        const config = window.utag.loader.cfg[key];
+                        result[key] = {
+                            id: key,
+                            name: config.name || `Tag ${key}`,
+                            load: config.load,
+                            active: config.load !== 0
+                        };
                     }
                 }
-                
-                // Extract data layer
-                const dataLayer = window.utag_data ? {...window.utag_data} : {};
-                
-                // Extract tags
-                const tags = [];
-                if (window.utag && window.utag.loader && window.utag.loader.cfg) {
-                    Object.entries(window.utag.loader.cfg).forEach(([id, config]) => {
-                        if (!/^\d+$/.test(id)) return;
-                        
-                        tags.push({
-                            id: id,
-                            name: config.name || `Tag ${id}`,
-                            active: config.load !== 0,
-                            load_rule: config.load_rule || "default"
-                        });
-                    });
-                }
-                
-                return {
-                    version,
-                    profile,
-                    data_layer: dataLayer,
-                    tags
-                };
+                return result;
             }
         """)
         
-        # Process the data layer
-        data_layer_analysis = analyze_data_layer(tealium_info.get("data_layer", {}))
+        # Process the tag configuration in Python
+        tag_details = []
+        active_count = 0
+        inactive_count = 0
+        vendor_distribution = {}
         
-        # Process tags
-        tags_analysis = analyze_tags(tealium_info.get("tags", []))
+        for tag_id, tag_info in tag_config_raw.items():
+            # Determine category based on name
+            category = "unknown"
+            name = tag_info.get("name", f"Tag {tag_id}")
+            
+            # Simple categorization based on name
+            name_lower = name.lower()
+            if "google" in name_lower or "ga" in name_lower:
+                category = "analytics"
+            elif "facebook" in name_lower or "fb" in name_lower:
+                category = "advertising"
+            elif "adobe" in name_lower:
+                category = "analytics"
+            
+            # Track distribution
+            vendor_distribution[category] = vendor_distribution.get(category, 0) + 1
+            
+            # Create detail object
+            detail = {
+                "id": tag_id,
+                "name": name,
+                "category": category,
+                "status": "active" if tag_info.get("active", True) else "inactive"
+            }
+            
+            tag_details.append(detail)
+            
+            # Update counts
+            if tag_info.get("active", True):
+                active_count += 1
+            else:
+                inactive_count += 1
         
-        # Create performance recommendations
-        performance_recommendations = []
-        if len(tags_analysis["details"]) > 15:
-            performance_recommendations.append({
-                "description": "High number of tags detected",
-                "impact": "high",
-                "implementation": "Consider consolidating tags or implementing server-side tag management"
-            })
-        
-        return {
+        # Combine everything
+        result = {
             "detected": True,
-            "version": tealium_info.get("version"),
-            "profile": tealium_info.get("profile"),
-            "data_layer": data_layer_analysis,
-            "tags": tags_analysis,
+            "version": basic_info["version"],
+            "profile": "Unknown",  # We don't extract this in the simpler approach
+            "data_layer": {
+                "variables": basic_info["data_layer"],
+                "issues": []
+            },
+            "tags": {
+                "total": len(tag_details),
+                "active": active_count,
+                "inactive": inactive_count,
+                "vendor_distribution": vendor_distribution,
+                "details": tag_details,
+                "issues": []
+            },
             "performance": {
-                "total_size": None,  # Would require more detailed calculation
-                "load_time": None,  # Would require more detailed timing
-                "request_count": len(tags_analysis["details"]),
-                "page_load_impact": None,  # Would require more detailed analysis
-                "recommendations": performance_recommendations
+                "recommendations": []
             }
         }
+        
+        return result
     except Exception as e:
         logger.error(f"Error analyzing Tealium: {str(e)}")
         return {
             "detected": False,
+            "data_layer": {"variables": {}, "issues": []},
+            "tags": {"total": 0, "active": 0, "inactive": 0, "vendor_distribution": {}, "details": [], "issues": []},
+            "performance": {"recommendations": []},
             "error": str(e)
         }
-
-
 def analyze_data_layer(data_layer: Dict[str, Any]) -> Dict[str, Any]:
     """Analyze Tealium data layer structure and identify issues"""
     variables = data_layer
