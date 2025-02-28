@@ -41,3 +41,86 @@ def trigger_enhancement_generation(
     except Exception as e:
         logger.error(f"Failed to trigger enhancement generation: {str(e)}")
         return False 
+
+def generate_enhancement_suggestions(enhancement_id: int) -> bool:
+    """
+    Generate enhancement suggestions for a specific enhancement ID.
+    
+    This function is called directly from a background task.
+    
+    Args:
+        enhancement_id: ID of the enhancement record
+    
+    Returns:
+        True if enhancement generation was successful
+    """
+    try:
+        from app.db import crud
+        from app.db.session import SessionLocal
+        
+        logger.info(f"Generating enhancement suggestions for enhancement ID: {enhancement_id}")
+        
+        # Create a new database session
+        db = SessionLocal()
+        
+        try:
+            # Get the enhancement record
+            enhancement = crud.enhancements.get_enhancement(db, enhancement_id)
+            if not enhancement:
+                logger.error(f"Enhancement not found: {enhancement_id}")
+                return False
+                
+            # Get the associated analysis
+            analysis = crud.analysis.get_analysis(db, enhancement.analysis_id)
+            if not analysis:
+                logger.error(f"Analysis not found: {enhancement.analysis_id}")
+                return False
+                
+            # Update enhancement status to processing
+            crud.enhancements.update_enhancement_status(db, enhancement_id, "processing")
+            
+            # Generate recommendations using the service
+            recommendations = generate_recommendations(
+                analysis_id=enhancement.analysis_id,
+                categories=enhancement.categories,
+                options={
+                    "max_recommendations": 5,
+                    "include_rationale": True,
+                    "include_implementation": True
+                }
+            )
+            
+            # Update enhancement with recommendations
+            crud.enhancements.update_enhancement(
+                db, 
+                enhancement_id, 
+                {
+                    "status": "completed",
+                    "recommendations": recommendations,
+                    "completed_at": "NOW()"
+                }
+            )
+            
+            logger.info(f"Successfully generated enhancement suggestions for enhancement ID: {enhancement_id}")
+            return True
+            
+        finally:
+            db.close()
+            
+    except Exception as e:
+        logger.error(f"Failed to generate enhancement suggestions: {str(e)}")
+        
+        # Try to update enhancement status to failed
+        try:
+            db = SessionLocal()
+            crud.enhancements.update_enhancement_status(
+                db, 
+                enhancement_id, 
+                "failed", 
+                error=str(e)
+            )
+            db.close()
+        except Exception as update_error:
+            logger.error(f"Failed to update enhancement status: {str(update_error)}")
+            
+        return False 

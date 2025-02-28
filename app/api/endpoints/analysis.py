@@ -9,11 +9,12 @@ from app.db.session import get_db
 from app.schemas import analysis as analysis_schema
 from app.schemas import errors as error_schema
 from app.core.errors import error_response
-from app.api.dependencies import get_current_user, get_analysis_by_id
+from app.api.dependencies import get_current_user, get_analysis_by_id, get_current_active_user
 from app.tasks.analysis import trigger_website_analysis
-from app.models.analysis import AnalysisCreate, AnalysisResponse, AnalysisListResponse
+from app.schemas.analysis import AnalysisCreate
+from app.models.analysis import AnalysisResponse, AnalysisListResponse
 
-router = APIRouter(prefix="/analysis", tags=["analysis"])
+router = APIRouter(tags=["analysis"])
 
 
 @router.post("/", response_model=AnalysisResponse, status_code=status.HTTP_201_CREATED)
@@ -21,20 +22,16 @@ async def create_analysis(
     data: AnalysisCreate,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ):
     """
     Create a new website analysis job
     """
     # Create analysis record in database
-    analysis = crud.analysis.create(
+    analysis = crud.create_analysis(
         db=db,
-        obj_in={
-            "url": data.url,
-            "user_id": current_user.id,
-            "status": "pending",
-            "options": data.options.dict() if data.options else {}
-        }
+        analysis=data,
+        user_id=current_user.id if current_user else None
     )
     
     # Trigger the analysis task in background
@@ -46,7 +43,7 @@ async def create_analysis(
     )
     
     return {
-        "id": analysis.id,
+        "analysis_id": analysis.id,
         "url": analysis.url,
         "status": analysis.status,
         "created_at": analysis.created_at,
@@ -60,19 +57,27 @@ async def list_analyses(
     skip: int = 0,
     limit: int = 10,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ):
     """
-    List all analyses for the current user
+    List all analyses for the current user or public analyses for anonymous users
     """
-    analyses = crud.analysis.get_multi_by_user(
-        db=db,
-        user_id=current_user.id, 
-        skip=skip, 
-        limit=limit
-    )
-    
-    total = crud.analysis.count_by_user(db=db, user_id=current_user.id)
+    if current_user:
+        analyses = crud.analysis.get_multi_by_user(
+            db=db,
+            user_id=current_user.id, 
+            skip=skip, 
+            limit=limit
+        )
+        total = crud.analysis.count_by_user(db=db, user_id=current_user.id)
+    else:
+        # For anonymous users, get public analyses (where user_id is NULL)
+        analyses = crud.analysis.get_multi_public(
+            db=db,
+            skip=skip, 
+            limit=limit
+        )
+        total = crud.analysis.count_public(db=db)
     
     return {
         "total": total,
@@ -86,7 +91,7 @@ async def list_analyses(
 async def get_analysis(
     analysis_id: int,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ):
     """
     Get a specific analysis by ID
@@ -99,14 +104,20 @@ async def get_analysis(
             detail="Analysis not found"
         )
         
-    # Check if user owns this analysis
-    if analysis.user_id != current_user.id:
+    # Check if user owns this analysis (only if both user and analysis.user_id exist)
+    if current_user and analysis.user_id and analysis.user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this analysis"
         )
         
-    return analysis
+    return {
+        "analysis_id": analysis.id,
+        "url": analysis.url,
+        "status": analysis.status,
+        "created_at": analysis.created_at,
+        "updated_at": analysis.updated_at
+    }
 
 
 @router.delete(

@@ -4,6 +4,7 @@ import Header from './components/Header';
 import URLInputSection from './components/URLInputSection';
 import AnalysisProgress from './components/AnalysisProgress';
 import AnalysisResults from './components/AnalysisResults';
+import { analyzeWebsite, getAnalysisResults } from './services/api';
 
 // Define tab IDs as constants
 export const TABS = {
@@ -32,6 +33,10 @@ const ProductManagerEnhancer = () => {
     [SECTIONS.FEATURES]: false,
     [SECTIONS.CONVERSION]: false
   });
+  const [analysisId, setAnalysisId] = useState(null);
+  const [analysisResults, setAnalysisResults] = useState(null);
+  const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   const toggleSection = (section) => {
     setExpandedSections({
@@ -40,21 +45,68 @@ const ProductManagerEnhancer = () => {
     });
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!url) return;
     setIsAnalyzing(true);
+    setError(null);
+    setProgress(0);
     
-    // Simulate analysis process
-    setTimeout(() => {
+    try {
+      // Call the real API instead of setTimeout
+      const response = await analyzeWebsite(url, {
+        devices: ["desktop", "tablet", "mobile"],
+        check_tealium: true,
+      });
+      
+      // Store the analysis ID for polling
+      setAnalysisId(response.analysis_id);
+      
+      // Start polling for analysis completion
+      checkAnalysisStatus(response.analysis_id);
+    } catch (error) {
       setIsAnalyzing(false);
-      setAnalysisComplete(true);
-    }, 1500);
+      setError(`Error: ${error.message}`);
+      console.error("Analysis failed:", error);
+    }
+  };
+  
+  // Add a function to poll for analysis status
+  const checkAnalysisStatus = async (analysisId) => {
+    try {
+      const result = await getAnalysisResults(analysisId);
+      
+      if (result.status === 'completed') {
+        setIsAnalyzing(false);
+        setAnalysisComplete(true);
+        setAnalysisResults(result);
+        setProgress(100);
+      } else if (result.status === 'failed') {
+        setIsAnalyzing(false);
+        setError(`Analysis failed: ${result.message || 'Unknown error'}`);
+        console.error("Analysis failed:", result.message);
+      } else {
+        // Still in progress, update progress if available
+        if (result.progress) {
+          setProgress(result.progress);
+        }
+        // Check again in a few seconds
+        setTimeout(() => checkAnalysisStatus(analysisId), 3000);
+      }
+    } catch (error) {
+      setIsAnalyzing(false);
+      setError(`Error checking analysis status: ${error.message}`);
+      console.error("Error checking analysis status:", error);
+    }
   };
 
   const resetAnalysis = () => {
     setUrl('');
     setIsAnalyzing(false);
     setAnalysisComplete(false);
+    setAnalysisId(null);
+    setAnalysisResults(null);
+    setError(null);
+    setProgress(0);
   };
 
   return (
@@ -62,6 +114,12 @@ const ProductManagerEnhancer = () => {
       <Header />
 
       <div className="flex flex-col p-6">
+        {error && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+            <p>{error}</p>
+          </div>
+        )}
+
         <URLInputSection 
           url={url} 
           setUrl={setUrl} 
@@ -71,7 +129,7 @@ const ProductManagerEnhancer = () => {
           resetAnalysis={resetAnalysis}
         />
 
-        {isAnalyzing && <AnalysisProgress />}
+        {isAnalyzing && <AnalysisProgress progress={progress} />}
 
         {analysisComplete && (
           <AnalysisResults 
@@ -79,6 +137,8 @@ const ProductManagerEnhancer = () => {
             setActiveTab={setActiveTab}
             expandedSections={expandedSections}
             toggleSection={toggleSection}
+            analysisId={analysisId}
+            analysisResults={analysisResults}
           />
         )}
       </div>

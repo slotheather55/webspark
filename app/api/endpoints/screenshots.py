@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -7,7 +7,7 @@ from app.db import crud, models
 from app.db.session import get_db
 from app.schemas import analysis as analysis_schema
 from app.schemas import errors as error_schema
-from app.api.dependencies import get_analysis_by_id
+from app.api.dependencies import get_current_active_user, get_analysis_by_id
 from app.services.storage.cloud import get_screenshot_url
 
 router = APIRouter()
@@ -22,14 +22,31 @@ router = APIRouter()
     }
 )
 async def get_screenshots(
-    analysis: models.Analysis = Depends(get_analysis_by_id),
-    db: Session = Depends(get_db)
+    analysis_id: str,
+    db: Session = Depends(get_db),
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ) -> Any:
     """
     Get screenshots for a specific analysis by ID.
     
     Returns URLs to the screenshots for each device type.
     """
+    # Get analysis from database
+    analysis = crud.analysis.get_analysis(db, analysis_id)
+    
+    if not analysis:
+        raise HTTPException(
+            status_code=404,
+            detail="Analysis not found"
+        )
+    
+    # Check if user owns this analysis (only if both user and analysis.user_id exist)
+    if current_user and analysis.user_id and analysis.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Not authorized to access this analysis"
+        )
+    
     # Get screenshots from database
     screenshots = crud.get_analysis_screenshots(db, analysis.id)
     

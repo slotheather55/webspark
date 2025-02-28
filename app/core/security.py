@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login", auto_error=False)
 
 ALGORITHM = "HS256"
 
@@ -47,13 +47,11 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)) -> Any:
-    """Dependency to get current user from JWT token"""
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+async def get_current_user(token: Optional[str] = Depends(oauth2_scheme)) -> Optional[Any]:
+    """Dependency to get current user from JWT token (optional)"""
+    if not token:
+        return None  # Anonymous user
+        
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[ALGORITHM]
@@ -61,16 +59,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Any:
         token_data = TokenPayload(**payload)
         
         if datetime.fromtimestamp(token_data.exp) < datetime.now():
-            raise credentials_exception
+            return None
         
     except JWTError:
-        raise credentials_exception
+        return None
     
     # Here you would typically retrieve the user from the database
     # For now, we'll return the user ID directly
     user_id = token_data.sub
     if user_id is None:
-        raise credentials_exception
+        return None
     
     return user_id
 

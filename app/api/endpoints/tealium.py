@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -7,7 +7,7 @@ from app.db import crud, models
 from app.db.session import get_db
 from app.schemas import tealium as tealium_schema
 from app.schemas import errors as error_schema
-from app.api.dependencies import get_analysis_by_id
+from app.api.dependencies import get_current_active_user
 from app.services.tealium.validators import validate_data_layer
 
 router = APIRouter()
@@ -16,24 +16,51 @@ router = APIRouter()
 @router.get(
     "/analysis/{analysis_id}",
     responses={
-        200: {"description": "Tealium analysis data"},
         404: {"model": error_schema.ErrorResponse},
         403: {"model": error_schema.ErrorResponse}
     }
 )
 async def get_tealium_analysis(
-    analysis: models.Analysis = Depends(get_analysis_by_id)
+    analysis_id: str,
+    db: Session = Depends(get_db),
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ) -> Any:
     """
-    Get Tealium implementation analysis for a specific analysis.
+    Get Tealium analysis data for a specific analysis by ID.
+    
+    Returns the Tealium analysis data including data layer, events, and tags.
     """
-    if not analysis.tealium_analysis:
+    # Get analysis from database
+    analysis = crud.analysis.get_analysis(db, analysis_id)
+    
+    if not analysis:
         raise HTTPException(
             status_code=404,
-            detail="No Tealium analysis available for this analysis"
+            detail="Analysis not found"
         )
     
-    return analysis.tealium_analysis
+    # Check if user owns this analysis (only if both user and analysis.user_id exist)
+    if current_user and analysis.user_id and analysis.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Not authorized to access this analysis"
+        )
+    
+    # Get Tealium analysis data
+    tealium_data = analysis.tealium_analysis
+    
+    if not tealium_data:
+        return {
+            "message": "No Tealium analysis data available for this analysis",
+            "data_layer": {},
+            "events": [],
+            "tags": [],
+            "issues": [],
+            "recommendations": [],
+            "performance": {}
+        }
+    
+    return tealium_data
 
 
 @router.post(

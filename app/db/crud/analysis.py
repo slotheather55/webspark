@@ -40,6 +40,27 @@ def get_public_analyses(db: Session, skip: int = 0, limit: int = 100):
     ).order_by(models.Analysis.created_at.desc()).offset(skip).limit(limit).all()
 
 
+# Alias functions to match the names used in the endpoints
+def get_multi_by_user(db: Session, user_id: uuid.UUID, skip: int = 0, limit: int = 100):
+    """Alias for get_user_analyses"""
+    return get_user_analyses(db, user_id, skip, limit)
+
+
+def count_by_user(db: Session, user_id: uuid.UUID):
+    """Count analyses for a user"""
+    return db.query(models.Analysis).filter(models.Analysis.user_id == user_id).count()
+
+
+def get_multi_public(db: Session, skip: int = 0, limit: int = 100):
+    """Alias for get_public_analyses"""
+    return get_public_analyses(db, skip, limit)
+
+
+def count_public(db: Session):
+    """Count public analyses"""
+    return db.query(models.Analysis).filter(models.Analysis.user_id == None).count()
+
+
 def update_analysis_status(
     db: Session, 
     analysis_id: uuid.UUID, 

@@ -10,7 +10,9 @@ const AnalysisResults = ({
   activeTab, 
   setActiveTab, 
   expandedSections, 
-  toggleSection 
+  toggleSection,
+  analysisId,
+  analysisResults
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm">
@@ -21,19 +23,29 @@ const AnalysisResults = ({
           <SummaryTab 
             expandedSections={expandedSections} 
             toggleSection={toggleSection} 
+            analysisId={analysisId}
+            analysisResults={analysisResults}
           />
         )}
 
         {activeTab === TABS.SCREENSHOTS && (
-          <ScreenshotsTab />
+          <ScreenshotsTab 
+            analysisId={analysisId}
+          />
         )}
 
         {activeTab === TABS.CONTEXT && (
-          <ContentAnalysisTab />
+          <ContentAnalysisTab 
+            analysisId={analysisId}
+            analysisResults={analysisResults}
+          />
         )}
         
         {activeTab === TABS.TRACKING && (
-          <TealiumAnalysisTab />
+          <TealiumAnalysisTab 
+            analysisId={analysisId}
+            analysisResults={analysisResults}
+          />
         )}
       </div>
     </div>

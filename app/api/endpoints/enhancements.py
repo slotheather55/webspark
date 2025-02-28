@@ -1,15 +1,15 @@
 import uuid
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, status
 from sqlalchemy.orm import Session
 
 from app.db import crud, models
 from app.db.session import get_db
 from app.schemas import enhancements as enhancement_schema
 from app.schemas import errors as error_schema
-from app.api.dependencies import get_analysis_by_id, get_enhancement_by_id
-from app.tasks.enhancements import trigger_enhancement_generation
+from app.api.dependencies import get_analysis_by_id, get_enhancement_by_id, get_current_active_user
+from app.tasks.enhancements import trigger_enhancement_generation, generate_enhancement_suggestions
 
 router = APIRouter()
 
@@ -17,75 +17,108 @@ router = APIRouter()
 @router.post(
     "/generate",
     response_model=enhancement_schema.EnhancementResponse,
-    status_code=202,
+    status_code=status.HTTP_201_CREATED,
     responses={
-        400: {"model": error_schema.ErrorResponse},
         404: {"model": error_schema.ErrorResponse},
-        403: {"model": error_schema.ErrorResponse},
-        500: {"model": error_schema.ErrorResponse}
+        403: {"model": error_schema.ErrorResponse}
     }
 )
-async def generate_enhancements(
-    enhancement: enhancement_schema.EnhancementCreate,
-    analysis_id: uuid.UUID,
+async def create_enhancement(
+    data: enhancement_schema.EnhancementCreate,
     background_tasks: BackgroundTasks,
-    analysis: models.Analysis = Depends(get_analysis_by_id),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ) -> Any:
     """
-    Generate enhancement recommendations for an analysis.
+    Generate enhancement suggestions for a specific analysis.
     
-    This will immediately return with an enhancement ID and begin processing in the background.
+    This will trigger an AI-powered analysis to generate product enhancement suggestions
+    based on the analysis results.
     """
-    # Check if analysis is completed
-    if analysis.status != "completed":
+    # Get analysis from database
+    analysis = crud.analysis.get_analysis(db, data.analysis_id)
+    
+    if not analysis:
         raise HTTPException(
-            status_code=400,
-            detail="Cannot generate enhancements for an incomplete analysis"
+            status_code=404,
+            detail="Analysis not found"
+        )
+    
+    # Check if user owns this analysis (only if both user and analysis.user_id exist)
+    if current_user and analysis.user_id and analysis.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Not authorized to access this analysis"
         )
     
     # Create enhancement record
-    db_enhancement = crud.create_enhancement(db, enhancement, analysis.id)
+    enhancement = crud.enhancements.create_enhancement(
+        db=db,
+        analysis_id=analysis.id,
+        categories=data.categories
+    )
     
     # Trigger enhancement generation in background
     background_tasks.add_task(
-        trigger_enhancement_generation,
-        str(db_enhancement.id),
-        str(analysis.id),
-        enhancement.categories
+        generate_enhancement_suggestions,
+        enhancement_id=enhancement.id
     )
     
     return {
-        "enhancement_id": db_enhancement.id,
-        "status": db_enhancement.status
+        "id": enhancement.id,
+        "analysis_id": enhancement.analysis_id,
+        "status": enhancement.status,
+        "categories": enhancement.categories,
+        "created_at": enhancement.created_at,
+        "message": "Enhancement generation started"
     }
 
 
 @router.get(
     "/{enhancement_id}",
-    response_model=enhancement_schema.EnhancementDetail,
     responses={
         404: {"model": error_schema.ErrorResponse},
         403: {"model": error_schema.ErrorResponse}
     }
 )
 async def get_enhancement(
-    enhancement: models.Enhancement = Depends(get_enhancement_by_id),
-    db: Session = Depends(get_db)
+    enhancement_id: str,
+    db: Session = Depends(get_db),
+    current_user: Optional[models.User] = Depends(get_current_active_user)
 ) -> Any:
     """
-    Get details of a specific enhancement by ID.
+    Get enhancement suggestions by ID.
+    
+    Returns the enhancement suggestions for a specific enhancement ID.
     """
-    # Get the associated analysis
-    analysis = crud.get_analysis(db, enhancement.analysis_id)
+    # Get enhancement from database
+    enhancement = crud.enhancements.get_enhancement(db, enhancement_id)
+    
+    if not enhancement:
+        raise HTTPException(
+            status_code=404,
+            detail="Enhancement not found"
+        )
+    
+    # Get the associated analysis to check permissions
+    analysis = crud.analysis.get_analysis(db, enhancement.analysis_id)
+    
+    # Check if user owns this analysis (only if both user and analysis.user_id exist)
+    if current_user and analysis and analysis.user_id and analysis.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403,
+            detail="Not authorized to access this enhancement"
+        )
     
     return {
-        "enhancement_id": enhancement.id,
+        "id": enhancement.id,
         "analysis_id": enhancement.analysis_id,
-        "url": analysis.url,
-        "timestamp": enhancement.created_at,
         "status": enhancement.status,
-        "categories": enhancement.recommendations or {},
+        "categories": enhancement.categories,
+        "created_at": enhancement.created_at,
+        "updated_at": enhancement.updated_at,
+        "completed_at": enhancement.completed_at,
+        "recommendations": enhancement.recommendations or {},
         "error": enhancement.error
     }
 
