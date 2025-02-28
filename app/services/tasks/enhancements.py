@@ -3,6 +3,7 @@ import time
 import json
 import asyncio
 from typing import Dict, List, Any, Optional
+import uuid
 
 from celery import shared_task
 from app.models.enhancements import EnhancementStatus
@@ -10,91 +11,223 @@ from app.models.enhancements import EnhancementStatus
 logger = logging.getLogger(__name__)
 
 
-@shared_task(bind=True, name="enhancements.generate_recommendations")
-def generate_recommendations(
+@shared_task(bind=True, name="enhancements.generate_enhancements")
+def generate_enhancements(
     self, 
-    enhancement_id: int, 
-    analysis_id: int,
+    enhancement_id: uuid.UUID,
+    analysis_id: uuid.UUID,
     categories: List[str],
-    options: Dict[str, Any]
+    options: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
     """
     Generate enhancement recommendations based on analysis results
     
     Args:
-        enhancement_id: ID of the enhancement record in the database
-        analysis_id: ID of the analysis to use for generating recommendations
+        enhancement_id: ID of the enhancement record
+        analysis_id: ID of the analysis record
         categories: List of enhancement categories to generate
-        options: Generation options
+        options: Additional options for enhancement generation
         
     Returns:
         Dictionary with enhancement results
     """
     try:
-        logger.info(f"Generating enhancements for analysis {analysis_id} (ID: {enhancement_id})")
+        logger.info(f"Generating enhancements for analysis {analysis_id}")
         
-        # Simulated enhancement generation for testing
-        results = {
+        # Get analysis data
+        analysis_data = get_analysis_data(analysis_id)
+        
+        if not analysis_data:
+            error = f"Analysis data not found for ID: {analysis_id}"
+            logger.error(error)
+            return {"error": error, "enhancement_id": enhancement_id}
+            
+        # Generate recommendations for each category
+        recommendations = {}
+        
+        for category in categories:
+            if category == "value_proposition":
+                recommendations[category] = generate_value_proposition_recommendations(analysis_data)
+            elif category == "content_strategy":
+                recommendations[category] = generate_content_strategy_recommendations(analysis_data)
+            elif category == "feature_development":
+                recommendations[category] = generate_feature_recommendations(analysis_data)
+            elif category == "conversion_optimization":
+                recommendations[category] = generate_conversion_recommendations(analysis_data)
+            elif category == "technical_implementation":
+                recommendations[category] = generate_technical_recommendations(analysis_data)
+        
+        result = {
             "enhancement_id": enhancement_id,
             "analysis_id": analysis_id,
             "categories": categories,
-            "recommendations": {
-                "value_proposition": {
-                    "title": "Value Proposition Enhancements",
-                    "count": 2,
-                    "recommendations": [
-                        {
-                            "id": "vp-1",
-                            "title": "Clarify primary value proposition on homepage",
-                            "category": "value_proposition",
-                            "description": "Current headline is vague",
-                            "rationale": "Clear value propositions drive higher conversion rates",
-                            "implementation": [
-                                "Update the main headline to be more specific",
-                                "Add supporting text that reinforces the main benefit"
-                            ],
-                            "impact": "High",
-                            "effort": "Low"
-                        },
-                        {
-                            "id": "vp-2",
-                            "title": "Add social proof near key conversion points",
-                            "category": "value_proposition",
-                            "description": "No social proof visible near CTA buttons",
-                            "rationale": "Social proof increases trust and conversions",
-                            "implementation": [
-                                "Add customer testimonials near major CTA buttons",
-                                "Include key metrics or results achieved"
-                            ],
-                            "impact": "Medium",
-                            "effort": "Medium"
-                        }
-                    ]
-                }
-            },
+            "status": "completed",
+            "recommendations": recommendations,
             "completed_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         }
         
-        # Only include requested categories
-        filtered_results = {
-            **results,
-            "recommendations": {
-                category: results["recommendations"].get(category, {})
-                for category in categories
-                if category in results["recommendations"]
-            }
-        }
-        
-        return filtered_results
+        return result
     except Exception as e:
-        logger.error(f"Enhancement generation task failed: {str(e)}")
+        logger.error(f"Enhancement generation failed: {str(e)}")
         return {"error": str(e), "enhancement_id": enhancement_id}
+
+
+# Helper functions for generating different types of recommendations
+def generate_value_proposition_recommendations(analysis_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Generate value proposition recommendations"""
+    # Simulate AI-generated recommendations
+    return {
+        "summary": "The website could better communicate its unique value proposition",
+        "strengths": [
+            "Clear product descriptions on main pages",
+            "Benefits are highlighted in some sections"
+        ],
+        "weaknesses": [
+            "Value proposition not clearly stated above the fold",
+            "Unique selling points are scattered throughout the site"
+        ],
+        "recommendations": [
+            {
+                "title": "Create a concise value proposition statement",
+                "description": "Develop a clear, concise statement that communicates the unique value your product/service offers and place it prominently above the fold on the homepage.",
+                "priority": "high"
+            },
+            {
+                "title": "Highlight key differentiators",
+                "description": "Identify 3-5 key features that set your product apart from competitors and highlight these consistently across the site.",
+                "priority": "medium"
+            }
+        ]
+    }
+
+
+@shared_task(bind=True, name="enhancements.refresh_enhancement")
+def refresh_enhancement(
+    self,
+    enhancement_id: uuid.UUID,
+    force: bool = False
+) -> Dict[str, Any]:
+    """
+    Refresh an existing enhancement by regenerating its recommendations
+    
+    Args:
+        enhancement_id: ID of the enhancement record
+        force: Whether to force regeneration even if already completed
+        
+    Returns:
+        Dictionary with refreshed enhancement results
+    """
+    try:
+        logger.info(f"Refreshing enhancement {enhancement_id}")
+        
+        # Get enhancement data
+        enhancement_data = get_enhancement_data(enhancement_id)
+        
+        if not enhancement_data:
+            error = f"Enhancement data not found for ID: {enhancement_id}"
+            logger.error(error)
+            return {"error": error, "enhancement_id": enhancement_id}
+            
+        # Regenerate the enhancements
+        return generate_enhancements(
+            self,
+            enhancement_id=enhancement_id,
+            analysis_id=enhancement_data["analysis_id"],
+            categories=enhancement_data["categories"]
+        )
+    except Exception as e:
+        logger.error(f"Enhancement refresh failed: {str(e)}")
+        return {"error": str(e), "enhancement_id": enhancement_id}
+
+
+async def get_analysis_data(analysis_id: uuid.UUID) -> Dict[str, Any]:
+    """
+    Get analysis data from the database
+    
+    Args:
+        analysis_id: ID of the analysis record
+        
+    Returns:
+        Dictionary with analysis data
+    """
+    # In a real implementation, this would fetch data from the database
+    # For this example, we'll return simulated data
+    return {
+        "id": analysis_id,
+        "url": "https://example.com",
+        "status": "completed",
+        "content_analysis": {
+            "metadata": {
+                "title": "Example Website - Home",
+                "description": "An example website for demonstration"
+            },
+            "text_content": "Lorem ipsum dolor sit amet...",
+            "heading_structure": [
+                {"level": 1, "text": "Welcome to Example"},
+                {"level": 2, "text": "Our Features"}
+            ]
+        }
+    }
+
+
+async def get_enhancement_data(enhancement_id: uuid.UUID) -> Dict[str, Any]:
+    """
+    Get enhancement data from the database
+    
+    Args:
+        enhancement_id: ID of the enhancement record
+        
+    Returns:
+        Dictionary with enhancement data
+    """
+    # In a real implementation, this would fetch data from the database
+    # For this example, we'll return simulated data
+    return {
+        "id": enhancement_id,
+        "analysis_id": uuid.uuid4(),  # This would be a real analysis_id in production
+        "categories": ["value_proposition", "content_strategy"],
+        "status": "pending"
+    }
+
+
+async def update_enhancement_status(
+    enhancement_id: uuid.UUID, 
+    status: EnhancementStatus,
+    results: Optional[Dict[str, Any]] = None
+) -> None:
+    """
+    Update enhancement status in the database
+    
+    Args:
+        enhancement_id: ID of the enhancement record
+        status: New status
+        results: Optional results data
+    """
+    # In a real implementation, this would update the database
+    # For this example, we'll just log the update
+    logger.info(f"Updated enhancement {enhancement_id} status to {status}")
+
+
+async def update_enhancement_recommendations(
+    enhancement_id: uuid.UUID,
+    recommendations: Dict[str, Any]
+) -> None:
+    """
+    Update enhancement recommendations in the database
+    
+    Args:
+        enhancement_id: ID of the enhancement record
+        recommendations: Recommendations data
+    """
+    # In a real implementation, this would update the database
+    # For this example, we'll just log the update
+    logger.info(f"Updated enhancement {enhancement_id} recommendations")
 
 
 @shared_task(bind=True, name="enhancements.generate_implementation_plan")
 def generate_implementation_plan(
     self, 
-    enhancement_id: int,
+    enhancement_id: uuid.UUID,
     recommendation_id: str,
     options: Dict[str, Any]
 ) -> Dict[str, Any]:
@@ -196,97 +329,9 @@ def generate_implementation_plan(
         return {"error": str(e), "enhancement_id": enhancement_id, "recommendation_id": recommendation_id}
 
 
-async def update_enhancement_status(
-    enhancement_id: int, 
-    status: EnhancementStatus,
-    results: Optional[Dict[str, Any]] = None
-) -> None:
-    """
-    Update enhancement status in the database
-    
-    Args:
-        enhancement_id: ID of the enhancement record
-        status: New status
-        results: Optional results data
-    """
-    from app.db.crud.enhancements import update_enhancement  # Import here to avoid circular imports
-    
-    try:
-        update_data = {"status": status.value}
-        
-        if results:
-            # If we have results, store them as JSON
-            update_data["results"] = json.dumps(results)
-            
-            # If enhancement generation failed, store error
-            if status == EnhancementStatus.FAILED and "error" in results:
-                update_data["error"] = results["error"]
-        
-        await update_enhancement(enhancement_id, update_data)
-        logger.info(f"Updated enhancement {enhancement_id} status to {status.value}")
-    except Exception as e:
-        logger.error(f"Failed to update enhancement status: {str(e)}")
-
-
-async def get_analysis_data(analysis_id: int) -> Dict[str, Any]:
-    """
-    Get analysis data from the database
-    
-    Args:
-        analysis_id: ID of the analysis record
-        
-    Returns:
-        Analysis data as dictionary
-    """
-    from app.db.crud.analysis import get_analysis  # Import here to avoid circular imports
-    
-    try:
-        analysis = await get_analysis(analysis_id)
-        
-        if not analysis:
-            return None
-            
-        # Parse results JSON
-        if analysis.results:
-            return json.loads(analysis.results)
-        
-        return None
-    except Exception as e:
-        logger.error(f"Error getting analysis data: {str(e)}")
-        raise
-
-
-async def get_enhancement_data(enhancement_id: int) -> Dict[str, Any]:
-    """
-    Get enhancement data from the database
-    
-    Args:
-        enhancement_id: ID of the enhancement record
-        
-    Returns:
-        Enhancement data as dictionary
-    """
-    from app.db.crud.enhancements import get_enhancement  # Import here to avoid circular imports
-    
-    try:
-        enhancement = await get_enhancement(enhancement_id)
-        
-        if not enhancement:
-            return None
-            
-        # Parse results JSON
-        if enhancement.results:
-            return json.loads(enhancement.results)
-        
-        return None
-    except Exception as e:
-        logger.error(f"Error getting enhancement data: {str(e)}")
-        raise
-
-
 def process_recommendations(
     enhancements: Dict[str, Any], 
-    enhancement_id: int
+    enhancement_id: uuid.UUID
 ) -> Dict[str, Dict[str, Any]]:
     """
     Process and organize enhancement recommendations
@@ -312,7 +357,7 @@ def process_recommendations(
 
 
 async def update_recommendation_implementation_plan(
-    enhancement_id: int,
+    enhancement_id: uuid.UUID,
     recommendation_id: str,
     implementation_plan: Dict[str, Any]
 ) -> None:

@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional, Any, Union
+import uuid
 
 from pydantic import BaseModel, Field, HttpUrl, validator
 
@@ -36,7 +37,7 @@ class AnalysisCreate(BaseModel):
 
 class AnalysisBase(BaseModel):
     """Base model for analysis responses"""
-    id: int
+    analysis_id: uuid.UUID
     url: str
     status: str
     created_at: datetime
@@ -60,7 +61,7 @@ class AnalysisListResponse(BaseModel):
 class Analysis(AnalysisBase):
     """Complete analysis model with results"""
     options: Dict[str, Any] = {}
-    user_id: int
+    user_id: uuid.UUID
     results: Optional[Dict[str, Any]] = None
     error: Optional[str] = None
     
@@ -98,7 +99,7 @@ class TealiumAnalysisResult(BaseModel):
 class AnalysisResult(BaseModel):
     """Full analysis result"""
     url: HttpUrl
-    analysis_id: int
+    analysis_id: uuid.UUID
     screenshots: Dict[str, ScreenshotInfo]
     content_analysis: Dict[str, Any]
     tealium_analysis: Optional[Dict[str, Any]] = None
@@ -108,7 +109,7 @@ class AnalysisResult(BaseModel):
 
 class AnalysisDB(BaseModel):
     """Analysis model as stored in the database"""
-    id: int
+    id: uuid.UUID
     url: str
     name: Optional[str] = None
     status: AnalysisStatus

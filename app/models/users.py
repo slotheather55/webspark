@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional, Any, Union
+import uuid
 
 from pydantic import BaseModel, EmailStr, Field, validator
 
@@ -53,7 +54,7 @@ class UserLogin(BaseModel):
 
 class UserDB(UserBase):
     """Model as stored in the database"""
-    id: int
+    id: uuid.UUID
     hashed_password: str
     created_at: datetime
     updated_at: datetime
@@ -64,7 +65,7 @@ class UserDB(UserBase):
 
 class UserResponse(UserBase):
     """User model for API responses"""
-    id: int
+    id: uuid.UUID
     created_at: datetime
     updated_at: datetime
     
@@ -85,7 +86,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
     expires_in: int
-    user_id: int
+    user_id: uuid.UUID
     role: UserRole
 
 

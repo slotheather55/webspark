@@ -38,7 +38,7 @@ async def create_analysis(
     background_tasks.add_task(
         trigger_website_analysis,
         analysis_id=analysis.id,
-        url=analysis.url,
+        url=str(analysis.url),
         options=data.options.dict() if data.options else None
     )
     
@@ -89,7 +89,7 @@ async def list_analyses(
 
 @router.get("/{analysis_id}", response_model=AnalysisResponse)
 async def get_analysis(
-    analysis_id: int,
+    analysis_id: uuid.UUID,
     db: Session = Depends(get_db),
     current_user: Optional[models.User] = Depends(get_current_active_user)
 ):

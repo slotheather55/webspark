@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional, Any, Union
+import uuid
 
 from pydantic import BaseModel, Field, validator
 
@@ -15,7 +16,7 @@ class EnhancementStatus(str, Enum):
 
 class EnhancementCreate(BaseModel):
     """Create a new enhancement request"""
-    analysis_id: int
+    analysis_id: uuid.UUID
     name: Optional[str] = None
     categories: List[str] = ["value_proposition", "content_strategy", "conversion_optimization"]
     
@@ -59,8 +60,8 @@ class ImplementationPlan(BaseModel):
 
 class EnhancementResult(BaseModel):
     """Enhancement result model"""
-    enhancement_id: int
-    analysis_id: int
+    enhancement_id: uuid.UUID
+    analysis_id: uuid.UUID
     categories: List[str]
     recommendations: Dict[str, Dict[str, Any]]
     completed_at: Optional[datetime] = None
@@ -68,8 +69,8 @@ class EnhancementResult(BaseModel):
 
 class EnhancementDB(BaseModel):
     """Enhancement model as stored in the database"""
-    id: int
-    analysis_id: int
+    id: uuid.UUID
+    analysis_id: uuid.UUID
     name: Optional[str] = None
     status: EnhancementStatus
     categories: List[str]
@@ -85,8 +86,8 @@ class EnhancementDB(BaseModel):
 # API response models
 class EnhancementResponse(BaseModel):
     """Enhancement response for API"""
-    id: int
-    analysis_id: int
+    id: uuid.UUID
+    analysis_id: uuid.UUID
     name: Optional[str] = None
     status: EnhancementStatus
     categories: List[str]

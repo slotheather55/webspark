@@ -1,13 +1,14 @@
 from typing import Dict, Any, List, Optional
 import logging
+import uuid
 
 from app.services.tasks.enhancements import generate_recommendations
 
 logger = logging.getLogger(__name__)
 
 def trigger_enhancement_generation(
-    enhancement_id: int,
-    analysis_id: int,
+    enhancement_id: uuid.UUID,
+    analysis_id: uuid.UUID,
     categories: List[str],
     options: Optional[Dict[str, Any]] = None
 ) -> bool:
@@ -42,7 +43,7 @@ def trigger_enhancement_generation(
         logger.error(f"Failed to trigger enhancement generation: {str(e)}")
         return False 
 
-def generate_enhancement_suggestions(enhancement_id: int) -> bool:
+def generate_enhancement_suggestions(enhancement_id: uuid.UUID) -> bool:
     """
     Generate enhancement suggestions for a specific enhancement ID.
     

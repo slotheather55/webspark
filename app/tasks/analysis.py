@@ -1,12 +1,13 @@
 from typing import Dict, Any, Optional
 import logging
+import uuid
 
 from app.services.tasks.analysis import analyze_website
 
 logger = logging.getLogger(__name__)
 
 def trigger_website_analysis(
-    analysis_id: int,
+    analysis_id: uuid.UUID,
     url: str,
     options: Optional[Dict[str, Any]] = None
 ) -> bool:

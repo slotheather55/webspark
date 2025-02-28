@@ -11,7 +11,7 @@ from app.schemas import analysis as analysis_schema
 def create_analysis(db: Session, analysis: analysis_schema.AnalysisCreate, user_id: Optional[uuid.UUID] = None):
     """Create a new analysis record"""
     db_analysis = models.Analysis(
-        url=analysis.url,
+        url=str(analysis.url),
         options=analysis.options.dict(),
         user_id=user_id
     )

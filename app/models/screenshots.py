@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional, Any, Union
+import uuid
 
 from pydantic import BaseModel, Field, HttpUrl
 
@@ -19,7 +20,7 @@ class ScreenshotDimensions(BaseModel):
 
 class ScreenshotCreate(BaseModel):
     """Create a new screenshot record"""
-    analysis_id: int
+    analysis_id: uuid.UUID
     device_type: DeviceType
     url: HttpUrl
     original_path: str
@@ -31,8 +32,8 @@ class ScreenshotCreate(BaseModel):
 
 class ScreenshotDB(BaseModel):
     """Screenshot model as stored in the database"""
-    id: int
-    analysis_id: int
+    id: uuid.UUID
+    analysis_id: uuid.UUID
     device_type: str
     url: str
     original_path: str
@@ -50,8 +51,8 @@ class ScreenshotDB(BaseModel):
 
 class ScreenshotResponse(BaseModel):
     """Screenshot response for API"""
-    id: int
-    analysis_id: int
+    id: uuid.UUID
+    analysis_id: uuid.UUID
     device_type: str
     url: str
     original_url: str

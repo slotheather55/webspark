@@ -3,6 +3,7 @@ from typing import Dict, List, Any, Optional
 import time
 import asyncio
 import json
+import uuid
 
 from celery import shared_task
 from app.models.analysis import AnalysisStatus
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 @shared_task(bind=True, name="analysis.analyze_website")
 def analyze_website(
     self, 
-    analysis_id: int, 
+    analysis_id: uuid.UUID, 
     url: str,
     options: Dict[str, Any] = None
 ) -> Dict[str, Any]:
@@ -95,7 +96,7 @@ def analyze_website(
 
 
 async def update_analysis_status(
-    analysis_id: int, 
+    analysis_id: uuid.UUID, 
     status: AnalysisStatus,
     results: Optional[Dict[str, Any]] = None
 ) -> None:
