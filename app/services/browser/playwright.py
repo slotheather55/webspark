@@ -424,120 +424,148 @@ async def take_screenshot(page: Page, device_type: str) -> Dict[str, Any]:
 async def analyze_tealium(page: Page) -> Dict[str, Any]:
     """Analyze Tealium implementation on a page"""
     try:
-        # First check if Tealium is present and get basic info
-        basic_info = await page.evaluate("""
-            () => {
-                return {
-                    detected: typeof window.utag !== 'undefined',
-                    version: window.utag && window.utag.cfg ? window.utag.cfg.v : null,
-                    data_layer: window.utag_data ? {...window.utag_data} : {}
-                };
-            }
-        """)
+        logger.info("Starting Tealium analysis")
         
-        if not basic_info["detected"]:
+        # Check if Tealium is present
+        try:
+            logger.info("Checking for Tealium presence in page")
+            tealium_detected = await page.evaluate("""
+                () => {
+                    console.log('Evaluating Tealium presence');
+                    const utagExists = typeof window.utag !== 'undefined';
+                    console.log('Utag exists:', utagExists);
+                    
+                    return {
+                        detected: utagExists,
+                        version: window.utag && window.utag.cfg ? window.utag.cfg.v : null,
+                        profile: window.utag && window.utag.cfg ? window.utag.cfg.profile : null
+                    };
+                }
+            """)
+            logger.info(f"Tealium detection result: {tealium_detected}")
+        except Exception as e:
+            logger.error(f"Error detecting Tealium presence: {str(e)}")
+            tealium_detected = {"detected": False}
+        
+        if not tealium_detected["detected"]:
+            logger.info("Tealium not detected, returning empty result")
             return {
                 "detected": False,
                 "data_layer": {"variables": {}, "issues": []},
                 "tags": {"total": 0, "active": 0, "inactive": 0, "vendor_distribution": {}, "details": [], "issues": []}
             }
         
-        # Extract tag configuration separately with a simpler script
-        tag_config_raw = await page.evaluate("""
-            () => {
-                if (!window.utag || !window.utag.loader || !window.utag.loader.cfg) {
+        # Extract data layer
+        try:
+            logger.info("Extracting Tealium data layer")
+            data_layer = await page.evaluate("""
+                () => {
+                    console.log('Evaluating data layer');
+                    if (typeof window.utag_data !== 'undefined') {
+                        console.log('Found utag_data');
+                        return window.utag_data;
+                    }
+                    console.log('No utag_data found');
                     return {};
                 }
-                
-                // Convert the configuration to a simple object with just what we need
-                const result = {};
-                for (const key in window.utag.loader.cfg) {
-                    // Only include numeric keys (tag IDs)
-                    if (/^\\d+$/.test(key)) {
-                        const config = window.utag.loader.cfg[key];
-                        result[key] = {
-                            id: key,
-                            name: config.name || `Tag ${key}`,
-                            load: config.load,
-                            active: config.load !== 0
-                        };
+            """)
+            logger.info(f"Data layer extracted, found {len(data_layer) if isinstance(data_layer, dict) else 0} variables")
+        except Exception as e:
+            logger.error(f"Error extracting data layer: {str(e)}")
+            data_layer = {}
+        
+        # Extract tag information
+        try:
+            logger.info("Extracting Tealium tag details")
+            tag_details = await page.evaluate("""
+                () => {
+                    console.log('Evaluating tag details');
+                    const tags = [];
+                    if (window.utag && window.utag.loader && window.utag.loader.cfg) {
+                        console.log('Found utag.loader.cfg');
+                        for (const key in window.utag.loader.cfg) {
+                            // Only process numeric keys (tag IDs)
+                            if (/^\\d+$/.test(key)) {
+                                const cfg = window.utag.loader.cfg[key];
+                                // Determine if tag is active
+                                const active = cfg.load !== 0;
+                                const name = cfg.name || `Tag ${key}`;
+                                
+                                // Try to determine tag category based on name
+                                let category = 'other';
+                                const nameLower = name.toLowerCase();
+                                if (nameLower.includes('google') || nameLower.includes('ga') || nameLower.includes('analytics')) {
+                                    category = 'analytics';
+                                } else if (nameLower.includes('facebook') || nameLower.includes('fb') || 
+                                          nameLower.includes('ads') || nameLower.includes('pixel')) {
+                                    category = 'advertising';
+                                }
+                                
+                                tags.push({
+                                    id: key,
+                                    name: name,
+                                    category: category,
+                                    status: active ? 'active' : 'inactive',
+                                    active: active
+                                });
+                            }
+                        }
+                        console.log('Found', tags.length, 'tags');
+                    } else {
+                        console.log('No utag.loader.cfg found');
                     }
+                    return tags;
                 }
-                return result;
-            }
-        """)
+            """)
+            logger.info(f"Tag details extracted, found {len(tag_details)} tags")
+        except Exception as e:
+            logger.error(f"Error extracting tag details: {str(e)}")
+            tag_details = []
         
-        # Process the tag configuration in Python
-        tag_details = []
-        active_count = 0
-        inactive_count = 0
+        # Calculate tag statistics
+        active_tags = [tag for tag in tag_details if tag.get("active", False) or tag.get("status") == "active"]
+        inactive_tags = [tag for tag in tag_details if not (tag.get("active", False) or tag.get("status") == "active")]
+        total_tags = len(tag_details)
+        
+        # Calculate vendor distribution
         vendor_distribution = {}
-        
-        for tag_id, tag_info in tag_config_raw.items():
-            # Determine category based on name
-            category = "unknown"
-            name = tag_info.get("name", f"Tag {tag_id}")
-            
-            # Simple categorization based on name
-            name_lower = name.lower()
-            if "google" in name_lower or "ga" in name_lower:
-                category = "analytics"
-            elif "facebook" in name_lower or "fb" in name_lower:
-                category = "advertising"
-            elif "adobe" in name_lower:
-                category = "analytics"
-            
-            # Track distribution
+        for tag in tag_details:
+            category = tag.get("category", "other")
             vendor_distribution[category] = vendor_distribution.get(category, 0) + 1
-            
-            # Create detail object
-            detail = {
-                "id": tag_id,
-                "name": name,
-                "category": category,
-                "status": "active" if tag_info.get("active", True) else "inactive"
-            }
-            
-            tag_details.append(detail)
-            
-            # Update counts
-            if tag_info.get("active", True):
-                active_count += 1
-            else:
-                inactive_count += 1
         
-        # Combine everything
+        # Build the complete response
         result = {
             "detected": True,
-            "version": basic_info["version"],
-            "profile": "Unknown",  # We don't extract this in the simpler approach
+            "version": tealium_detected.get("version", "Unknown"),
+            "profile": tealium_detected.get("profile", "Unknown"),
             "data_layer": {
-                "variables": basic_info["data_layer"],
-                "issues": []
+                "variables": data_layer,
+                "issues": []  # You could implement data layer validation here
             },
             "tags": {
-                "total": len(tag_details),
-                "active": active_count,
-                "inactive": inactive_count,
+                "total": total_tags,
+                "active": len(active_tags),
+                "inactive": len(inactive_tags),
                 "vendor_distribution": vendor_distribution,
-                "details": tag_details,
-                "issues": []
+                "details": tag_details,  # This is the important part - real tag details
+                "issues": []  # You could implement tag validation here
             },
             "performance": {
                 "recommendations": []
             }
         }
         
+        logger.info(f"Tealium analysis completed successfully with {total_tags} tags")
         return result
     except Exception as e:
-        logger.error(f"Error analyzing Tealium: {str(e)}")
+        logger.error(f"Error analyzing Tealium: {str(e)}", exc_info=True)
         return {
             "detected": False,
+            "error": str(e),
             "data_layer": {"variables": {}, "issues": []},
-            "tags": {"total": 0, "active": 0, "inactive": 0, "vendor_distribution": {}, "details": [], "issues": []},
-            "performance": {"recommendations": []},
-            "error": str(e)
+            "tags": {"total": 0, "active": 0, "inactive": 0, "vendor_distribution": {}, "details": [], "issues": []}
         }
+    
 def analyze_data_layer(data_layer: Dict[str, Any]) -> Dict[str, Any]:
     """Analyze Tealium data layer structure and identify issues"""
     variables = data_layer

@@ -7,12 +7,20 @@ export const analyzeWebsite = async (url, options = {}) => {
       url = `https://${url}`;
     }
     
+    // Add a cache buster to options to ensure a fresh analysis
+    const analysisOptions = {
+      ...options,
+      cache_buster: Date.now()
+    };
+    
+    console.log('Analyzing website with options:', analysisOptions);
+    
     const response = await fetch(`${API_BASE_URL}/analysis/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ url, options }),
+      body: JSON.stringify({ url, options: analysisOptions }),
     });
     
     if (!response.ok) {
@@ -28,6 +36,7 @@ export const analyzeWebsite = async (url, options = {}) => {
     }
     
     const data = await response.json();
+    console.log('Analysis started successfully:', data);
     
     // If needed, map id to analysis_id for backward compatibility
     if (data.id && !data.analysis_id) {
@@ -40,6 +49,7 @@ export const analyzeWebsite = async (url, options = {}) => {
     throw error;
   }
 };
+
 
 export const getAnalysisResults = async (analysisId) => {
   try {
@@ -101,7 +111,9 @@ export const getScreenshots = async (analysisId) => {
 
 export const getTealiumAnalysis = async (analysisId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/tealium/analysis/${analysisId}`);
+    // Add a cache-busting parameter
+    const timestamp = Date.now();
+    const response = await fetch(`${API_BASE_URL}/tealium/analysis/${analysisId}?t=${timestamp}`);
     
     if (!response.ok) {
       let errorText;
@@ -115,11 +127,7 @@ export const getTealiumAnalysis = async (analysisId) => {
     }
     
     const data = await response.json();
-    
-    // If needed, map id to analysis_id for backward compatibility
-    if (data.id && !data.analysis_id) {
-      data.analysis_id = data.id;
-    }
+    console.log('Raw Tealium API response data:', data);
     
     return data;
   } catch (error) {
@@ -127,6 +135,7 @@ export const getTealiumAnalysis = async (analysisId) => {
     throw error;
   }
 };
+
 
 export const generateEnhancements = async (analysisId, categories) => {
   try {

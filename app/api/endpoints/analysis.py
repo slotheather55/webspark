@@ -11,9 +11,10 @@ from app.schemas import errors as error_schema
 from app.core.errors import error_response
 from app.api.dependencies import get_current_user, get_analysis_by_id, get_current_active_user
 from app.tasks.analysis import trigger_website_analysis
-
+import logging
 router = APIRouter()
 
+logger = logging.getLogger(__name__)
 
 @router.post("/", response_model=analysis_schema.AnalysisResponse, status_code=status.HTTP_201_CREATED)
 async def create_analysis(
@@ -32,13 +33,18 @@ async def create_analysis(
         user_id=current_user.id if current_user else None
     )
     
-    # Trigger the analysis task in background
-    trigger_website_analysis(
+    # Log that we're about to trigger the background task
+    logger.info(f"Creating background task for analysis {analysis.id}")
+    
+    # Trigger the analysis task in background - THIS MUST BE WORKING!
+    success = trigger_website_analysis(
         background_tasks=background_tasks,
         analysis_id=analysis.id,
-        url=str(analysis.url),
+        url=str(data.url),
         options=data.options.dict() if data.options else None
     )
+    
+    logger.info(f"Background task creation result: {success}")
     
     return {
         "analysis_id": analysis.id,

@@ -52,11 +52,15 @@ const ProductManagerEnhancer = () => {
     setProgress(0);
     
     try {
-      // Call the real API instead of setTimeout
-      const response = await analyzeWebsite(url, {
+      // Add a timestamp to ensure we get a fresh analysis
+      const options = {
         devices: ["desktop", "tablet", "mobile"],
         check_tealium: true,
-      });
+        cache_buster: Date.now() // Add this line to prevent caching
+      };
+      
+      // Call the real API
+      const response = await analyzeWebsite(url, options);
       
       // Store the analysis ID for polling
       setAnalysisId(response.analysis_id);
@@ -68,7 +72,7 @@ const ProductManagerEnhancer = () => {
       setError(`Error: ${error.message}`);
       console.error("Analysis failed:", error);
     }
-  };
+  };  
   
   // Add a function to poll for analysis status
   const checkAnalysisStatus = async (analysisId) => {

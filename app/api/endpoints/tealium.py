@@ -10,7 +10,9 @@ from app.schemas import tealium as tealium_schema
 from app.schemas import errors as error_schema
 from app.api.dependencies import get_current_active_user
 from app.services.tealium.validators import validate_data_layer
+import logging
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -28,8 +30,6 @@ async def get_tealium_analysis(
 ) -> Any:
     """
     Get Tealium analysis data for a specific analysis by ID.
-    
-    Returns the Tealium analysis data including data layer, events, and tags.
     """
     # Convert string ID to UUID object
     try:
@@ -49,7 +49,7 @@ async def get_tealium_analysis(
             detail="Analysis not found"
         )
     
-    # Check if user owns this analysis (only if both user and analysis.user_id exist)
+    # Check user permissions
     if current_user and analysis.user_id and analysis.user_id != current_user.id:
         raise HTTPException(
             status_code=403,
@@ -59,19 +59,20 @@ async def get_tealium_analysis(
     # Get Tealium analysis data
     tealium_data = analysis.tealium_analysis
     
+    # Debug log the data
+    logger.debug(f"Tealium data for analysis {analysis_id}: {tealium_data}")
+    
     if not tealium_data:
         return {
+            "detected": False,
             "message": "No Tealium analysis data available for this analysis",
-            "data_layer": {},
-            "events": [],
-            "tags": [],
-            "issues": [],
-            "recommendations": [],
-            "performance": {}
+            "data_layer": {"variables": {}, "issues": []},
+            "tags": {"total": 0, "active": 0, "inactive": 0, "details": [], "issues": []},
+            "performance": {"recommendations": []}
         }
     
+    # Ensure we're returning the full data structure
     return tealium_data
-
 
 @router.post(
     "/validate",

@@ -1,103 +1,143 @@
+# app/tasks/analysis.py
+from typing import Dict, Any, Optional
 import logging
-from typing import Dict, List, Any, Optional
-import time
-import asyncio
-import json
 import uuid
-
-from celery import shared_task
-from app.models.analysis import AnalysisStatus
+import asyncio
+from fastapi import BackgroundTasks
 
 logger = logging.getLogger(__name__)
 
+async def run_analysis_task(analysis_id: uuid.UUID, url: str, options: Optional[Dict[str, Any]] = None):
+    """
+    Run the analysis task directly (without Celery)
+    """
+    from app.db.session import SessionLocal
+    from app.db import crud
+    from app.services.browser.playwright import analyze_tealium
+    from playwright.async_api import async_playwright
+    
+    try:
+        logger.info(f"Starting REAL analysis for URL: {url} with options: {options}")
+        
+        # Update database status
+        db = SessionLocal()
+        crud.analysis.update_analysis_status(db, analysis_id, "in_progress")
+        db.close()
+        
+        # Run real browser analysis - NO MOCK DATA!
+        logger.info(f"Initializing browser for {url}")
+        async with async_playwright() as p:
+            browser = await p.chromium.launch(headless=True)
+            try:
+                logger.info(f"Browser launched successfully for {url}")
+                context = await browser.new_context(
+                    viewport={"width": 1920, "height": 1080},
+                    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/91.0.4472.124 Safari/537.36"
+                )
+                page = await context.new_page()
+                
+                # Navigate to the URL
+                logger.info(f"Navigating to {url}")
+                await page.goto(url, wait_until="networkidle", timeout=60000)
+                logger.info(f"Navigation to {url} complete")
+                
+                # Extract Tealium data
+                logger.info(f"Analyzing Tealium implementation on {url}")
+                tealium_data = await analyze_tealium(page)
+                logger.info(f"Tealium analysis complete: {tealium_data.get('detected')}")
+                
+                # Print detailed info about what was found
+                if tealium_data.get("detected"):
+                    logger.info(f"Detected Tealium version: {tealium_data.get('version')}")
+                    tag_details = tealium_data.get("tags", {}).get("details", [])
+                    logger.info(f"Found {len(tag_details)} tag details")
+                    for i, tag in enumerate(tag_details[:5]):  # Log first 5 tags
+                        logger.info(f"Tag {i+1}: {tag.get('id')} - {tag.get('name')} - {tag.get('status')}")
+                
+                # Close browser resources
+                await context.close()
+                
+                # Update database with results
+                db = SessionLocal()
+                logger.info(f"Updating database with Tealium analysis results for {analysis_id}")
+                crud.analysis.update_analysis_results(
+                    db,
+                    analysis_id,
+                    tealium_analysis=tealium_data
+                )
+                crud.analysis.update_analysis_status(db, analysis_id, "completed")
+                db.close()
+                logger.info(f"Analysis for {url} completed successfully")
+                
+            except Exception as e:
+                logger.error(f"Error during browser analysis: {str(e)}", exc_info=True)
+                # Update status to failed
+                db = SessionLocal()
+                crud.analysis.update_analysis_status(db, analysis_id, "failed", error=str(e))
+                db.close()
+            finally:
+                await browser.close()
+                logger.info(f"Browser closed for {url}")
+        
+    except Exception as e:
+        logger.error(f"Analysis failed with exception: {str(e)}", exc_info=True)
+        
+        # Update status to failed
+        db = SessionLocal()
+        try:
+            crud.analysis.update_analysis_status(db, analysis_id, "failed", error=str(e))
+        finally:
+            db.close()
 
-@shared_task(bind=True, name="analysis.analyze_website")
-def analyze_website(
-    self, 
+def trigger_website_analysis(
+    background_tasks: BackgroundTasks,
+    analysis_id: uuid.UUID,
+    url: str,
+    options: Optional[Dict[str, Any]] = None
+) -> bool:
+    """
+    Trigger website analysis as a background task
+    """
+    try:
+        logger.info(f"Triggering analysis task for URL: {url}")
+        
+        # Add the task to background tasks
+        background_tasks.add_task(
+            run_analysis_task,
+            analysis_id=analysis_id,
+            url=url,
+            options=options
+        )
+        
+        return True
+    except Exception as e:
+        logger.error(f"Failed to trigger analysis: {str(e)}")
+        return False
+
+
+# Keep the existing analyze_website function for backwards compatibility with Celery
+# but it's not used in our implementation
+@asyncio.coroutine
+async def analyze_website(
     analysis_id: uuid.UUID, 
     url: str,
     options: Dict[str, Any] = None
 ) -> Dict[str, Any]:
     """
-    Analyze a website and generate reports
-    
-    Args:
-        analysis_id: ID of the analysis record in the database
-        url: URL to analyze
-        options: Analysis options including device types and analysis modules
-        
-    Returns:
-        Dictionary with analysis results
+    Legacy function for Celery tasks - redirects to the new implementation
     """
     try:
-        logger.info(f"Analyzing website {url} (ID: {analysis_id})")
-        
-        # Simulated analysis result for testing
-        result = {
-            "url": url,
-            "analysis_id": analysis_id,
-            "status": "completed",
-            "screenshots": {
-                "desktop": {
-                    "full": {
-                        "path": f"screenshots/{analysis_id}/desktop_full.png",
-                        "width": 1920,
-                        "height": 1080
-                    },
-                    "above_fold": {
-                        "path": f"screenshots/{analysis_id}/desktop_above_fold.png",
-                        "width": 1920,
-                        "height": 800
-                    }
-                },
-                "mobile": {
-                    "full": {
-                        "path": f"screenshots/{analysis_id}/mobile_full.png",
-                        "width": 375,
-                        "height": 2500
-                    },
-                    "above_fold": {
-                        "path": f"screenshots/{analysis_id}/mobile_above_fold.png",
-                        "width": 375,
-                        "height": 667
-                    }
-                }
-            },
-            "content_analysis": {
-                "desktop": {
-                    "metadata": {
-                        "title": "Example Website",
-                        "description": "This is an example website for testing",
-                        "og_title": "Example Website - Social Media Title",
-                        "og_description": "Social media description for the example website",
-                        "og_image": "https://example.com/og-image.jpg"
-                    },
-                    "structure": {
-                        "headings": [
-                            {"tag": "h1", "text": "Main Heading", "count": 1},
-                            {"tag": "h2", "text": "Secondary Heading", "count": 3},
-                            {"tag": "h3", "text": "Tertiary Heading", "count": 5}
-                        ],
-                        "paragraphs": 12,
-                        "images": 8,
-                        "links": 15
-                    }
-                }
-            },
-            "tealium_analysis": None,
-            "ai_analysis": None,
-            "completed_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        }
-        
-        return result
+        logger.info(f"Legacy analyze_website called for {url} - redirecting to new implementation")
+        await run_analysis_task(analysis_id, url, options)
+        return {"status": "redirected_to_new_implementation"}
     except Exception as e:
-        logger.error(f"Analysis task failed: {str(e)}")
+        logger.error(f"Error in legacy analyze_website: {str(e)}")
         return {"error": str(e), "analysis_id": analysis_id}
 
 
 async def update_analysis_status(
     analysis_id: uuid.UUID, 
-    status: AnalysisStatus,
+    status: str,
     results: Optional[Dict[str, Any]] = None
 ) -> None:
     """
@@ -111,18 +151,14 @@ async def update_analysis_status(
     from app.db.crud.analysis import update_analysis  # Import here to avoid circular imports
     
     try:
-        update_data = {"status": status.value}
+        update_data = {"status": status}
         
         if results:
-            # If we have results, store them as JSON
-            update_data["results"] = json.dumps(results)
-            
             # If analysis failed, store error
-            if status == AnalysisStatus.FAILED and "error" in results:
+            if status == "failed" and "error" in results:
                 update_data["error"] = results["error"]
         
         await update_analysis(analysis_id, update_data)
-        logger.info(f"Updated analysis {analysis_id} status to {status.value}")
+        logger.info(f"Updated analysis {analysis_id} status to {status}")
     except Exception as e:
         logger.error(f"Failed to update analysis status: {str(e)}")
-        # We don't raise here, as this is a side effect of the main task 
