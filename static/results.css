@@ -1,4 +1,3 @@
-
 /* Results Section Container */
 .results-section {
     margin-bottom: var(--spacing-xl);
@@ -21,6 +20,54 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 164, 255, 0.2);
   }
   
+  /* Page View Tab Styles */
+  #pageview-tab {
+    padding: var(--spacing-md);
+  }
+  
+  .section-info {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-light);
+    font-style: italic;
+    opacity: 0.8;
+  }
+  
+  #utag-data-table {
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  #utag-data-table th {
+    font-weight: 600;
+    text-align: left;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(99, 164, 255, 0.1);
+    border-bottom: 1px solid rgba(99, 164, 255, 0.2);
+  }
+  
+  #utag-data-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid rgba(99, 164, 255, 0.1);
+    vertical-align: top;
+  }
+  
+  #utag-data-table td:first-child {
+    width: 30%;
+    font-weight: 500;
+    color: var(--accent-blue);
+  }
+  
+  #utag-data-table td pre {
+    margin: 0;
+    background: rgba(5, 15, 30, 0.6);
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius-sm);
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  /* End Page View Tab Styles */
+
   .results-card.expanded {
     position: fixed;
     top: 1rem;
@@ -110,6 +157,20 @@
   
   .tab-pane.active {
     display: block;
+  }
+  
+  /* Summary Tab with Raw Data */
+  #summary-tab {
+    padding: var(--spacing-md);
+  }
+  
+  #summary-tab pre {
+    margin-top: var(--spacing-sm);
+  }
+  
+  /* Click Events Tab Styles */
+  #click-events-tab {
+    padding: var(--spacing-md);
   }
   
   /* Summary Tab */
@@ -502,3 +563,153 @@
       padding: 0.5rem;
     }
   }
+
+/* --- Summary Tab Enhancements --- */
+
+/* Event Type Sub-Tabs */
+.event-type-tabs {
+    display: flex;
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color-medium);
+    padding-left: var(--spacing-xs); /* Align with table content */
+}
+
+.event-type-tab-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: -1px; /* Overlap border */
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    background-color: transparent;
+    color: var(--text-color-secondary);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.event-type-tab-button:hover {
+    color: var(--text-color-primary);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.event-type-tab-button.active {
+    color: var(--accent-color);
+    border-color: var(--border-color-medium);
+    background-color: var(--background-color-secondary); /* Match card body background */
+    border-bottom-color: var(--background-color-secondary);
+}
+
+.event-type-tab-button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+/* Content area for the table */
+.event-type-content {
+    margin-top: var(--spacing-sm);
+}
+
+/* Basic Table Styling */
+.event-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--border-color-medium);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Ensure border radius applies to table */
+}
+
+.event-table th,
+.event-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color-medium);
+    vertical-align: top;
+}
+
+.event-table th {
+    background-color: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    color: var(--text-color-primary);
+    white-space: nowrap;
+}
+
+.event-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.event-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Expand Button Styling */
+.expand-details-btn {
+    background: none;
+    border: none;
+    color: var(--text-color-secondary);
+    cursor: pointer;
+    padding: 2px 5px;
+    font-size: 0.9em;
+    transition: color var(--transition-fast);
+    margin-right: var(--spacing-sm);
+}
+
+.expand-details-btn:hover {
+    color: var(--accent-color);
+}
+
+.expand-details-btn i {
+    transition: transform 0.2s ease-in-out;
+}
+
+.expand-details-btn.expanded i {
+    transform: rotate(90deg);
+}
+
+/* Details Row Styling */
+.event-details td {
+    padding: var(--spacing-md);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-top: 1px dashed var(--border-color-dark);
+    border-bottom: 1px solid var(--border-color-medium); /* Ensure bottom border shows */
+}
+
+.event-details pre {
+    margin: 0;
+    padding: var(--spacing-sm);
+    background-color: rgba(0,0,0,0.2);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    color: var(--text-color-secondary);
+}
+
+/* Optional: Data Variables Table inside details */
+.data-variables-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    margin-top: var(--spacing-sm);
+}
+
+.data-variables-table th,
+.data-variables-table td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--border-color-dark);
+    vertical-align: top;
+}
+
+.data-variables-table th {
+    background-color: rgba(255, 255, 255, 0.03);
+    font-weight: 500;
+    width: 30%; /* Give key column fixed width */
+}

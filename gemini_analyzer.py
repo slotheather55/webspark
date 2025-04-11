@@ -92,8 +92,8 @@ GLOBAL_VENDOR_OBJECTS = [
 ]
 
 # --- Configuration ---
-POST_LOAD_WAIT_MS = 4000
-POST_CLICK_WAIT_MS = 3000 # Default wait
+POST_LOAD_WAIT_MS = 1500 # Reduced from 4000
+POST_CLICK_WAIT_MS = 1000 # Reduced from 3000
 
 PRIVACY_PROMPT_ACCEPT_SELECTOR = 'button#truste-consent-button'
 MINICART_OVERLAY_SELECTOR = '#prh-minicart-overlay' # Example, adjust if needed

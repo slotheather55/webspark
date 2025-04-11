@@ -136,6 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
           errorMessageDiv.style.display = 'none';
           downloadLink.style.display = 'none';
           
+          // Show empty state
+          const emptyState = document.querySelector('.results-empty-state');
+          if (emptyState) emptyState.style.display = 'flex';
+          
           // Futuristic UI elements
           if (aiAgentElement) aiAgentElement.style.opacity = '0.8'; // Keep agent slightly visible
           if (analyzingLabel) analyzingLabel.style.opacity = '0';
@@ -178,6 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
           loadingDiv.style.display = 'none';
           resultsContainer.style.display = 'block'; // Show results
           
+          // Hide empty state
+          const emptyStateCompleted = document.querySelector('.results-empty-state');
+          if (emptyStateCompleted) emptyStateCompleted.style.display = 'none';
+          
           // Futuristic UI elements
           if (aiAgentElement) {
             aiAgentElement.style.opacity = '0.6'; // Dim slightly on complete
@@ -207,6 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
           loadingDiv.style.display = 'none';
           errorMessageDiv.style.display = 'block';
           errorMessageDiv.textContent = message || 'An error occurred during analysis.';
+          
+          // Hide empty state
+          const emptyStateError = document.querySelector('.results-empty-state');
+          if (emptyStateError) emptyStateError.style.display = 'none';
           
           // Futuristic UI elements
           if (aiAgentElement) {
@@ -306,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastMessageTime = now;
 
         // Sanitize message slightly (prevent basic HTML injection)
-        const sanitizedMessage = message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const sanitizedMessage = escapeHtml(message); // Use escapeHtml on the original message
 
         const li = document.createElement('li');
         li.classList.add('live-log-item'); // Use new class
@@ -317,10 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         li.classList.add(statusClass);
 
-        // Create timestamp (optional, but good for logs)
-        // const timestamp = new Date().toLocaleTimeString();
-        // li.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> ${sanitizedMessage}`;
-        li.textContent = `> ${sanitizedMessage}`; // Add simple prefix like in the image
+        // Set textContent directly with the (potentially escaped) message from backend
+        li.textContent = sanitizedMessage;
 
         liveLogList.appendChild(li);
 
@@ -333,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Auto-scroll to the bottom
         scrollToBottom();
 
-        // Determine stage based on message content (moved logic here or call helper)
+        // Determine stage based on message content
         determineStageFromMessage(sanitizedMessage);
     }
     
@@ -380,8 +390,8 @@ document.addEventListener('DOMContentLoaded', () => {
         urlToAnalyze = 'https://' + urlToAnalyze;
       }
   
-      // Add first status message
-      addStatusMessage(`🚀 Starting Analysis for: ${urlToAnalyze}`, 'starting');
+      // Remove redundant status message added before SSE connection
+      // addStatusMessage(`🚀 Starting Analysis for: ${urlToAnalyze}`, 'starting');
   
       // Setup Server-Sent Events (SSE)
       const encodedUrl = encodeURIComponent(urlToAnalyze);
@@ -406,12 +416,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Store the results
             analysisResults = update.results;
             
-            // Format and display results
-            const formattedReport = formatResultsForSummary(update.results);
-            resultsSummary.innerHTML = formattedReport;
-            
-            // Set the raw data as well
+            // Format and display the raw data in the summary tab
             resultsPre.textContent = formatResultsForConsole(update.results);
+            
+            // Format and display the click events
+            formatClickEventsForTable(update.results);
+            
+            // Populate the page view tab
+            populatePageViewTab(update.results);
             
             // Create visualization
             createVisualization(update.results);
@@ -460,15 +472,243 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     });
   
-    function formatResultsForSummary(results) {
-      if (!results || (results.error && results.steps?.slice(-1)[0]?.status === "Failed")) {
-        return `<div class="error-summary">
-            <h3>Analysis Failed</h3>
-            <p>URL: ${results?.url || 'N/A'}</p>
-            <p>Error: ${results?.error || 'Unknown error'}</p>
-        </div>`;
-      }
+    // Renamed from formatResultsForSummary to formatClickEventsForTable to better reflect its purpose
+    function formatClickEventsForTable(resultsData) {
+        // Get element references INSIDE the function
+        const eventTypeTabsContainer = document.getElementById('event-type-tabs');
+        const eventTypeContentContainer = document.getElementById('event-type-content');
+
+        if (!eventTypeTabsContainer || !eventTypeContentContainer) {
+            console.error('Click events tab containers not found in DOM when formatting results.');
+            return; // Exit if containers aren't found
+        }
+
+        // Clear previous tabs and content
+        eventTypeTabsContainer.innerHTML = '';
+        eventTypeContentContainer.innerHTML = '';
+
+        // --- ADAPTATION: Process the actual results structure --- 
+        // We expect resultsData to be the object from the backend
+        // Let's focus on clickAnalysis for the tabbed table for now
+        const clickEvents = resultsData?.clickAnalysis;
+
+        if (!clickEvents || !Array.isArray(clickEvents) || clickEvents.length === 0) {
+            eventTypeTabsContainer.innerHTML = '<p><i>No click events to display.</i></p>';
+            eventTypeContentContainer.innerHTML = '<p>No click event summary data available.</p>';
+            return;
+        }
+
+        // Add a single tab for "Click Events"
+        const button = document.createElement('button');
+        button.className = 'event-type-tab-button active'; // Only one tab, so active
+        button.textContent = 'All Events';
+        button.dataset.eventType = 'click'; // Assign a type
+        eventTypeTabsContainer.appendChild(button);
+
+        // Display the table for click events
+        // We need to slightly adapt displayEventTable or the data passed to it
+        // Let's adapt the data here to match expected structure
+        const formattedClickEvents = clickEvents.map(click => {
+            const data_variables = { // Start with base data
+                'Vendors Detected (Network)': Object.keys(click.vendors_in_network || {}).join(', ') || 'None',
+                ...(click.clickError ? { 'Click Error': click.clickError } : {})
+            };
+
+            // Check for Tealium events and extract data from the first one
+            const firstTealiumEvent = click.tealium_events?.[0];
+            if (firstTealiumEvent && typeof firstTealiumEvent.data === 'object' && firstTealiumEvent.data !== null) {
+                const firstEventData = firstTealiumEvent.data;
+                // Add specific event data to data_variables
+                for (const [key, value] of Object.entries(firstEventData)) {
+                    // Use original keys directly
+                    data_variables[key] = value;
+                }
+            } else {
+                data_variables['Tealium Event Data'] = 'None or Invalid'; // Placeholder if no data
+            }
+
+            return {
+                event_type: 'click', // Add the event_type
+                description: click.elementDescription || 'N/A',
+                selector: click.selector || 'N/A',
+                status: click.clickStatus || 'N/A',
+                data_variables: data_variables // Use the populated object
+            };
+        });
+
+        displayEventTable('click', formattedClickEvents, eventTypeContentContainer);
+    }
+
+    // Function to display page view data (utag_data)
+    function populatePageViewTab(resultsData) {
+        const pageViewContent = document.getElementById('pageview-data-content');
+        const utagDataTable = document.getElementById('utag-data-table');
+        
+        if (!pageViewContent || !utagDataTable) {
+            console.error('Page view tab elements not found in DOM.');
+            return;
+        }
+        
+        const utagData = resultsData?.pageLoadAnalysis?.utag_data;
+        
+        if (!utagData || Object.keys(utagData).length === 0) {
+            pageViewContent.innerHTML = '<p><i>No utag_data available for this page.</i></p>';
+            return;
+        }
+        
+        // Get the tbody element to populate
+        const tbody = utagDataTable.querySelector('tbody');
+        if (!tbody) return;
+        
+        // Clear previous data
+        tbody.innerHTML = '';
+        
+        // Sort keys for better readability
+        const sortedKeys = Object.keys(utagData).sort();
+        
+        // Populate table with utag_data key-value pairs
+        for (const key of sortedKeys) {
+            const value = utagData[key];
+            const row = document.createElement('tr');
+            
+            // Create key cell
+            const keyCell = document.createElement('td');
+            keyCell.textContent = key;
+            row.appendChild(keyCell);
+            
+            // Create value cell
+            const valueCell = document.createElement('td');
+            if (typeof value === 'object' && value !== null) {
+                // For arrays and objects, format as JSON
+                valueCell.innerHTML = `<pre>${escapeHtml(JSON.stringify(value, null, 2))}</pre>`;
+            } else {
+                valueCell.textContent = value;
+            }
+            row.appendChild(valueCell);
+            
+            tbody.appendChild(row);
+        }
+        
+        // Add a title with the count of variables
+        const title = document.createElement('div');
+        title.className = 'section-info';
+        title.innerHTML = `<p>Found ${sortedKeys.length} utag_data variables on page load</p>`;
+        pageViewContent.insertBefore(title, utagDataTable);
+    }
+
+    // New function to display the table for a specific event type
+    function displayEventTable(eventType, events, eventTypeContentContainer) {
+        if (!eventTypeContentContainer) return;
+
+        let tableHTML = `<table class="event-table"><thead><tr>
+                            <th></th> <!-- For expand button -->
+                            <th>Description</th>
+                            <th>Selector</th>
+                            <th>Status</th>
+                         </tr></thead><tbody>`;
+
+        events.forEach((event, index) => {
+            const description = event.description || 'N/A';
+            const selector = event.selector || 'N/A';
+            const status = event.status || 'N/A';
+            const statusClass = status.toLowerCase() === 'success' ? 'status-success' : (status.toLowerCase() === 'failure' ? 'status-error' : '');
+            const hasDetails = event.data_variables && Object.keys(event.data_variables).length > 0;
+
+            // Main Row
+            tableHTML += `<tr>
+                            <td>`;
+            if (hasDetails) {
+                 tableHTML += `<button class="expand-details-btn" aria-expanded="false" title="Toggle Details">
+                                 <i class="fas fa-chevron-right"></i>
+                               </button>`;
+            }
+             tableHTML += `</td>
+                            <td>${escapeHtml(description)}</td>
+                            <td><code class="code-inline">${escapeHtml(selector)}</code></td>
+                            <td class="${statusClass}">${escapeHtml(status)}</td>
+                         </tr>`;
+
+            // Details Row (Hidden by default)
+            if (hasDetails) {
+                tableHTML += `<tr class="event-details" style="display: none;">
+                                <td colspan="4">`; // Span all columns
+                // Render data_variables (can be simple pre or another table)
+                // Option 1: Simple <pre>
+                // tableHTML += `<h5>Data Variables:</h5><pre>${escapeHtml(JSON.stringify(event.data_variables, null, 2))}</pre>`;
+
+                // Option 2: Nicer table
+                tableHTML += `<h5>Data Variables:</h5><table class="data-variables-table"><tbody>`;
+                for (const [key, value] of Object.entries(event.data_variables)) {
+                    tableHTML += `<tr><th>${escapeHtml(key)}</th><td>${escapeHtml(JSON.stringify(value))}</td></tr>`;
+                }
+                tableHTML += `</tbody></table>`;
+
+                tableHTML += `</td>
+                             </tr>`;
+            }
+        });
+
+        tableHTML += `</tbody></table>`;
+        eventTypeContentContainer.innerHTML = tableHTML;
+
+        // Attach event listener for expand/collapse AFTER table is rendered
+        const tableBody = eventTypeContentContainer.querySelector('.event-table tbody');
+        if (tableBody) {
+            tableBody.addEventListener('click', (e) => {
+                const button = e.target.closest('.expand-details-btn');
+                if (button) {
+                    const mainRow = button.closest('tr');
+                    const detailsRow = mainRow.nextElementSibling;
+                    if (detailsRow && detailsRow.classList.contains('event-details')) {
+                        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                        detailsRow.style.display = isExpanded ? 'none' : 'table-row';
+                        button.setAttribute('aria-expanded', !isExpanded);
+                        button.classList.toggle('expanded', !isExpanded);
+                    }
+                }
+            });
+        }
+    }
+
+    // Simple HTML escaping helper
+    function escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string') {
+            try {
+              unsafe = JSON.stringify(unsafe); // Try to stringify non-strings
+            } catch (e) {
+              return '[Invalid Data]';
+            }
+        }
+        return unsafe
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+     }
+
+    function createVisualization(results) {
+      // This is a placeholder for a more sophisticated visualization
+      // In a real implementation, you might use D3.js or Chart.js
+      visualizationArea.innerHTML = `
+          <div style="text-align: center;">
+              <p>Advanced visualization could be implemented here with D3.js or Chart.js</p>
+              <p>Consider visualizing:</p>
+              <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                  <li>• Tag distribution by category</li>
+                  <li>• Network request timeline</li>
+                  <li>• Event flow diagram</li>
+              </ul>
+          </div>
+      `;
+    }
   
+    // This is the original function from your code, kept for backward compatibility
+    function formatResultsForConsole(results) {
+      if (!results || (results.error && results.steps?.slice(-1)[0]?.status === "Failed")) {
+        return `*** ANALYSIS FAILED ***\nURL: ${results?.url || 'N/A'}\nError: ${results?.error || 'Unknown error'}`;
+      }
+
       const url = results.url || "N/A";
       const load_analysis = results.pageLoadAnalysis || {};
       const click_analysis = results.clickAnalysis || [];
@@ -476,380 +716,196 @@ document.addEventListener('DOMContentLoaded', () => {
       const load_network_summary = load_analysis.load_network_summary || {};
       const utag_data = load_analysis.utag_data || {};
       const load_tealium_events = load_analysis.tealium_events || [];
+
       const page_type = utag_data.page_type || "Unknown";
-  
-      let html = `
-          <div class="section-header">
-              <i class="fas fa-info-circle"></i> Overview
-          </div>
-          <dl>
-              <dt>URL Analyzed</dt>
-              <dd><a href="${url}" target="_blank">${url}</a></dd>
-              
-              <dt>Page Type</dt>
-              <dd>${page_type}</dd>
-              
-              <dt>Analysis Time</dt>
-              <dd>${results.analysisTimestamp || 'N/A'}</dd>
-          </dl>
-          
-          <div class="section-header">
-              <i class="fas fa-server"></i> Tag Management Systems
-          </div>`;
-  
+
+      let report = [
+        `=================================================`,
+        ` ANALYSIS REPORT for: ${url}`,
+        ` Detected Page Type: ${page_type}`,
+        ` Analyzed at: ${results.analysisTimestamp || 'N/A'}`,
+        `=================================================\n`,
+        `--- Page Load Analysis ---`
+      ];
+
       // TMS
-        // TMS
-        const tealium_info = load_analysis.tag_detection?.tealiumInfo || {};
-        const gtm_info = load_analysis.tag_detection?.gtmInfo || {};
-        
-        html += `<dl>`;
-        html += `<dt>${tealium_info.detected ? '✓' : '✗'} Tealium iQ</dt>`;
-        if (tealium_info.detected) {
-            html += `<dd>
-                Profile: ${tealium_info.profile || 'N/A'}<br>
-                Account: ${tealium_info.account || 'N/A'}<br>
-                Version: ${tealium_info.version || 'N/A'}<br>
-                Tags: ${tealium_info.tagsLoaded || 'N/A'}
-            </dd>`;
-        } else {
-            html += `<dd>Not detected</dd>`;
+      const tealium_info = load_analysis.tag_detection?.tealiumInfo || {};
+      const gtm_info = load_analysis.tag_detection?.gtmInfo || {};
+      report.push("Tag Management Systems:");
+      report.push(`  ${tealium_info.detected ? '✓' : '-'} Tealium iQ (Profile: ${tealium_info.profile || 'N/A'}, Account: ${tealium_info.account || 'N/A'}, Version: ${tealium_info.version || 'N/A'}, Tags: ${tealium_info.tagsLoaded || 'N/A'})`);
+      report.push(`  ${gtm_info.detected ? '✓' : '-'} Google Tag Manager (Containers: ${gtm_info.containers?.join(', ') || 'N/A'})`);
+      report.push("");
+
+      // Vendors in Network (Load)
+      const load_network_vendors = load_network_summary.vendors_detected || {};
+      report.push(`Vendors Detected in Network Requests (During Load - ${load_network_summary.total_requests ?? 'N/A'} total):`);
+      if (Object.keys(load_network_vendors).length > 0) {
+        for (const [name, urls] of Object.entries(load_network_vendors).sort()) {
+          report.push(`  - ${name} (${urls.length} reqs)`);
         }
-        
-        html += `<dt>${gtm_info.detected ? '✓' : '✗'} Google Tag Manager</dt>`;
-        if (gtm_info.detected) {
-            html += `<dd>Containers: ${gtm_info.containers?.join(', ') || 'N/A'}</dd>`;
-        } else {
-            html += `<dd>Not detected</dd>`;
-        }
-        html += `</dl>`;
-    
-        // Vendors on Page
-        html += `<div class="section-header">
-            <i class="fas fa-tags"></i> Vendors Detected on Page Load
-        </div>`;
-        
-        if (Object.keys(vendors_on_page).length > 0) {
-            Object.entries(vendors_on_page).sort().forEach(([category, names]) => {
-                const formattedCategory = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                
-                html += `<div class="vendor-category">
-                    <div class="vendor-category-title">${formattedCategory}</div>
-                    <div class="vendor-list">`;
-                
-                names.forEach(name => {
-                    html += `<span class="vendor-tag">${name}</span>`;
-                });
-                
-                html += `</div></div>`;
-            });
-        } else {
-            html += `<p>No vendors detected on page load</p>`;
-        }
-    
-        // Network Requests
-        html += `<div class="section-header">
-            <i class="fas fa-network-wired"></i> Network Requests
-        </div>`;
-        
-        const load_network_vendors = load_network_summary.vendors_detected || {};
-        html += `<p>Total requests during page load: ${load_network_summary.total_requests || 'N/A'}</p>`;
-        
-        if (Object.keys(load_network_vendors).length > 0) {
-            html += `<ul>`;
-            Object.entries(load_network_vendors).sort().forEach(([name, urls]) => {
-                html += `<li>${name} (${urls.length} requests)</li>`;
-            });
-            html += `</ul>`;
-        } else {
-            html += `<p>No vendor network requests detected</p>`;
-        }
-    
-        // Tealium Events on Load
-        html += `<div class="section-header">
-            <i class="fas fa-code"></i> Tealium Events During Load
-        </div>`;
-        
-        if (Array.isArray(load_tealium_events) && load_tealium_events.length > 0) {
-            html += `<ul>`;
-            load_tealium_events.forEach(event => {
-                const event_type = event?.type || 'N/A';
-                const data = event?.data || {};
-                const desc = data.event_name || data.event_type || data.event || data.link_id || '';
-                html += `<li>${event_type} ${desc ? `(${desc})` : ''}</li>`;
-            });
-            html += `</ul>`;
-        } else if (load_tealium_events?.error) {
-            html += `<p>Error retrieving events: ${load_tealium_events.error}</p>`;
-        } else {
-            html += `<p>No Tealium events captured during page load</p>`;
-        }
-    
-        // Click Events Analysis
-        html += `<div class="section-header">
-            <i class="fas fa-mouse-pointer"></i> Click Events Analysis
-        </div>`;
-        
-        if (Array.isArray(click_analysis) && click_analysis.length > 0) {
-            click_analysis.forEach((click, i) => {
-                const clickStatus = click.clickStatus || 'N/A';
-                const statusClass = clickStatus.toLowerCase().includes('error') || 
-                                    clickStatus.toLowerCase().includes('fail') ? 'error' : '';
-                
-                html += `<div class="click-event">
-                    <div class="click-event-title">
-                        <i class="fas fa-mouse-pointer"></i> ${click.elementDescription || 'Click Event'}
-                        <span class="click-event-status ${statusClass}">${clickStatus}</span>
-                    </div>
-                    <div class="click-event-details">
-                        <p><strong>Selector:</strong> ${click.selector || 'N/A'}</p>`;
-                
-                if (click.clickError) {
-                    html += `<p><strong>Error:</strong> ${click.clickError}</p>`;
-                }
-                
-                // Tealium Events After Click
-                const click_tealium_events = click.tealium_events || [];
-                html += `<p><strong>Tealium Events Triggered:</strong> ${click_tealium_events?.length || 0}</p>`;
-                
-                if (Array.isArray(click_tealium_events) && click_tealium_events.length > 0) {
-                    html += `<ul>`;
-                    click_tealium_events.forEach(event => {
-                        const event_type = event?.type || 'N/A';
-                        const data = event?.data || {};
-                        const desc = data.event_name || data.event_type || data.event || data.link_id || '';
-                        html += `<li>${event_type} ${desc ? `(${desc})` : ''}</li>`;
-                    });
-                    html += `</ul>`;
-                }
-                
-                html += `</div></div>`;
-            });
-        } else {
-            html += `<p>No click events were configured or analyzed for page type '${page_type}'.</p>`;
-        }
-    
-        return html;
+      } else {
+        report.push("  None");
       }
-    
-      function createVisualization(results) {
-        // This is a placeholder for a more sophisticated visualization
-        // In a real implementation, you might use D3.js or Chart.js
-        visualizationArea.innerHTML = `
-            <div style="text-align: center;">
-                <p>Advanced visualization could be implemented here with D3.js or Chart.js</p>
-                <p>Consider visualizing:</p>
-                <ul style="list-style: none; padding: 0; margin-top: 1rem;">
-                    <li>• Tag distribution by category</li>
-                    <li>• Network request timeline</li>
-                    <li>• Event flow diagram</li>
-                </ul>
-            </div>
-        `;
+      report.push("");
+
+      // Initial Utag Data
+      if (utag_data && !utag_data.error) {
+        report.push(`Initial Utag Data: Found ${Object.keys(utag_data).length} keys (See JSON download for details).`);
+      } else {
+        report.push(`Initial Utag Data: ${utag_data?.error ? `Error (${utag_data.error})` : 'Not found or empty.'}`);
       }
-    
-      // This is the original function from your code, kept for backward compatibility
-      function formatResultsForConsole(results) {
-        if (!results || (results.error && results.steps?.slice(-1)[0]?.status === "Failed")) {
-          return `*** ANALYSIS FAILED ***\nURL: ${results?.url || 'N/A'}\nError: ${results?.error || 'Unknown error'}`;
+      report.push("");
+
+      // Initial Tealium Events
+      report.push(`Tealium Events Captured During Load (${load_tealium_events?.length ?? 0}):`);
+      if (Array.isArray(load_tealium_events) && load_tealium_events.length > 0) {
+        load_tealium_events.forEach(event => {
+          const event_type = event?.type || 'N/A';
+          const data = event?.data || {};
+          const desc = data.event_name || data.event_type || data.event || data.link_id || '';
+          report.push(`  - ${event_type} ${desc ? `(${desc})` : ''}`);
+        });
+      } else if (load_tealium_events?.error) {
+        report.push(`  Error retrieving events (${load_tealium_events.error})`);
+      } else {
+        report.push("  None captured.");
+      }
+      report.push("");
+
+      // Vendors on Page
+      report.push("Vendors Detected on Page Load (Scripts/Objects):");
+      if (Object.keys(vendors_on_page).length > 0) {
+        for (const [category, names] of Object.entries(vendors_on_page).sort()) {
+          report.push(`  - ${category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}: ${names.join(', ')}`);
         }
+      } else {
+        report.push("  None");
+      }
+      report.push("");
 
-        const url = results.url || "N/A";
-        const load_analysis = results.pageLoadAnalysis || {};
-        const click_analysis = results.clickAnalysis || [];
-        const vendors_on_page = load_analysis.vendors_on_page || {};
-        const load_network_summary = load_analysis.load_network_summary || {};
-        const utag_data = load_analysis.utag_data || {};
-        const load_tealium_events = load_analysis.tealium_events || [];
-
-        const page_type = utag_data.page_type || "Unknown";
-
-        let report = [
-          `=================================================`,
-          ` ANALYSIS REPORT for: ${url}`,
-          ` Detected Page Type: ${page_type}`,
-          ` Analyzed at: ${results.analysisTimestamp || 'N/A'}`,
-          `=================================================\n`,
-          `--- Page Load Analysis ---`
-        ];
-
-        // TMS
-        const tealium_info = load_analysis.tag_detection?.tealiumInfo || {};
-        const gtm_info = load_analysis.tag_detection?.gtmInfo || {};
-        report.push("Tag Management Systems:");
-        report.push(`  ${tealium_info.detected ? '✓' : '-'} Tealium iQ (Profile: ${tealium_info.profile || 'N/A'}, Account: ${tealium_info.account || 'N/A'}, Version: ${tealium_info.version || 'N/A'}, Tags: ${tealium_info.tagsLoaded || 'N/A'})`);
-        report.push(`  ${gtm_info.detected ? '✓' : '-'} Google Tag Manager (Containers: ${gtm_info.containers?.join(', ') || 'N/A'})`);
-        report.push("");
-
-        // Vendors in Network (Load)
-        const load_network_vendors = load_network_summary.vendors_detected || {};
-        report.push(`Vendors Detected in Network Requests (During Load - ${load_network_summary.total_requests ?? 'N/A'} total):`);
-        if (Object.keys(load_network_vendors).length > 0) {
-          for (const [name, urls] of Object.entries(load_network_vendors).sort()) {
-            report.push(`  - ${name} (${urls.length} reqs)`);
+      // Click Analysis
+      report.push("--- Click Event Analysis ---");
+      if (!click_analysis || click_analysis.length === 0) {
+        report.push(`No click events were configured or analyzed for page type '${page_type}'.`);
+      } else {
+        click_analysis.forEach((click, i) => {
+          report.push(`\n▶ Click ${i + 1}: ${click.elementDescription || 'N/A'} (${click.clickStatus || 'N/A'})`);
+          report.push(`  Selector: ${click.selector || 'N/A'}`);
+          if (click.clickError) {
+            report.push(`  Error: ${click.clickError}`);
           }
-        } else {
-          report.push("  None");
-        }
-        report.push("");
 
-        // Initial Utag Data
-        if (utag_data && !utag_data.error) {
-          report.push(`Initial Utag Data: Found ${Object.keys(utag_data).length} keys (See JSON download for details).`);
-        } else {
-          report.push(`Initial Utag Data: ${utag_data?.error ? `Error (${utag_data.error})` : 'Not found or empty.'}`);
-        }
-        report.push("");
-
-        // Initial Tealium Events
-        report.push(`Tealium Events Captured During Load (${load_tealium_events?.length ?? 0}):`);
-        if (Array.isArray(load_tealium_events) && load_tealium_events.length > 0) {
-          load_tealium_events.forEach(event => {
-            const event_type = event?.type || 'N/A';
-            const data = event?.data || {};
-            const desc = data.event_name || data.event_type || data.event || data.link_id || '';
-            report.push(`  - ${event_type} ${desc ? `(${desc})` : ''}`);
-          });
-        } else if (load_tealium_events?.error) {
-          report.push(`  Error retrieving events (${load_tealium_events.error})`);
-        } else {
-          report.push("  None captured.");
-        }
-        report.push("");
-
-        // Vendors on Page
-        report.push("Vendors Detected on Page Load (Scripts/Objects):");
-        if (Object.keys(vendors_on_page).length > 0) {
-          for (const [category, names] of Object.entries(vendors_on_page).sort()) {
-            report.push(`  - ${category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}: ${names.join(', ')}`);
+          // Tealium Events After Click
+          const click_tealium_events = click.tealium_events || [];
+          report.push(`  Tealium Events Triggered: ${click_tealium_events?.length ?? 0}`);
+          if (Array.isArray(click_tealium_events) && click_tealium_events.length > 0) {
+            click_tealium_events.forEach(event => {
+              const event_type = event?.type || 'N/A';
+              const data = event?.data || {};
+              const desc = data.event_name || data.event_type || data.event || data.link_id || '';
+              report.push(`    - ${event_type} ${desc ? `(${desc})` : ''}`);
+            });
+          } else if (click_tealium_events?.error) {
+            report.push(`    Error retrieving events (${click_tealium_events.error})`);
           }
-        } else {
-          report.push("  None");
-        }
-        report.push("");
 
-        // Click Analysis
-        report.push("--- Click Event Analysis ---");
-        if (!click_analysis || click_analysis.length === 0) {
-          report.push(`No click events were configured or analyzed for page type '${page_type}'.`);
-        } else {
-          click_analysis.forEach((click, i) => {
-            report.push(`\n▶ Click ${i + 1}: ${click.elementDescription || 'N/A'} (${click.clickStatus || 'N/A'})`);
-            report.push(`  Selector: ${click.selector || 'N/A'}`);
-            if (click.clickError) {
-              report.push(`  Error: ${click.clickError}`);
-            }
-
-            // Tealium Events After Click
-            const click_tealium_events = click.tealium_events || [];
-            report.push(`  Tealium Events Triggered: ${click_tealium_events?.length ?? 0}`);
-            if (Array.isArray(click_tealium_events) && click_tealium_events.length > 0) {
-              click_tealium_events.forEach(event => {
-                const event_type = event?.type || 'N/A';
-                const data = event?.data || {};
-                const desc = data.event_name || data.event_type || data.event || data.link_id || '';
-                report.push(`    - ${event_type} ${desc ? `(${desc})` : ''}`);
-              });
-            } else if (click_tealium_events?.error) {
-              report.push(`    Error retrieving events (${click_tealium_events.error})`);
-            }
-
-            // Network Vendors After Click
-            const click_network_vendors = click.vendors_in_network || {};
-            if (click_network_vendors.error) {
-              report.push(`  Network Requests to Vendors After Click: Error (${click_network_vendors.error})`);
-            } else {
-              report.push(`  Network Requests to Vendors After Click: ${Object.keys(click_network_vendors).length}`);
-              if (Object.keys(click_network_vendors).length > 0) {
-                for (const [name, urls] of Object.entries(click_network_vendors).sort()) {
-                  report.push(`    - ${name} (${urls.length} reqs)`);
-                }
+          // Network Vendors After Click
+          const click_network_vendors = click.vendors_in_network || {};
+          if (click_network_vendors.error) {
+            report.push(`  Network Requests to Vendors After Click: Error (${click_network_vendors.error})`);
+          } else {
+            report.push(`  Network Requests to Vendors After Click: ${Object.keys(click_network_vendors).length}`);
+            if (Object.keys(click_network_vendors).length > 0) {
+              for (const [name, urls] of Object.entries(click_network_vendors).sort()) {
+                report.push(`    - ${name} (${urls.length} reqs)`);
               }
             }
-          });
-        }
-
-        report.push("\n=================================================");
-        return report.join("\n");
-      }
-
-      // --- REVERTED: AI Agent Animation --- 
-      function animateAIAgentToStage(targetStageName) {
-        if (!aiAgentElement || !stages[targetStageName]) {
-          console.warn(`Cannot animate AI Agent: element or stage ${targetStageName} not found.`);
-          return;
-        }
-        
-        const agentRect = aiAgentElement.getBoundingClientRect();
-        const targetStageElement = stages[targetStageName];
-        const targetRect = targetStageElement.getBoundingClientRect();
-        
-        // Calculate center of agent and target stage RELATIVE to viewport
-        const agentCenterX = agentRect.left + agentRect.width / 2;
-        const targetCenterX = targetRect.left + targetRect.width / 2;
-        
-        // Get current transform to calculate relative movement
-        const currentTransform = window.getComputedStyle(aiAgentElement).transform;
-        let currentTranslateX = 0;
-        if (currentTransform && currentTransform !== 'none') {
-            const matrix = new DOMMatrix(currentTransform);
-            currentTranslateX = matrix.m41;
-        }
-        
-        // Required final translation = difference in centers + current translation amount
-        const requiredTranslateX = (targetCenterX - agentCenterX) + currentTranslateX;
-        
-        console.log(`Animating AI Agent to ${targetStageName}. Target Center: ${targetCenterX}, Agent Center: ${agentCenterX}, Current X: ${currentTranslateX}, Required TranslateX: ${requiredTranslateX}`);
-        
-        // Apply only translateX
-        aiAgentElement.style.transform = `translateX(${requiredTranslateX}px)`;
-      }
-      // --- END: AI Agent Animation ---
-
-      // Reset AI Agent position (if needed, maybe call animation function)
-      // animateAIAgentToStage(null); // Or reset transform directly
-      if (aiAgentElement) {
-          // Reset transform instantly without animation for reset
-          aiAgentElement.style.transition = 'none'; // Disable transition temporarily
-          aiAgentElement.style.transform = 'translateX(0px)'; // Reset translation only
-          aiAgentElement.offsetHeight; // Force reflow
-          aiAgentElement.style.transition = ''; // Re-enable transition
-      }
-
-      // Update status badge
-      // ... existing code ...
-
-      // --- Update resetStreamUI to reset transform --- 
-       function resetStreamUI() {
-          console.log('Resetting Stream UI for new analysis');
-          // Reset stages
-          Object.values(stages).forEach(stage => {
-            if (stage) { // Check if stage exists
-                stage.className = 'stage pending';
-            }
-          });
-          currentStage = null;
-
-          // Clear the live log
-          if (liveLogList) liveLogList.innerHTML = '';
-          if (errorMessageDiv) errorMessageDiv.textContent = '';
-          if (errorMessageDiv) errorMessageDiv.style.display = 'none';
-
-          // Reset AI Agent position instantly
-          if (aiAgentElement) {
-              aiAgentElement.style.transition = 'none'; // Disable transition temporarily
-              aiAgentElement.style.transform = 'translateX(0px)'; // Reset translation only
-              aiAgentElement.offsetHeight; // Force reflow
-              aiAgentElement.style.transition = ''; // Re-enable transition
           }
+        });
+      }
 
-          // Reset analyzing label and live log visibility (set by updateUIState('waiting'))
-          // if (analyzingLabel) analyzingLabel.style.opacity = '0';
-          // if (liveLogPanel) liveLogPanel.style.opacity = '0';
+      report.push("\n=================================================");
+      return report.join("\n");
+    }
 
-          console.log('Stream UI reset complete.');
+    // --- REVERTED: AI Agent Animation --- 
+    function animateAIAgentToStage(targetStageName) {
+      if (!aiAgentElement || !stages[targetStageName]) {
+        console.warn(`Cannot animate AI Agent: element or stage ${targetStageName} not found.`);
+        return;
+      }
+      
+      const agentRect = aiAgentElement.getBoundingClientRect();
+      const targetStageElement = stages[targetStageName];
+      const targetRect = targetStageElement.getBoundingClientRect();
+      
+      // Calculate center of agent and target stage RELATIVE to viewport
+      const agentCenterX = agentRect.left + agentRect.width / 2;
+      const targetCenterX = targetRect.left + targetRect.width / 2;
+      
+      // Get current transform to calculate relative movement
+      const currentTransform = window.getComputedStyle(aiAgentElement).transform;
+      let currentTranslateX = 0;
+      if (currentTransform && currentTransform !== 'none') {
+          const matrix = new DOMMatrix(currentTransform);
+          currentTranslateX = matrix.m41;
+      }
+      
+      // Required final translation = difference in centers + current translation amount
+      const requiredTranslateX = (targetCenterX - agentCenterX) + currentTranslateX;
+      
+      console.log(`Animating AI Agent to ${targetStageName}. Target Center: ${targetCenterX}, Agent Center: ${agentCenterX}, Current X: ${currentTranslateX}, Required TranslateX: ${requiredTranslateX}`);
+      
+      // Apply only translateX
+      aiAgentElement.style.transform = `translateX(${requiredTranslateX}px)`;
+    }
+    // --- END: AI Agent Animation ---
+
+    // Reset AI Agent position (if needed, maybe call animation function)
+    // animateAIAgentToStage(null); // Or reset transform directly
+    if (aiAgentElement) {
+        // Reset transform instantly without animation for reset
+        aiAgentElement.style.transition = 'none'; // Disable transition temporarily
+        aiAgentElement.style.transform = 'translateX(0px)'; // Reset translation only
+        aiAgentElement.offsetHeight; // Force reflow
+        aiAgentElement.style.transition = ''; // Re-enable transition
+    }
+
+    // Update status badge
+    // ... existing code ...
+
+    // --- Update resetStreamUI to reset transform --- 
+     function resetStreamUI() {
+        console.log('Resetting Stream UI for new analysis');
+        // Reset stages
+        Object.values(stages).forEach(stage => {
+          if (stage) { // Check if stage exists
+              stage.className = 'stage pending';
+          }
+        });
+        currentStage = null;
+
+        // Clear the live log
+        if (liveLogList) liveLogList.innerHTML = '';
+        if (errorMessageDiv) errorMessageDiv.textContent = '';
+        if (errorMessageDiv) errorMessageDiv.style.display = 'none';
+
+        // Reset AI Agent position instantly
+        if (aiAgentElement) {
+            aiAgentElement.style.transition = 'none'; // Disable transition temporarily
+            aiAgentElement.style.transform = 'translateX(0px)'; // Reset translation only
+            aiAgentElement.offsetHeight; // Force reflow
+            aiAgentElement.style.transition = ''; // Re-enable transition
         }
-        // --- END Update resetStreamUI to reset transform ---
 
-        // Event listener for SSE messages
-        // ... rest of the file ...
+        // Reset analyzing label and live log visibility (set by updateUIState('waiting'))
+        // if (analyzingLabel) analyzingLabel.style.opacity = '0';
+        // if (liveLogPanel) liveLogPanel.style.opacity = '0';
+
+        console.log('Stream UI reset complete.');
+      }
+      // --- END Update resetStreamUI to reset transform ---
+
+      // Event listener for SSE messages
+      // ... rest of the file ...
 });

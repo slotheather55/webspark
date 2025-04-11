@@ -164,18 +164,48 @@
                     <div id="results-container" class="results-container">
                         <div class="results-tabs">
                             <button class="tab-button active" data-tab="summary-tab">Summary</button>
-                            <button class="tab-button" data-tab="details-tab">Raw Data</button>
+                            <button class="tab-button" data-tab="pageview-tab">Page View</button>
+                            <button class="tab-button" data-tab="click-events-tab">Click Events</button>
                             <button class="tab-button" data-tab="visual-tab">Visualization</button>
                         </div>
 
                         <div class="tab-content">
                             <div id="summary-tab" class="tab-pane active">
-                                <div id="results-summary">
-                                    <!-- This will be populated by JavaScript -->
+                                <div class="section-header">
+                                    <i class="fas fa-chart-bar"></i> Analysis Summary
+                                </div>
+                                <pre id="results-pre"></pre>
+                            </div>
+                            <div id="pageview-tab" class="tab-pane">
+                                <div class="section-header">
+                                    <i class="fas fa-eye"></i> Page View Data
+                                </div>
+                                <div id="pageview-data-content">
+                                    <!-- Page view data will be populated here by JS -->
+                                    <table class="event-table" id="utag-data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Data Key</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- utag_data will be populated here -->
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div id="details-tab" class="tab-pane">
-                                <pre id="results-pre"></pre>
+                            <div id="click-events-tab" class="tab-pane">
+                                <div class="section-header">
+                                    <i class="fas fa-mouse-pointer"></i> Click Events
+                                </div>
+                                <!-- NEW Structure for Click Events Tab -->
+                                <div id="event-type-tabs" class="event-type-tabs">
+                                    <!-- Event type sub-tabs will be generated here by JS -->
+                                </div>
+                                <div id="event-type-content" class="event-type-content">
+                                    <!-- Expandable table for the selected event type will be generated here by JS -->
+                                </div>
                             </div>
                             <div id="visual-tab" class="tab-pane">
                                 <div id="visualization-area">
@@ -205,6 +235,9 @@
                         <h3 class="empty-state-title">No Analysis Results Yet</h3>
                         <p class="empty-state-message">
                             Enter a URL above and click Analyze to see detailed results about the page's tags and tracking.
+                        </p>
+                        <p class="empty-state-message">
+                            The Page View tab will display all <code>utag_data</code> variables found during initial page load.
                         </p>
                     </div>
                 </div>
