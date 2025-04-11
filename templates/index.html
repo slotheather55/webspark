@@ -78,61 +78,59 @@
                     <div class="status-badge" id="analysis-status">Waiting to start</div>
                 </div>
                 <div class="card-body">
-                    <!-- New structure based on the second image -->
                     <div class="analysis-layout">
-                        <div class="analysis-left">
-                            <!-- AI Agent Element -->
-                            <div class="ai-agent-element">
-                                <div class="ai-agent-circle">
-                                    <div class="ai-agent-text">AI</div>
-                                </div>
-                                <div class="ai-agent-label">AGENT</div>
-                            </div>
-                            <div class="analyzing-label">ANALYZING TAG PERFORMANCE</div>
-
-                            <!-- Stage Progression -->
-                            <div class="stages-container">
-                                <div class="stage pending" id="stage-setup">
-                                    <div class="stage-icon"><i class="fas fa-rocket"></i></div>
-                                    <div class="stage-label">INITIALIZATION</div>
-                                </div>
-                                <div class="stage pending" id="stage-loading">
-                                    <div class="stage-icon"><i class="fas fa-globe"></i></div>
-                                    <div class="stage-label">PAGE LOAD</div>
-                                </div>
-                                <div class="stage pending" id="stage-data">
-                                    <div class="stage-icon"><i class="fas fa-database"></i></div>
-                                    <div class="stage-label">DATA COLLECTION</div>
-                                </div>
-                                <!-- Interaction stage removed based on second image -->
-                                <div class="stage pending" id="stage-complete">
-                                    <div class="stage-icon"><i class="fas fa-check"></i></div>
-                                    <div class="stage-label">COMPLETION</div>
-                                </div>
+                        <!-- AI Agent Element (Back in flow) -->
+                        <div class="ai-agent-element">
+                            <div class="ai-agent-circle">
+                                <!-- Orb image is background -->
                             </div>
                         </div>
 
-                        <div class="analysis-right">
-                            <!-- Live Log Panel -->
-                            <div class="live-log-panel" id="live-log-panel"> <!-- Add ID -->
-                                <!-- Content Wrapper for Padding/Positioning -->
-                                <div class="live-log-content-wrapper">
-                                    <div class="live-log-header">LIVE LOG</div>
-                                    <ul id="live-log-list" class="live-log-messages">
-                                        <!-- Placeholder Log Items - JS should populate this -->
-                                        <li class="live-log-item">> DETECTED 12 TAGS...</li>
-                                        <li class="live-log-item">> DOM MUTATION OBSERVER ACTIVE</li>
-                                        <li class="live-log-item">> 3 GTM EVENTS FIRED</li>
-                                        <li class="live-log-item error">> PIXEL MISSING ON CTA BUTTON!</li>
-                                        <li class="live-log-item success">> ALL CRITICAL TAGS PASSED QA</li>
-                                    </ul>
+                        <!-- Analyzing Label -->
+                        <div class="analyzing-label">ANALYZING TAG PERFORMANCE</div>
+
+                        <!-- Container for Stages and Log (side-by-side) -->
+                        <div class="stages-and-log-container">
+                            <div class="analysis-left"> <!-- Stages -->
+                                <div class="stages-container">
+                                     <!-- Stage: Initialization -->
+                                    <div class="stage pending" id="stage-setup">
+                                        <div class="stage-icon"><i class="fas fa-rocket"></i></div>
+                                        <div class="stage-label">INITIALIZATION</div>
+                                    </div>
+                                    <!-- Stage: Page Load -->
+                                    <div class="stage pending" id="stage-loading">
+                                        <div class="stage-icon"><i class="fas fa-globe"></i></div>
+                                        <div class="stage-label">PAGE LOAD</div>
+                                    </div>
+                                    <!-- Stage: Data Collection -->
+                                    <div class="stage pending" id="stage-data">
+                                        <div class="stage-icon"><i class="fas fa-database"></i></div>
+                                        <div class="stage-label">DATA COLLECTION</div>
+                                    </div>
+                                    <!-- Stage: Completion -->
+                                    <div class="stage pending" id="stage-complete">
+                                        <div class="stage-icon"><i class="fas fa-check"></i></div>
+                                        <div class="stage-label">COMPLETION</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="analysis-right"> <!-- Log -->
+                                <div class="live-log-panel" id="live-log-panel">
+                                    <div class="live-log-content-wrapper">
+                                        <div class="live-log-header">LIVE LOG</div>
+                                        <ul id="live-log-list" class="live-log-messages">
+                                            <!-- Log items here -->
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Loading Animation (Keep as is) -->
-                    <div id="loading" class="loading-container" style="display: none;"> <!-- Hide initially -->
+                    <div id="loading" class="loading-container" style="display: none;">
                         <div class="loading-animation">
                             <div class="loading-circle"></div>
                             <div class="loading-circle"></div>

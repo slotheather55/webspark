@@ -4,13 +4,17 @@
     --live-log-border: rgba(0, 240, 255, 0.7);
     --live-log-header-color: #00f0ff;
     --live-log-text-color: #ddf;
-    --agent-glow-color: rgba(79, 121, 255, 0.9);
-    --agent-inner-glow-color: rgba(79, 121, 255, 0.6);
+    --agent-glow-color: rgba(79, 121, 255, 1);
+    --agent-glow-spread: 70px;
+    --agent-outer-glow-color: rgba(79, 121, 255, 0.5);
+    --agent-inner-glow-color: rgba(120, 160, 255, 0.8);
+    --agent-streak-color: rgba(90, 130, 255, 0.7);
+    --agent-streak-glow: rgba(90, 130, 255, 0.5);
     --agent-text-glow: rgba(200, 220, 255, 0.7);
     --stage-border-pending: rgba(79, 121, 255, 0.3);
     --stage-bg-pending: rgba(1, 8, 25, 0.7);
     --stage-text-pending: rgba(79, 121, 255, 0.6);
-    --stage-border-active: rgba(0, 240, 255, 0.9);
+    --stage-border-active: rgba(0, 240, 255, 1);
     --stage-bg-active: rgba(5, 25, 50, 0.9);
     --stage-text-active: #e0fbfc;
     --stage-border-completed: rgba(0, 240, 255, 0.6);
@@ -19,6 +23,8 @@
     --analyzing-text-color: #93c5fd;
     --live-log-frame-color: rgba(0, 180, 200, 0.6);
     --live-log-frame-glow: rgba(0, 240, 255, 0.2);
+    --stage-border-radius: 6px;
+    --stage-glow-active: rgba(0, 240, 255, 0.7);
 }
 
 /* Analysis Section Container */
@@ -140,91 +146,114 @@
     flex-direction: column; /* Stack layout and other elements */
 }
 
-/* --- NEW LAYOUT STYLES --- */
+/* --- Layout Revert --- */
 .analysis-layout {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start; /* Align top */
-    gap: 40px;
-    padding: 20px 0; /* Vertical padding */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
     position: relative;
+    padding: 30px var(--spacing-lg) 30px; /* Adjust overall padding */
+    min-height: 450px; /* Re-adjust min height if needed */
+    background-color: rgba(0, 4, 14, 1);
+}
+
+/* New container for stages and log */
+.stages-and-log-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Ensure top alignment */
     width: 100%;
-    flex-grow: 1; /* Allow layout to take available space */
+    gap: 30px; 
+    margin-top: 30px; 
+    order: 2; 
 }
 
-.analysis-left {
-    flex: 2; /* Give more space to agent/stages */
+.analysis-left { /* Stages container */
+    flex: 5; /* Give stages significantly more space */
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Center AI agent and label */
-    padding-top: 20px; /* Add some top padding */
+    /* Remove padding-top */
 }
 
-.analysis-right {
-    flex: 1; /* Less space for the log */
-    /* Styles for the right column (live log) are below */
+.analysis-right { /* Log container */
+    flex: 2; /* Slightly more space than before, but still less */
+    max-width: 380px; /* Hard limit on width */
+    padding-top: 0;
+    align-self: flex-start; /* Explicitly align to top */
+    margin-top: 0; /* Remove any top margin */
+    margin-bottom: 0; /* Remove any bottom margin */
 }
 
-/* --- AI Agent Styling (Refined) --- */
+/* --- AI Agent Styling (Back in Flow) --- */
 .ai-agent-element {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px; /* Increased margin */
-    width: 160px; /* Match circle size */
-    height: auto; /* Adjust height based on content */
-    position: relative; /* Keep relative for transform origin */
+    width: 220px;
+    height: auto;
+    position: relative; /* Back to relative */
+    /* Remove top/left/transform for absolute positioning */
+    /* top: var(--agent-top-offset); */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    transform: translateX(0); /* Add default transform for JS animation */
     z-index: 10;
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    opacity: 1; /* Default opacity to 1, control visibility via JS */
+    opacity: 1;
+    margin-bottom: 10px; /* Space below agent */
+    /* animation: none; */
+    order: 1; /* Ensure agent is first */
 }
+
+/* Adjust streak position if re-enabled */
+.ai-agent-element::after {
+   /* display: block; */ /* Keep disabled for now */
+   /* ... existing styles ... */
+   /* Adjust positioning if needed for relative parent */
+   /* bottom: -20px; */ /* Example */
+   /* left: 50%; */
+   /* transform: translateX(-50%); */
+   display: none; /* Keep streak off for now */
+}
+
+/* Show streak (if re-enabled) */
+/* .analysis-layout.running .ai-agent-element::after { */
+    /* opacity: 0.8; */
+/* } */
 
 .ai-agent-circle {
-    width: 160px;
-    height: 160px;
+    /* No changes needed here - keep image background */
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
-    /* Glossy blue background with glow */
-    background: radial-gradient(ellipse at center, rgba(79, 121, 255, 0.6) 0%, rgba(1, 8, 25, 0.85) 70%);
-    border: 3px solid rgba(79, 121, 255, 0.7);
-    /* Enhanced Glow */
-    box-shadow: 0 0 35px var(--agent-glow-color), 0 0 50px var(--agent-glow-color), 0 0 20px var(--agent-inner-glow-color) inset;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
+    background-image: url('/static/images/agent-orb.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    display: block;
+    margin-bottom: 0;
     position: relative;
-    /* Update animation */
-    animation: agentPulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
 
-/* Remove old ripple effect if present */
-/* .ai-agent-circle::after { display: none; } */
-
-@keyframes agentPulse {
-    0% { transform: scale(1); box-shadow: 0 0 35px var(--agent-glow-color), 0 0 50px var(--agent-glow-color), 0 0 20px var(--agent-inner-glow-color) inset; }
-    50% { transform: scale(1.03); box-shadow: 0 0 50px var(--agent-glow-color), 0 0 70px var(--agent-glow-color), 0 0 25px var(--agent-inner-glow-color) inset; }
-    100% { transform: scale(1); box-shadow: 0 0 35px var(--agent-glow-color), 0 0 50px var(--agent-glow-color), 0 0 20px var(--agent-inner-glow-color) inset; }
-}
-
-.ai-agent-text {
-    font-size: 3.5em; /* Larger text */
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 0 10px var(--agent-text-glow), 0 0 20px var(--agent-text-glow), 0 0 35px var(--agent-glow-color);
-    letter-spacing: 1px;
-}
-
+/* REMOVE Agent Label Styles */
+/*
 .ai-agent-label {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    text-align: center; 
     font-size: 1.1em;
     font-weight: 600;
     color: var(--agent-text-glow);
-    text-shadow: 0 0 10px var(--agent-glow-color);
+    text-shadow: 0 0 8px var(--agent-glow-color), 0 0 15px var(--agent-text-glow);
     letter-spacing: 4px;
     text-transform: uppercase;
-    margin-top: 5px;
+    margin-top: 5px; 
+    white-space: nowrap;
 }
+*/
 
-/* --- Analyzing Label (Refined) --- */
+/* --- Analyzing Label --- */
 .analyzing-label {
     font-size: 1.1em; /* Slightly smaller */
     font-weight: 500;
@@ -232,37 +261,38 @@
     text-shadow: 0 0 8px rgba(147, 197, 253, 0.5);
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-top: 30px; /* Space below AI agent */
-    margin-bottom: 40px; /* Space above stages */
+    margin-top: 30px; /* Space above label (below stages/log) */
+    margin-bottom: 0;
     text-align: center;
-    opacity: 0; /* Hidden by default, shown by JS */
+    opacity: 0; /* Keep hidden by default */
     transition: opacity 0.5s ease;
+    order: 3; /* Place BELOW stages/log container */
 }
 
-/* --- Stages Styling (Refined) --- */
+/* --- Stages Styling --- */
 .stages-container {
     display: flex; /* Use flexbox for stages */
     justify-content: space-between; /* Space them out */
-    align-items: center; /* Vertically align stage content */
-    width: 100%;
-    padding: 0 5%; /* Add horizontal padding */
-    position: relative; /* Needed for connecting line */
-    height: auto; /* Adjust height based on content */
-    margin-bottom: 30px;
-    background: none; /* Remove any previous background */
-    border: none; /* Remove any previous border */
+    align-items: flex-start; /* Align stage content to TOP */
+    width: 100%; 
+    padding: 0; 
+    position: relative; 
+    height: auto; 
+    margin-bottom: 0; 
+    background: none; 
+    border: none; 
 }
 
 /* Connecting line */
 .stages-container::before {
     content: "";
     position: absolute;
-    top: 29px; /* Align perfectly with border */
-    left: 10%; /* Start after first icon */
-    right: 10%; /* End before last icon */
-    height: 1px; /* Make thinner */
-    background: var(--stage-border-pending); /* Solid line initially */
-    box-shadow: 0 0 5px var(--stage-border-pending); /* Subtle glow */
+    top: 29px; /* Align perfectly with border - MAY NEED ADJUSTMENT */
+    left: calc(80px / 2 + 3%); 
+    right: calc(80px / 2 + 3%); 
+    height: 1px; 
+    background: var(--stage-border-pending); 
+    box-shadow: 0 0 5px var(--stage-border-pending); 
     z-index: 1;
     transition: background 0.6s ease, box-shadow 0.6s ease;
 }
@@ -284,8 +314,8 @@
 .stage-icon {
     width: 60px;
     height: 60px;
-    border-radius: 8px; /* Rounded square */
-    border: 2px solid var(--stage-border-pending);
+    border-radius: var(--stage-border-radius); /* Use variable */
+    border: 1px solid var(--stage-border-pending);
     background: var(--stage-bg-pending);
     display: flex;
     align-items: center;
@@ -293,8 +323,20 @@
     margin-bottom: 10px;
     color: var(--stage-text-pending);
     font-size: 1.6rem;
-    box-shadow: inset 0 0 10px rgba(79, 121, 255, 0.3), 0 0 5px var(--stage-border-pending); /* Add subtle outer glow */
+    box-shadow: inset 0 0 8px rgba(79, 121, 255, 0.2), 0 0 8px rgba(79, 121, 255, 0.1); /* Adjusted shadow */
     transition: all 0.4s ease;
+    position: relative; /* For potential inner border */
+}
+
+/* Optional: Add inner border effect for stages */
+.stage-icon::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: calc(var(--stage-border-radius) - 3px);
+    border: 1px solid rgba(79, 121, 255, 0.15);
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .stage-icon i {
@@ -311,13 +353,16 @@
     transition: all 0.4s ease;
 }
 
-/* Active State */
+/* Active State Refined */
 .stage.active .stage-icon {
     border-color: var(--stage-border-active);
-    box-shadow: 0 0 20px var(--stage-glow-active), 0 0 10px var(--stage-glow-active), inset 0 0 10px rgba(0, 240, 255, 0.3);
-    transform: scale(1.08); /* Slightly less scaling */
+    box-shadow: 0 0 15px var(--stage-glow-active), 0 0 25px var(--stage-glow-active), inset 0 0 10px rgba(0, 240, 255, 0.2);
+    transform: scale(1.08);
     background: var(--stage-bg-active);
     color: var(--stage-text-active);
+}
+.stage.active .stage-icon::before {
+    border-color: rgba(0, 240, 255, 0.3);
 }
 
 .stage.active .stage-label {
@@ -325,14 +370,16 @@
     text-shadow: 0 0 8px var(--stage-glow-active);
 }
 
-/* Completed State */
+/* Completed State Refined */
 .stage.completed .stage-icon {
     border-color: var(--stage-border-completed);
-    box-shadow: 0 0 8px var(--stage-border-completed), inset 0 0 5px rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 8px var(--stage-border-completed), inset 0 0 5px rgba(0, 240, 255, 0.15);
     background: var(--stage-bg-completed);
     color: var(--stage-text-completed);
 }
-
+.stage.completed .stage-icon::before {
+     border-color: rgba(0, 240, 255, 0.2);
+}
 .stage.completed .stage-label {
     color: var(--stage-text-completed);
 }
@@ -370,7 +417,7 @@
     border: 1px solid transparent; /* Make main border transparent */
     border-radius: 8px;
     padding: 1px; /* Padding for inner content away from pseudo-elements */
-    height: 350px;
+    height: 400px; /* Increased height */
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 20px var(--live-log-frame-glow), inset 0 0 15px rgba(0, 0, 0, 0.5);
@@ -378,6 +425,7 @@
     position: relative;
     opacity: 0; /* Hidden by default, shown via JS */
     transition: opacity 0.5s ease;
+    margin-top: 0; /* Ensure no top margin */
     /* Use pseudo-elements for the frame */
 }
 
@@ -433,6 +481,7 @@
 .live-log-messages {
     flex-grow: 1;
     overflow-y: auto;
+    overflow-x: hidden; /* Disable horizontal scrollbar */
     list-style: none;
     padding: 0 5px 0 0; /* Add padding for scrollbar */
     margin: 0;
@@ -464,6 +513,8 @@
     position: relative;
     color: var(--live-log-text-color);
     transition: color 0.3s ease;
+    overflow-wrap: break-word; /* Allow long words/URLs to wrap */
+    word-wrap: break-word; /* Legacy fallback */
 }
 
 .live-log-item::before {

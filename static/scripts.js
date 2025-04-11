@@ -166,6 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
           if (liveLogPanel) liveLogPanel.style.opacity = '0.9'; // Show via opacity
           
           updateStage('setup'); // Set initial stage
+          // Add class to layout to show streak
+          const analysisLayout = document.querySelector('.analysis-layout');
+          if (analysisLayout) analysisLayout.classList.add('running');
           break;
           
         case 'completed':
@@ -192,6 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
           if (liveLogPanel) liveLogPanel.style.opacity = '0.9'; // Keep log visible
           
           updateStage('complete'); // Ensure final stage is marked
+          // Remove running class from layout to hide streak
+          const analysisLayoutWaiting = document.querySelector('.analysis-layout');
+          if (analysisLayoutWaiting) analysisLayoutWaiting.classList.remove('running');
           break;
           
         case 'error':
@@ -218,6 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (liveLogPanel) liveLogPanel.style.opacity = '0'; // Hide log on error
           
+          // Remove running class from layout to hide streak
+          const analysisLayoutError = document.querySelector('.analysis-layout');
+          if (analysisLayoutError) analysisLayoutError.classList.remove('running');
           break;
       }
     }
@@ -763,7 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return report.join("\n");
       }
 
-      // --- NEW: AI Agent Animation --- 
+      // --- REVERTED: AI Agent Animation --- 
       function animateAIAgentToStage(targetStageName) {
         if (!aiAgentElement || !stages[targetStageName]) {
           console.warn(`Cannot animate AI Agent: element or stage ${targetStageName} not found.`);
@@ -774,25 +783,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetStageElement = stages[targetStageName];
         const targetRect = targetStageElement.getBoundingClientRect();
         
-        // Calculate the center of the agent and the target stage RELATIVE to the viewport
+        // Calculate center of agent and target stage RELATIVE to viewport
         const agentCenterX = agentRect.left + agentRect.width / 2;
         const targetCenterX = targetRect.left + targetRect.width / 2;
         
-        // Calculate the required translation
-        // Get the current transform value (if any) to calculate relative movement
+        // Get current transform to calculate relative movement
         const currentTransform = window.getComputedStyle(aiAgentElement).transform;
         let currentTranslateX = 0;
         if (currentTransform && currentTransform !== 'none') {
-          const matrix = new DOMMatrix(currentTransform);
-          currentTranslateX = matrix.m41; // Translation X value
+            const matrix = new DOMMatrix(currentTransform);
+            currentTranslateX = matrix.m41;
         }
         
-        // The desired final translation is the difference between target and agent centers,
-        // PLUS the current translation amount (because translateX is relative to original position)
+        // Required final translation = difference in centers + current translation amount
         const requiredTranslateX = (targetCenterX - agentCenterX) + currentTranslateX;
         
-        console.log(`Animating AI Agent to ${targetStageName}. Current X: ${currentTranslateX}, Target Center: ${targetCenterX}, Agent Center: ${agentCenterX}, Required TranslateX: ${requiredTranslateX}`);
+        console.log(`Animating AI Agent to ${targetStageName}. Target Center: ${targetCenterX}, Agent Center: ${agentCenterX}, Current X: ${currentTranslateX}, Required TranslateX: ${requiredTranslateX}`);
         
+        // Apply only translateX
         aiAgentElement.style.transform = `translateX(${requiredTranslateX}px)`;
       }
       // --- END: AI Agent Animation ---
@@ -802,47 +810,46 @@ document.addEventListener('DOMContentLoaded', () => {
       if (aiAgentElement) {
           // Reset transform instantly without animation for reset
           aiAgentElement.style.transition = 'none'; // Disable transition temporarily
-          aiAgentElement.style.transform = 'translateX(0)'; // Reset position instantly
-          // Force reflow/repaint to apply the style immediately before re-enabling transition
-          aiAgentElement.offsetHeight; // Reading offsetHeight forces reflow
-          aiAgentElement.style.transition = ''; // Re-enable transition (uses CSS value)
+          aiAgentElement.style.transform = 'translateX(0px)'; // Reset translation only
+          aiAgentElement.offsetHeight; // Force reflow
+          aiAgentElement.style.transition = ''; // Re-enable transition
       }
 
       // Update status badge
       // ... existing code ...
 
-      // --- RE-ADD resetStreamUI FUNCTION ---
-      function resetStreamUI() {
-        console.log('Resetting Stream UI for new analysis');
-        // Reset stages
-        Object.values(stages).forEach(stage => {
-          if (stage) { // Check if stage exists
-              stage.className = 'stage pending';
+      // --- Update resetStreamUI to reset transform --- 
+       function resetStreamUI() {
+          console.log('Resetting Stream UI for new analysis');
+          // Reset stages
+          Object.values(stages).forEach(stage => {
+            if (stage) { // Check if stage exists
+                stage.className = 'stage pending';
+            }
+          });
+          currentStage = null;
+
+          // Clear the live log
+          if (liveLogList) liveLogList.innerHTML = '';
+          if (errorMessageDiv) errorMessageDiv.textContent = '';
+          if (errorMessageDiv) errorMessageDiv.style.display = 'none';
+
+          // Reset AI Agent position instantly
+          if (aiAgentElement) {
+              aiAgentElement.style.transition = 'none'; // Disable transition temporarily
+              aiAgentElement.style.transform = 'translateX(0px)'; // Reset translation only
+              aiAgentElement.offsetHeight; // Force reflow
+              aiAgentElement.style.transition = ''; // Re-enable transition
           }
-        });
-        currentStage = null;
 
-        // Clear the live log
-        if (liveLogList) liveLogList.innerHTML = '';
-        if (errorMessageDiv) errorMessageDiv.textContent = '';
-        if (errorMessageDiv) errorMessageDiv.style.display = 'none';
+          // Reset analyzing label and live log visibility (set by updateUIState('waiting'))
+          // if (analyzingLabel) analyzingLabel.style.opacity = '0';
+          // if (liveLogPanel) liveLogPanel.style.opacity = '0';
 
-        // Reset AI Agent position instantly
-        if (aiAgentElement) {
-            aiAgentElement.style.transition = 'none';
-            aiAgentElement.style.transform = 'translateX(0)';
-            aiAgentElement.offsetHeight; // Force reflow
-            aiAgentElement.style.transition = ''; // Re-enable transition
+          console.log('Stream UI reset complete.');
         }
+        // --- END Update resetStreamUI to reset transform ---
 
-        // Reset analyzing label and live log visibility (set by updateUIState('waiting'))
-        // if (analyzingLabel) analyzingLabel.style.opacity = '0';
-        // if (liveLogPanel) liveLogPanel.style.opacity = '0';
-
-        console.log('Stream UI reset complete.');
-      }
-      // --- END RE-ADD resetStreamUI FUNCTION ---
-
-      // Event listener for SSE messages
-      // ... rest of the file ...
+        // Event listener for SSE messages
+        // ... rest of the file ...
 });
