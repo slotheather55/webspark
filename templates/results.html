@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results for {{ results.url }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Optional: Add icon library if needed, e.g., Font Awesome -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+</head>
+<body>
+    <div class="page-container">
+        <div class="card card-main-header">
+            <h1>Website Tag & Event Analyzer</h1>
+            <p><strong>URL:</strong> <a href="{{ results.url }}" target="_blank" rel="noopener noreferrer">{{ results.url }}</a></p>
+            <p><strong>Analyzed At:</strong> {{ results.analysisTimestamp | default('N/A') }}</p>
+            <a href="{{ url_for('index') }}" class="button button-secondary"> ← Analyze Another URL</a>
+        </div>
+
+        <!-- Analysis Steps Card -->
+        <div class="card card-analysis-steps">
+            <h2>Analysis Steps</h2>
+            <ul class="steps-list">
+                {% set steps = results.steps | default([]) %}
+                {% if steps %}
+                    {% for step in steps %}
+                        <li class="step-{{ step.status | lower | default('unknown') }}">
+                            <span class="step-icon"></span> <!-- Icon added via CSS -->
+                            <span class="step-text">
+                                {{ step.step }}
+                                {% if step.duration_sec %} ({{ "%.2f"|format(step.duration_sec) }}s) {% endif %}
+                                {% if step.message %} <span class="error-message"> - {{ step.message }}</span> {% endif %}
+                            </span>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>No step information available.</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        {% if results.error %}
+            <div class="card card-error">
+                <h2>Analysis Failed</h2>
+                <p class="error-message"><strong>Error:</strong> {{ results.error }}</p>
+            </div>
+        {% elif results.pageLoadAnalysis %}
+            <!-- Page Load Analysis Card -->
+            <div class="card card-page-load">
+                <h2>Page Load Analysis</h2>
+                {% set load_analysis = results.pageLoadAnalysis %}
+                {% set tag_detection = load_analysis.tag_detection | default({}) %}
+                {% set tealium_info = tag_detection.tealiumInfo | default({}) %}
+                {% set gtm_info = tag_detection.gtmInfo | default({}) %}
+
+                <div class="analysis-section">
+                    <h3>Tag Management Systems</h3>
+                    <div class="tms-container">
+                        <div class="tms-item {% if tealium_info.detected %}detected{% else %}not-detected{% endif %}">
+                            <span class="tms-icon"></span> <!-- Icon via CSS -->
+                            <strong>Tealium iQ</strong>
+                            {% if tealium_info.detected %}
+                                <span class="details">(Profile: {{ tealium_info.profile | default('N/A') }}, Tags: {{ tealium_info.tagsLoaded | default('N/A') }})</span>
+                            {% else %}
+                                <span class="details">(Not Detected)</span>
+                            {% endif %}
+                        </div>
+                        <div class="tms-item {% if gtm_info.detected %}detected{% else %}not-detected{% endif %}">
+                             <span class="tms-icon tms-icon-plus"></span> <!-- Icon via CSS -->
+                             <strong>Google Tag Manager</strong>
+                            {% if gtm_info.detected %}
+                                <span class="details">{% if gtm_info.containers %}(Containers: {{ gtm_info.containers | join(', ') }}){% else %}(Detected){% endif %}</span>
+                            {% else %}
+                                <span class="details">(Not Detected)</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-section vendor-grid">
+                     <div class="vendor-column">
+                         <h3>Vendors Detected on Page Load (Scripts/Objects)</h3>
+                         {% if load_analysis.vendors_on_page %}
+                             <ul class="vendor-list">
+                                 {% for category, names in load_analysis.vendors_on_page | dictsort %}
+                                     <li>
+                                         <span class="vendor-icon"></span> <!-- Icon via CSS -->
+                                         <div>
+                                             <strong>{{ category | replace('_', ' ') | title }}</strong>
+                                             <span>{{ names | join(', ') }}</span>
+                                         </div>
+                                     </li>
+                                 {% endfor %}
+                             </ul>
+                         {% else %}
+                             <p>None detected.</p>
+                         {% endif %}
+                     </div>
+                     <div class="vendor-column">
+                         <h3>Vendors Detected in Network Requests (During Load)</h3>
+                         {% set load_network = load_analysis.load_network_summary | default({}) %}
+                         <div class="network-summary">
+                            <span class="network-icon network-icon-total"></span> <!-- Icon via CSS -->
+                            {{ load_network.total_requests | default('N/A') }} total requests
+                         </div>
+                         {% if load_network.vendors_detected %}
+                             <ul class="vendor-list">
+                                 {% for name, urls in load_network.vendors_detected | dictsort %}
+                                     <li>
+                                         <span class="vendor-icon"></span> <!-- Icon via CSS -->
+                                         <div>
+                                             <strong>{{ name }}</strong>
+                                             <span>{{ urls | length }} request(s)</span>
+                                         </div>
+                                     </li>
+                                 {% endfor %}
+                             </ul>
+                         {% else %}
+                             <p>None detected.</p>
+                         {% endif %}
+                         <div class="utag-summary">
+                              <span class="network-icon network-icon-utag"></span> <!-- Icon via CSS -->
+                              {% if load_analysis.utag_data and not load_analysis.utag_data.error %}
+                                  Initial Utag Data: Found {{ load_analysis.utag_data | length }} keys.
+                                  <button class="button button-link" onclick="toggleJsonViewer('utag-data-json')">See JSON</button>
+                                  <div id="utag-data-json" class="json-viewer" style="display: none;">
+                                      <pre><code>{{ load_analysis.utag_data | tojson(indent=2) }}</code></pre>
+                                  </div>
+                              {% elif load_analysis.utag_data.error %}
+                                  <span class="error-message">Error retrieving Utag Data</span>
+                              {% else %}
+                                  Initial Utag Data: Not found.
+                              {% endif %}
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="analysis-section">
+                     <h3>Tealium Events During Load (utag.view / utag.link)</h3>
+                     {% set load_tealium_events = load_analysis.tealium_events | default([]) %}
+                     {% if load_tealium_events is iterable and load_tealium_events is not string and load_tealium_events %}
+                        <p>Found {{ load_tealium_events | length }} event(s).</p>
+                        <ul>
+                            {% for event in load_tealium_events %}
+                            <li>
+                                <strong>{{ event.type | default('N/A') }}</strong>
+                                {% set data = event.data | default({}) %}
+                                {% set desc = data.event_name | default(data.event_type | default(data.event | default(data.link_id | default('')))) %}
+                                 ({{ desc if desc else 'No Description' }})
+                                <details>
+                                    <summary>Show Data</summary>
+                                    <pre><code>{{ data | tojson(indent=2) }}</code></pre>
+                                </details>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                     {% elif load_tealium_events.error %}
+                         <p class="error-message">Error retrieving Tealium Events: {{ load_tealium_events.error }}</p>
+                     {% else %}
+                         <p>None detected or invalid data.</p>
+                     {% endif %}
+                 </div>
+            </div>
+
+            <!-- Click Event Analysis Card -->
+            {% if results.clickAnalysis %}
+            <div class="card card-click-events">
+                <h2>Click Event Analysis</h2>
+                <p class="subtitle">Monitor how users interact with key page elements.</p>
+                {% for click in results.clickAnalysis %}
+                {% set outer_loop_index = loop.index %}
+                <div class="click-result-card {% if click.clickStatus != 'Success' %}click-failed{% endif %}">
+                     <div class="click-header">
+                         <h3>Click: {{ click.elementDescription }}</h3>
+                         <span class="status-badge status-{{ click.clickStatus | lower | replace(' ', '-') | replace('(', '') | replace(')', '') }}">{{ click.clickStatus }}</span>
+                     </div>
+                     <div class="click-details">
+                        <p><strong>Selector:</strong> <code>{{ click.selector }}</code></p>
+                        {% if click.clickError %}
+                            <p class="error-message"><strong>Error:</strong> {{ click.clickError }}</p>
+                        {% endif %}
+
+                        {% set click_tealium_events = click.tealium_events | default([]) %}
+                        {% if click_tealium_events is iterable and click_tealium_events is not string and click_tealium_events %}
+                           {% for event in click_tealium_events %}
+                               {# Try to extract relevant data based on common patterns #}
+                               {% set data = event.data | default({}) %}
+                               {% set event_name = data.event_name | default(data.event_type | default(data.event | default(data.link_id | default('N/A')))) %}
+                               {% set product_title = data.product_name | default(data.product_title | default('N/A')) %}
+                               {% set isbn = data.product_isbn | default(data.isbn | default('N/A')) %}
+                               {% set author = data.product_author | default(data.author | default('N/A')) %}
+                               {% set price = data.product_price | default(data.price | default('N/A')) %}
+                               {% set format = data.product_format | default(data.format | default('N/A')) %}
+
+                                <div class="event-data-row">
+                                    <span class="data-label">Triggered Event</span>
+                                    <span class="data-value">{{ event_name }}</span>
+                                </div>
+                                {% if product_title != 'N/A' %}
+                                <div class="event-data-row">
+                                    <span class="data-label">Product Title</span>
+                                    <span class="data-value">{{ product_title }}</span>
+                                </div>
+                                {% endif %}
+                                {% if isbn != 'N/A' %}
+                                <div class="event-data-row">
+                                    <span class="data-label">ISBN</span>
+                                    <span class="data-value">{{ isbn }}</span>
+                                </div>
+                                {% endif %}
+                                {% if author != 'N/A' %}
+                                <div class="event-data-row">
+                                    <span class="data-label">Author</span>
+                                    <span class="data-value">{{ author }}</span>
+                                </div>
+                                {% endif %}
+                                {% if price != 'N/A' %}
+                                <div class="event-data-row">
+                                    <span class="data-label">Price / Format</span>
+                                    <span class="data-value">{{ price }}{{ ', ' + format if format != 'N/A' }}</span>
+                                </div>
+                                {% endif %}
+
+                               <button class="button button-link button-small" onclick="toggleJsonViewer('click-{{ outer_loop_index }}-{{ loop.index }}-json')">View JSON</button>
+                               <div id="click-{{ outer_loop_index }}-{{ loop.index }}-json" class="json-viewer" style="display: none;">
+                                   <pre><code>{{ event | tojson(indent=2) }}</code></pre>
+                               </div>
+                               <hr class="event-separator">
+                           {% endfor %}
+                        {% elif click_tealium_events.error %}
+                             <p class="error-message">Error retrieving Tealium Events: {{ click_tealium_events.error }}</p>
+                        {% else %}
+                             <p>No Tealium events detected for this click.</p>
+                        {% endif %}
+                     </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Summarized Analysis Card (Example Structure) -->
+            <div class="card card-summary">
+                 <h2>Summarized Analysis</h2>
+                 <ul class="summary-list">
+                      <li>
+                          <span class="summary-icon icon-document"></span> <!-- Icon via CSS -->
+                          Analysis completed successfully
+                      </li>
+                      <li>
+                          <span class="summary-icon icon-code"></span> <!-- Icon via CSS -->
+                          Advertising & analytics tags detected
+                      </li>
+                       <li>
+                          <span class="summary-icon icon-check"></span> <!-- Icon via CSS -->
+                          {{ results.clickAnalysis | default([]) | length }} click events tracked
+                      </li>
+                 </ul>
+            </div>
+
+        {% else %}
+             <div class="card card-incomplete">
+                <h2>Analysis Incomplete</h2>
+                <p>Analysis results are missing or incomplete. Please check the logs or try again.</p>
+             </div>
+        {% endif %}
+
+         <details class="raw-results">
+             <summary>Show Raw JSON Output</summary>
+             <pre><code>{{ results | tojson(indent=2) }}</code></pre>
+         </details>
+    </div>
+
+    <script>
+        function toggleJsonViewer(id) {
+            const viewer = document.getElementById(id);
+            if (viewer) {
+                viewer.style.display = viewer.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

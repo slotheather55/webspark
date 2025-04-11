@@ -1,0 +1,138 @@
+
+.hero-section {
+    display: flex; /* Enable Flexbox for two columns */
+    align-items: center; /* Vertically align items */
+    justify-content: space-between; /* Distribute space */
+    gap: var(--spacing-xl); /* Space between left/right columns */
+    padding: var(--spacing-2xl) 0;
+    margin-bottom: var(--spacing-2xl); /* More space below hero */
+    min-height: 60vh; /* Give the hero section some minimum height */
+  }
+  
+  .hero-content-left {
+    flex: 1; /* Allow left side to grow */
+    max-width: 600px; /* Max width for the text/form content */
+    text-align: left; /* Ensure text is left-aligned */
+  }
+  
+  .hero-graphic-right {
+    flex-shrink: 0; /* Prevent graphic from shrinking */
+    /* Add styles for your graphic if needed, e.g., width */
+    /* Example: */
+    /* max-width: 500px; */
+  }
+  
+  /* Optional: Style for the image within the graphic container */
+  .hero-graphic-right img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    opacity: 0.85; /* Slight transparency like target */
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+  }
+  
+  
+  .hero-title {
+    font-size: 3.5rem; /* Large title */
+    font-weight: 700;
+    color: var(--text-light);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+    /* Removed max-width here, handled by parent */
+  }
+  
+  .hero-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xl);
+    /* Removed max-width here, handled by parent */
+    line-height: 1.6;
+  }
+  
+  /* Form Styling */
+  .url-form {
+    display: flex; /* Lay out input and button side-by-side */
+    /* Removed width: 100% */
+    max-width: 500px; /* Constrain form width */
+    /* Removed margin: 0 auto; -> Align left by default now */
+    border-radius: var(--border-radius-lg);
+    background: rgba(15, 30, 60, 0.6);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .url-input {
+    flex-grow: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    color: var(--text-light);
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+  }
+  
+  .url-input::placeholder {
+    color: var(--text-tertiary);
+    opacity: 0.8;
+  }
+  
+  .analyze-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: white;
+    background: var(--accent-blue);
+    border: none;
+    border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    white-space: nowrap;
+  }
+  
+  .analyze-button:hover {
+    background-color: var(--primary-light);
+  }
+  
+  .analyze-button:active {
+    transform: translateY(1px);
+  }
+  
+  .analyze-button i {
+    font-size: 1.1em;
+  }
+  
+  /* Responsive adjustments for hero */
+  @media (max-width: 900px) {
+    .hero-section {
+        flex-direction: column; /* Stack columns on smaller screens */
+        text-align: center; /* Center text when stacked */
+        gap: var(--spacing-lg);
+        padding: var(--spacing-xl) 0;
+    }
+    .hero-content-left {
+        max-width: 100%; /* Allow text content to take full width */
+        text-align: center; /* Center text */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center form when stacked */
+    }
+    .hero-graphic-right {
+         max-width: 70%; /* Control graphic size when stacked */
+         margin-top: var(--spacing-lg);
+    }
+    .url-form {
+         /* max-width: 90%; */ /* Let form be wider on mobile if needed */
+    }
+    .hero-title {
+        font-size: 2.5rem; /* Smaller title on mobile */
+    }
+  }
+  
+  
+  /* --- END OF FILE analyzer-form.css --- */

@@ -1,0 +1,211 @@
+
+:root {
+    /* Color variables (Adjust these to match your exact theme if needed) */
+    --primary: #4f46e5;         /* Example primary color */
+    --primary-dark: #4338ca;
+    --primary-light: #6366f1;
+    --primary-bg: rgba(79, 70, 229, 0.05);
+    --secondary: #16a34a;       /* Example secondary color */
+    --accent-blue: #4f79ff;      /* From your logo/footer */
+    --accent-purple: #7d65f6;    /* From stream.css gradient */
+    --danger: #ef4444;
+    --warning: #facc15;
+    --info: #3b82f6;
+  
+    /* Text Colors (Assuming a dark theme based on background) */
+    --text-primary: #f8fafc;     /* Light text for dark backgrounds */
+    --text-light: #f8fafc;
+    --text-secondary: #cbd5e1;   /* Slightly dimmer */
+    --text-tertiary: #94a3b8;    /* Even dimmer */
+  
+    /* Background Colors (Assuming dark theme) */
+    --bg-primary: #0f172a;       /* Dark blue/slate */
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-body: #0a1932;          /* Base dark blue for body */
+  
+    /* Borders */
+    --border-light: rgba(99, 164, 255, 0.2); /* Adjusted for dark theme */
+    --border-medium: rgba(99, 164, 255, 0.3);
+  
+    /* Shadows (Subtle for dark theme) */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  
+    /* Radii */
+    --border-radius-sm: 0.25rem;
+    --border-radius: 0.5rem;     /* Common radius */
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.75rem;
+    --border-radius-xl: 1rem;
+    --border-radius-2xl: 1.5rem;
+  
+    /* Spacing */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+  
+    /* Fonts */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-mono: 'JetBrains Mono', Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-size-sm: 0.875rem;  /* 14px */
+    --font-size-base: 1rem;     /* 16px */
+    --font-size-lg: 1.125rem; /* 18px */
+    --font-size-xl: 1.25rem;  /* 20px */
+    --font-size-2xl: 1.5rem;  /* 24px */
+  
+    /* Transitions */
+    --transition-fast: 150ms;
+    --transition-normal: 300ms;
+    --transition-slow: 500ms;
+  }
+  
+  /* Global Reset & Box Sizing */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Base HTML & Body Styles */
+  html {
+    font-size: 100%; /* Typically 16px */
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    margin: 0; /* Remove default body margin */
+  
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-body); /* Base dark background */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh; /* Ensure body takes at least full height */
+    display: flex; /* Use flex to help position footer if needed */
+    flex-direction: column; /* Stack body children vertically */
+  }
+  
+  /* --- Layout Correction --- */
+  
+  .background-wrapper {
+    position: fixed;      /* Take out of flow, position relative to viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;          /* Send it behind everything else */
+    overflow: hidden;
+  }
+  
+  .background-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;    /* Cover the container */
+    object-position: center;
+  }
+  
+  
+  .main-content {
+    position: relative;   /* Establish stacking context for z-index */
+    z-index: 1;           /* Ensure content is above the background */
+    /* ... other styles like max-width, margin, display: flex, min-height ... */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md); /* Use your variable */
+  }
+  
+  
+  
+  /* --- End Layout Correction --- */
+  
+  /* Basic Link Styling */
+  a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color var(--transition-fast) ease-in-out;
+  }
+  
+  a:hover {
+    color: var(--primary-light);
+    text-decoration: underline;
+  }
+  
+  /* Basic Button Reset (more specific styles in other files) */
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: var(--spacing-md);
+    line-height: 1.3;
+    font-weight: 600; /* Adjust as needed */
+    color: var(--text-light); /* Lighter headings for dark theme */
+  }
+  
+  h1 { font-size: var(--font-size-2xl); }
+  h2 { font-size: var(--font-size-xl); }
+  h3 { font-size: var(--font-size-lg); }
+  
+  /* Paragraphs */
+  p {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  /* Lists */
+  ul, ol {
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+  }
+  
+  li {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  /* Input basic styles (more specific in analyzer-form.css) */
+  input,
+  button,
+  textarea,
+  select {
+  font: inherit;
+  }
+  
+  /* Utility Classes (Optional) */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+  
+  /* Responsive Considerations (Example) */
+  @media (max-width: 768px) {
+    :root {
+        /* Adjust variables for smaller screens if needed */
+        --font-size-base: 0.9375rem; /* 15px */
+    }
+    .main-content {
+        padding: 0 var(--spacing-sm);
+    }
+  }
+  
+  /* --- END OF FILE base.css --- */

@@ -1,0 +1,19 @@
+URL: https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/
+
+Elements to test:
+1. Add to Cart Button (Board Book)
+2. Amazon Retailer Link (Board Book)
+3. Barnes & Noble Retailer Link (Board Book)
+
+Based on the provided DOM structure and the working selectors from Playwright, here are the precise CSS selectors for the elements within the Board Book format section:
+
+## Element: Add to Cart Button (Board Book)
+**Selector:** `#collapse2 button:has-text("Add to Cart")`
+
+## Element: Amazon Retailer Link (Board Book)
+**Selector:** `#collapse2 a:has-text("Amazon")`
+
+## Element: Barnes & Noble Retailer Link (Board Book)
+**Selector:** `#collapse2 a:has-text("Barnes & Noble")`
+
+These selectors are specific to the Board Book section identified by `#collapse2` and are proven to work as per the Playwright results.
