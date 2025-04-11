@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Core DOM Elements
     const form = document.getElementById('analyze-form');
     const urlInput = document.getElementById('url');
-    const statusList = document.getElementById('status-list');
+    const liveLogList = document.getElementById('live-log-list');
     const loadingDiv = document.getElementById('loading');
     const resultsPre = document.getElementById('results-pre');
     const resultsSummary = document.getElementById('results-summary');
@@ -21,23 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Enhanced UI Elements
     const aiAgentElement = document.querySelector('.ai-agent-element');
     const analyzingLabel = document.querySelector('.analyzing-label');
-    const liveLogPanel = document.querySelector('.live-log-panel');
-    
-    // Premium Stream UI Elements
-    const autoScrollBtn = document.getElementById('auto-scroll');
-    const clearLogBtn = document.getElementById('clear-log');
-    const elapsedTimeEl = document.getElementById('elapsed-time');
-    const stepsCountEl = document.getElementById('steps-count');
-    const progressBar = document.getElementById('progress-bar');
-    const progressPercentage = document.getElementById('progress-percentage');
-    const stagesProgressBar = document.getElementById('stages-progress-bar');
+    const liveLogPanel = document.getElementById('live-log-panel');
     
     // Stage Elements
     const stages = {
       setup: document.getElementById('stage-setup'),
       loading: document.getElementById('stage-loading'),
       data: document.getElementById('stage-data'),
-      clicks: document.getElementById('stage-clicks'),
       complete: document.getElementById('stage-complete')
     };
     
@@ -46,14 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let eventSource = null;
     let analysisResults = null;
     let autoScroll = true;
-    let stepCount = 0;
-    let analysisStartTime = null;
-    let timerInterval = null;
     let currentStage = null;
-    let stageOrder = ['setup', 'loading', 'data', 'clicks', 'complete'];
-    let totalSteps = 0;
-    let completedSteps = 0;
+    let stageOrder = ['setup', 'loading', 'data', 'complete'];
     let lastMessageTime = null;
+    let lastMessage = null;
     
     // Message Type Patterns
     const messagePatterns = {
@@ -65,64 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // FUTURISTIC UI ENHANCEMENT FUNCTIONS
-    
-    // Create an animated star field in the terminal background
-    function createStarField() {
-      const terminalContent = document.querySelector('.terminal-content');
-      if (!terminalContent) return;
-      
-      // Create a star field container
-      const starField = document.createElement('div');
-      starField.className = 'terminal-star-field';
-      starField.style.position = 'absolute';
-      starField.style.top = '0';
-      starField.style.left = '0';
-      starField.style.width = '100%';
-      starField.style.height = '100%';
-      starField.style.pointerEvents = 'none';
-      starField.style.zIndex = '0';
-      
-      // Add stars
-      for (let i = 0; i < 50; i++) {
-        const star = document.createElement('div');
-        const size = Math.random() * 2 + 1;
-        
-        star.style.position = 'absolute';
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.borderRadius = '50%';
-        star.style.backgroundColor = 'rgba(79, 121, 255, 0.4)';
-        star.style.boxShadow = '0 0 3px rgba(79, 121, 255, 0.8)';
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.opacity = Math.random() * 0.5 + 0.3;
-        
-        // Add subtle animation
-        star.style.animation = `twinkle ${(Math.random() * 4 + 2).toFixed(2)}s infinite ease-in-out`;
-        
-        starField.appendChild(star);
-      }
-      
-      // Add keyframes for twinkling
-      if (!document.getElementById('twinkle-animation')) {
-        const style = document.createElement('style');
-        style.id = 'twinkle-animation';
-        style.textContent = `
-          @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 0.8; transform: scale(1.2); }
-          }
-          @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-          }
-        `;
-        document.head.appendChild(style);
-      }
-      
-      // Add the star field to the terminal
-      terminalContent.prepend(starField);
-    }
     
     // Function to enhance the Analysis Engine UI with modern animations
     function enhanceFuturisticUI() {
@@ -140,32 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     
-      // Add animation to stage icons
-      const stageIcons = document.querySelectorAll('.stage-icon');
-      stageIcons.forEach(icon => {
-        icon.addEventListener('mouseenter', () => {
-          if (!icon.parentElement.classList.contains('active') && 
-              !icon.parentElement.classList.contains('completed')) {
-            icon.style.transform = 'scale(1.1)';
-            icon.style.borderColor = 'rgba(79, 121, 255, 0.4)';
-          }
-        });
-        
-        icon.addEventListener('mouseleave', () => {
-          if (!icon.parentElement.classList.contains('active') && 
-              !icon.parentElement.classList.contains('completed')) {
-            icon.style.transform = '';
-            icon.style.borderColor = '';
-          }
-        });
-      });
-    
-      // Add dynamic star field to terminal
-      createStarField();
-      
       // Clear sample terminal messages if present
-      if (statusList) {
-        statusList.innerHTML = '';
+      if (liveLogList) {
+        liveLogList.innerHTML = '';
       }
     }
     
@@ -217,31 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       
-      // Set up auto-scroll toggle
-      autoScrollBtn.addEventListener('click', () => {
-        autoScroll = !autoScroll;
-        autoScrollBtn.classList.toggle('active', autoScroll);
-        autoScrollBtn.querySelector('i').className = autoScroll 
-          ? 'fas fa-angle-double-down' 
-          : 'fas fa-times';
-        autoScrollBtn.title = autoScroll ? 'Disable auto-scroll' : 'Enable auto-scroll';
-        
-        // If re-enabling auto-scroll, scroll to bottom immediately
-        if (autoScroll) {
-          scrollToBottom();
-        }
-      });
-      
-      // Set up clear log button
-      clearLogBtn.addEventListener('click', () => {
-        statusList.innerHTML = '';
-        stepCount = 0;
-        stepsCountEl.textContent = '0';
-        
-        // Add a cleared message
-        addStatusMessage('Log cleared by user', 'info');
-      });
-  
       // Initial UI state
       updateUIState('waiting');
     }
@@ -257,9 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
           downloadLink.style.display = 'none';
           
           // Futuristic UI elements
-          if (aiAgentElement) aiAgentElement.style.opacity = '0.12';
+          if (aiAgentElement) aiAgentElement.style.opacity = '0.8'; // Keep agent slightly visible
           if (analyzingLabel) analyzingLabel.style.opacity = '0';
-          if (liveLogPanel) liveLogPanel.style.display = 'none';
+          if (liveLogPanel) liveLogPanel.style.opacity = '0'; // Hide via opacity for transition
+          if (liveLogPanel) liveLogPanel.style.display = 'flex'; // Keep display:flex for layout calculation
           
           resetStreamUI();
           break;
@@ -269,27 +150,22 @@ document.addEventListener('DOMContentLoaded', () => {
           analysisStatus.textContent = 'Analysis in progress';
           analysisStatus.className = 'status-badge running';
           loadingDiv.style.display = 'flex';
-          statusList.innerHTML = '';
-          resultsContainer.style.display = 'none';
           errorMessageDiv.style.display = 'none';
           downloadLink.style.display = 'none';
           
           // Futuristic UI elements
           if (aiAgentElement) {
-            aiAgentElement.style.opacity = '0.8';
-            // Add pulsing animation to the AI Agent circle
-            const agentCircle = document.querySelector('.ai-agent-circle');
+            aiAgentElement.style.opacity = '1'; // Full opacity when running
+            // Re-ensure animation is running (might be stopped on complete/error)
+            const agentCircle = aiAgentElement.querySelector('.ai-agent-circle');
             if (agentCircle) {
-              agentCircle.style.animation = 'pulse 2s infinite';
+              agentCircle.style.animation = 'agentPulse 2.5s infinite ease-in-out'; // Use correct animation name
             }
           }
-          if (analyzingLabel) analyzingLabel.style.opacity = '0.5';
-          if (liveLogPanel) liveLogPanel.style.display = 'block';
+          if (analyzingLabel) analyzingLabel.style.opacity = '0.7';
+          if (liveLogPanel) liveLogPanel.style.opacity = '0.9'; // Show via opacity
           
-          startAnalysisTimer();
-          updateStage('setup');
-          progressBar.style.width = '0%';
-          progressPercentage.textContent = '0%';
+          updateStage('setup'); // Set initial stage
           break;
           
         case 'completed':
@@ -297,34 +173,25 @@ document.addEventListener('DOMContentLoaded', () => {
           analysisStatus.textContent = 'Analysis completed';
           analysisStatus.className = 'status-badge completed';
           loadingDiv.style.display = 'none';
-          resultsContainer.style.display = 'block';
+          resultsContainer.style.display = 'block'; // Show results
           
           // Futuristic UI elements
           if (aiAgentElement) {
-            aiAgentElement.style.opacity = '0.12';
-            // Remove animation
-            const agentCircle = document.querySelector('.ai-agent-circle');
+            aiAgentElement.style.opacity = '0.6'; // Dim slightly on complete
+            // Stop animation
+            const agentCircle = aiAgentElement.querySelector('.ai-agent-circle');
             if (agentCircle) {
-              agentCircle.style.animation = '';
+              agentCircle.style.animation = 'none';
             }
           }
           if (analyzingLabel) {
             analyzingLabel.textContent = "ANALYSIS COMPLETE";
-            analyzingLabel.style.color = 'rgba(54, 238, 224, 0.8)';
-            analyzingLabel.style.opacity = '0.5';
+            analyzingLabel.style.color = 'var(--stage-text-completed)'; // Use completed color
+            analyzingLabel.style.opacity = '0.7';
           }
-          if (liveLogPanel) {
-            // Fade out log panel after completion
-            liveLogPanel.style.animation = 'fadeOut 1s forwards';
-            setTimeout(() => {
-              if (liveLogPanel) liveLogPanel.style.display = 'none';
-            }, 1000);
-          }
+          if (liveLogPanel) liveLogPanel.style.opacity = '0.9'; // Keep log visible
           
-          stopAnalysisTimer();
-          updateStage('complete');
-          progressBar.style.width = '100%';
-          progressPercentage.textContent = '100%';
+          updateStage('complete'); // Ensure final stage is marked
           break;
           
         case 'error':
@@ -337,188 +204,58 @@ document.addEventListener('DOMContentLoaded', () => {
           
           // Futuristic UI elements
           if (aiAgentElement) {
-            aiAgentElement.style.opacity = '0.12';
-            // Remove animation
-            const agentCircle = document.querySelector('.ai-agent-circle');
+            aiAgentElement.style.opacity = '0.6'; // Dim slightly on error
+             // Stop animation
+            const agentCircle = aiAgentElement.querySelector('.ai-agent-circle');
             if (agentCircle) {
-              agentCircle.style.animation = '';
+              agentCircle.style.animation = 'none';
             }
           }
           if (analyzingLabel) {
             analyzingLabel.textContent = "ANALYSIS FAILED";
-            analyzingLabel.style.color = 'rgba(255, 79, 121, 0.8)';
-            analyzingLabel.style.opacity = '0.5';
+            analyzingLabel.style.color = 'var(--error-color)'; // Use error color
+            analyzingLabel.style.opacity = '0.7';
           }
-          if (liveLogPanel) liveLogPanel.style.display = 'none';
+          if (liveLogPanel) liveLogPanel.style.opacity = '0'; // Hide log on error
           
-          stopAnalysisTimer();
           break;
-      }
-    }
-    
-    // Start the analysis timer
-    function startAnalysisTimer() {
-      analysisStartTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000);
-      lastMessageTime = Date.now();
-    }
-    
-    // Stop the analysis timer
-    function stopAnalysisTimer() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-    }
-    
-    // Update the elapsed time
-    function updateTimer() {
-      if (!analysisStartTime) return;
-      
-      const elapsed = Math.floor((Date.now() - analysisStartTime) / 1000);
-      const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
-      const seconds = (elapsed % 60).toString().padStart(2, '0');
-      elapsedTimeEl.textContent = `${minutes}:${seconds}`;
-      
-      // Check if analysis appears to be stalled (no messages in last 30 seconds)
-      const idleTime = Date.now() - lastMessageTime;
-      if (analysisInProgress && idleTime > 30000) {
-        // Add a "waiting" message every 30 seconds
-        lastMessageTime = Date.now(); // Reset the timer
-        addStatusMessage('Still waiting for response...', 'warning');
       }
     }
     
     // Scroll the terminal to the bottom
     function scrollToBottom() {
-      const container = document.querySelector('.terminal-content');
-      if (container) {
-        container.scrollTop = container.scrollHeight;
+      if (liveLogList && autoScroll) {
+        liveLogList.scrollTop = liveLogList.scrollHeight;
       }
     }
     
     // Update the active stage
     function updateStage(stageName) {
-      if (currentStage === stageName) return;
-      
-      // Find the index of the current and new stages
-      const currentIndex = stageOrder.indexOf(currentStage);
-      const newIndex = stageOrder.indexOf(stageName);
-      
+      if (!stages[stageName] || stageName === currentStage) {
+        // console.log(`Stage update skipped: ${stageName} (current: ${currentStage})`);
+        return; // Ignore if stage doesn't exist or is already active
+      }
+      console.log(`Updating stage to: ${stageName}`);
+
       // Mark previous stages as completed
-      if (currentStage) {
-        stages[currentStage].classList.remove('active');
-        
-        // Only mark as completed if moving forward
-        if (newIndex > currentIndex) {
-          stages[currentStage].classList.add('completed');
-          
-          // Mark any skipped stages as completed
-          for (let i = currentIndex + 1; i < newIndex; i++) {
-            stages[stageOrder[i]].classList.remove('active');
-            stages[stageOrder[i]].classList.add('completed');
+      const currentStageIndex = stageOrder.indexOf(currentStage);
+      const newStageIndex = stageOrder.indexOf(stageName);
+
+      for (let i = 0; i < newStageIndex; i++) {
+          const completedStageName = stageOrder[i];
+          if (stages[completedStageName]) {
+              stages[completedStageName].className = 'stage completed';
           }
-        }
       }
-      
-      // Set the new active stage
+
+      // Mark current stage as active
+      if (stages[stageName]) {
+          stages[stageName].className = 'stage active';
+      }
       currentStage = stageName;
-      
-      // Remove pending from the current stage and add active
-      stages[stageName].classList.remove('pending');
-      stages[stageName].classList.add('active');
-      
-      // Update stage progress bar
-      const stageIndex = stageOrder.indexOf(stageName);
-      const totalStages = stageOrder.length;
-      const progressPercentage = Math.round((stageIndex / (totalStages - 1)) * 100);
-      stagesProgressBar.style.width = `${progressPercentage}%`;
-      
-      // Update progress bar with a slight offset based on messages
-      updateProgress(progressPercentage + (completedSteps / totalSteps) * (100 / totalStages));
-      
-      // Update Live Log Panel with stage change (if available)
-      updateLiveLogPanel(stageName);
-    }
-    
-    // Update the Live Log Panel with relevant information
-    function updateLiveLogPanel(stage) {
-      if (!liveLogPanel) return;
-      
-      // Keep track of log items
-      if (!window.liveLogItems) {
-        window.liveLogItems = [];
-      }
-      
-      // Add stage-specific messages to the log panel
-      let message = '';
-      switch(stage) {
-        case 'setup':
-          message = 'INITIALIZING ANALYSIS ENGINE...';
-          break;
-        case 'loading':
-          message = 'PAGE LOADED SUCCESSFULLY';
-          break;
-        case 'data':
-          message = 'DETECTED 12 TAGS...';
-          break;
-        case 'clicks':
-          message = 'TESTING INTERACTION POINTS';
-          break;
-        case 'complete':
-          message = 'ALL CRITICAL TAGS PASSED QA';
-          break;
-      }
-      
-      if (message && !window.liveLogItems.includes(message)) {
-        window.liveLogItems.push(message);
-        const logItem = document.createElement('div');
-        logItem.className = 'live-log-item';
-        logItem.textContent = message;
-        liveLogPanel.appendChild(logItem);
-      }
-    }
-    
-    // Update the progress bar
-    function updateProgress(percent) {
-      const clampedPercent = Math.min(100, Math.max(0, percent));
-      progressBar.style.width = `${clampedPercent}%`;
-      progressPercentage.textContent = `${Math.round(clampedPercent)}%`;
-    }
-    
-    // Reset the stream UI for a new analysis
-    function resetStreamUI() {
-      stopAnalysisTimer();
-      elapsedTimeEl.textContent = '00:00';
-      stepsCountEl.textContent = '0';
-      stepCount = 0;
-      currentStage = null;
-      totalSteps = 0;
-      completedSteps = 0;
-      lastMessageTime = null;
-      progressBar.style.width = '0%';
-      progressPercentage.textContent = '0%';
-      stagesProgressBar.style.width = '0%';
-      
-      // Reset all stages
-      Object.values(stages).forEach(stage => {
-        stage.classList.remove('active', 'completed');
-        stage.classList.add('pending');
-      });
-      
-      // Reset live log panel
-      if (liveLogPanel) {
-        while (liveLogPanel.children.length > 1) { // Keep the header
-          liveLogPanel.removeChild(liveLogPanel.lastChild);
-        }
-        window.liveLogItems = [];
-      }
-      
-      // Reset analyzing label
-      if (analyzingLabel) {
-        analyzingLabel.textContent = "ANALYZING TAG PERFORMANCE";
-        analyzingLabel.style.color = '';
-      }
+
+      // Animate AI Agent to this stage (Function to be implemented next)
+      animateAIAgentToStage(stageName);
     }
   
     function showNotification() {
@@ -546,95 +283,64 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Add a message to the status list
     function addStatusMessage(message, statusClass = 'info') {
-      // Clean up potential escape characters or extra formatting from logs
-      const cleanedMessage = message.replace(/\\n/g, '\n').replace(/^      /, '').trim();
-      if (!cleanedMessage) return;
-      
-      // Record the message time for stall detection
-      lastMessageTime = Date.now();
-      
-      // Increment step counter
-      stepCount++;
-      stepsCountEl.textContent = stepCount.toString();
-      completedSteps++;
-      
-      // Estimate total steps for the first time
-      if (totalSteps === 0 && cleanedMessage.includes('Starting Analysis')) {
-        // Rough estimate based on typical analysis
-        totalSteps = 50;
-      }
-      
-      // Determine stage based on message content
-      if (cleanedMessage.includes('Launching browser') || cleanedMessage.includes('Starting Analysis')) {
-        updateStage('setup');
-      } else if (cleanedMessage.includes('Navigating') || cleanedMessage.includes('Page load')) {
-        updateStage('loading');
-      } else if (cleanedMessage.includes('Collecting initial page data') || cleanedMessage.includes('Detected page_type')) {
-        updateStage('data');
-      } else if (cleanedMessage.includes('Testing Click') || cleanedMessage.includes('Analyzing click events')) {
-        updateStage('clicks');
-      } else if (cleanedMessage.includes('Analysis finished') || cleanedMessage.includes('Analysis completed')) {
-        updateStage('complete');
-      }
-      
-      // Auto-detect message type if none is provided or is generic
-      if (statusClass === 'info' || statusClass === 'progress') {
-        statusClass = determineMessageType(cleanedMessage);
-      }
-      
-      // Create the list item
-      const li = document.createElement('li');
-      li.textContent = cleanedMessage;
-      li.className = `terminal-message ${statusClass}`;
-      
-      // Add to DOM
-      statusList.appendChild(li);
-      
-      // Auto-scroll to the bottom if enabled
-      if (autoScroll) {
+        if (!liveLogList) {
+            console.warn('Live log list element not found.');
+            return;
+        }
+
+        // Simple rate limiting: Ignore identical consecutive messages within 100ms
+        const now = Date.now();
+        if (message === lastMessage && (now - lastMessageTime < 100)) {
+            return;
+        }
+        lastMessage = message;
+        lastMessageTime = now;
+
+        // Sanitize message slightly (prevent basic HTML injection)
+        const sanitizedMessage = message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        const li = document.createElement('li');
+        li.classList.add('live-log-item'); // Use new class
+
+        // Determine class based on content if not provided explicitly
+        if (statusClass === 'info') {
+            statusClass = determineMessageType(sanitizedMessage);
+        }
+        li.classList.add(statusClass);
+
+        // Create timestamp (optional, but good for logs)
+        // const timestamp = new Date().toLocaleTimeString();
+        // li.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> ${sanitizedMessage}`;
+        li.textContent = `> ${sanitizedMessage}`; // Add simple prefix like in the image
+
+        liveLogList.appendChild(li);
+
+        // Optional: Limit log length to prevent memory issues
+        const maxLogItems = 500; // Example limit
+        while (liveLogList.children.length > maxLogItems) {
+            liveLogList.removeChild(liveLogList.firstChild);
+        }
+
+        // Auto-scroll to the bottom
         scrollToBottom();
-      }
-      
-      // Update progress based on steps completed
-      const progressValue = Math.min(95, (completedSteps / totalSteps) * 100);
-      updateProgress(progressValue);
-      
-      // Update Live Log Panel with key findings (if available)
-      updateLiveLogFromMessage(cleanedMessage);
+
+        // Determine stage based on message content (moved logic here or call helper)
+        determineStageFromMessage(sanitizedMessage);
     }
     
-    // Update the Live Log Panel based on message content
-    function updateLiveLogFromMessage(message) {
-      if (!liveLogPanel) return;
-      
-      // Check for key patterns that should be highlighted in the live log
-      const keyPatterns = [
-        { regex: /detected.*(\d+).*tag/i, text: (match) => `DETECTED ${match[1]} TAGS...` },
-        { regex: /dom mutation/i, text: () => "DOM MUTATION OBSERVER ACTIVE" },
-        { regex: /(\d+).*gtm event/i, text: (match) => `${match[1]} GTM EVENTS FIRED` },
-        { regex: /missing pixel/i, text: () => "PIXEL MISSING ON CTA BUTTON!" },
-        { regex: /warning/i, text: (match) => `WARNING: ${message.toUpperCase()}` },
-        { regex: /error/i, text: (match) => `ERROR: ${message.toUpperCase()}` }
-      ];
-      
-      for (const pattern of keyPatterns) {
-        const match = message.match(pattern.regex);
-        if (match) {
-          const logText = pattern.text(match);
-          
-          // Only add if not already in log
-          if (!window.liveLogItems) window.liveLogItems = [];
-          if (!window.liveLogItems.includes(logText)) {
-            window.liveLogItems.push(logText);
-            const logItem = document.createElement('div');
-            logItem.className = 'live-log-item';
-            logItem.textContent = logText;
-            liveLogPanel.appendChild(logItem);
-          }
-          
-          break;
+    // Helper function to determine stage from message content
+    function determineStageFromMessage(message) {
+        // Check in order of expected occurrence
+        if (message.includes('Launching browser') || message.includes('Starting Analysis') || message.includes('Initializing')) {
+            updateStage('setup');
+        } else if (message.includes('Navigating') || message.includes('Page load') || message.includes('Loading page')) {
+            updateStage('loading');
+        } else if (message.includes('Collecting initial page data') || message.includes('Analyzing tags') || message.includes('GTM data') || message.includes('page_type')) {
+            updateStage('data');
+        } else if (message.includes('Analysis finished') || message.includes('Analysis complete') || message.includes('Cleanup finished')) {
+            updateStage('complete');
         }
-      }
+        // Note: If a message doesn't trigger a stage change, the current stage remains active.
     }
   
     // Handle form submission
@@ -1056,4 +762,87 @@ document.addEventListener('DOMContentLoaded', () => {
         report.push("\n=================================================");
         return report.join("\n");
       }
+
+      // --- NEW: AI Agent Animation --- 
+      function animateAIAgentToStage(targetStageName) {
+        if (!aiAgentElement || !stages[targetStageName]) {
+          console.warn(`Cannot animate AI Agent: element or stage ${targetStageName} not found.`);
+          return;
+        }
+        
+        const agentRect = aiAgentElement.getBoundingClientRect();
+        const targetStageElement = stages[targetStageName];
+        const targetRect = targetStageElement.getBoundingClientRect();
+        
+        // Calculate the center of the agent and the target stage RELATIVE to the viewport
+        const agentCenterX = agentRect.left + agentRect.width / 2;
+        const targetCenterX = targetRect.left + targetRect.width / 2;
+        
+        // Calculate the required translation
+        // Get the current transform value (if any) to calculate relative movement
+        const currentTransform = window.getComputedStyle(aiAgentElement).transform;
+        let currentTranslateX = 0;
+        if (currentTransform && currentTransform !== 'none') {
+          const matrix = new DOMMatrix(currentTransform);
+          currentTranslateX = matrix.m41; // Translation X value
+        }
+        
+        // The desired final translation is the difference between target and agent centers,
+        // PLUS the current translation amount (because translateX is relative to original position)
+        const requiredTranslateX = (targetCenterX - agentCenterX) + currentTranslateX;
+        
+        console.log(`Animating AI Agent to ${targetStageName}. Current X: ${currentTranslateX}, Target Center: ${targetCenterX}, Agent Center: ${agentCenterX}, Required TranslateX: ${requiredTranslateX}`);
+        
+        aiAgentElement.style.transform = `translateX(${requiredTranslateX}px)`;
+      }
+      // --- END: AI Agent Animation ---
+
+      // Reset AI Agent position (if needed, maybe call animation function)
+      // animateAIAgentToStage(null); // Or reset transform directly
+      if (aiAgentElement) {
+          // Reset transform instantly without animation for reset
+          aiAgentElement.style.transition = 'none'; // Disable transition temporarily
+          aiAgentElement.style.transform = 'translateX(0)'; // Reset position instantly
+          // Force reflow/repaint to apply the style immediately before re-enabling transition
+          aiAgentElement.offsetHeight; // Reading offsetHeight forces reflow
+          aiAgentElement.style.transition = ''; // Re-enable transition (uses CSS value)
+      }
+
+      // Update status badge
+      // ... existing code ...
+
+      // --- RE-ADD resetStreamUI FUNCTION ---
+      function resetStreamUI() {
+        console.log('Resetting Stream UI for new analysis');
+        // Reset stages
+        Object.values(stages).forEach(stage => {
+          if (stage) { // Check if stage exists
+              stage.className = 'stage pending';
+          }
+        });
+        currentStage = null;
+
+        // Clear the live log
+        if (liveLogList) liveLogList.innerHTML = '';
+        if (errorMessageDiv) errorMessageDiv.textContent = '';
+        if (errorMessageDiv) errorMessageDiv.style.display = 'none';
+
+        // Reset AI Agent position instantly
+        if (aiAgentElement) {
+            aiAgentElement.style.transition = 'none';
+            aiAgentElement.style.transform = 'translateX(0)';
+            aiAgentElement.offsetHeight; // Force reflow
+            aiAgentElement.style.transition = ''; // Re-enable transition
+        }
+
+        // Reset analyzing label and live log visibility (set by updateUIState('waiting'))
+        // if (analyzingLabel) analyzingLabel.style.opacity = '0';
+        // if (liveLogPanel) liveLogPanel.style.opacity = '0';
+
+        console.log('Stream UI reset complete.');
+      }
+      // --- END RE-ADD resetStreamUI FUNCTION ---
+
+      // Event listener for SSE messages
+      // ... rest of the file ...
 });

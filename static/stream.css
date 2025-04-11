@@ -1,12 +1,34 @@
+:root {
+    /* ... existing variables ... */
+    --live-log-bg: rgba(15, 23, 42, 0.8);
+    --live-log-border: rgba(0, 240, 255, 0.7);
+    --live-log-header-color: #00f0ff;
+    --live-log-text-color: #ddf;
+    --agent-glow-color: rgba(79, 121, 255, 0.9);
+    --agent-inner-glow-color: rgba(79, 121, 255, 0.6);
+    --agent-text-glow: rgba(200, 220, 255, 0.7);
+    --stage-border-pending: rgba(79, 121, 255, 0.3);
+    --stage-bg-pending: rgba(1, 8, 25, 0.7);
+    --stage-text-pending: rgba(79, 121, 255, 0.6);
+    --stage-border-active: rgba(0, 240, 255, 0.9);
+    --stage-bg-active: rgba(5, 25, 50, 0.9);
+    --stage-text-active: #e0fbfc;
+    --stage-border-completed: rgba(0, 240, 255, 0.6);
+    --stage-bg-completed: rgba(5, 30, 40, 0.8);
+    --stage-text-completed: #00f0ff;
+    --analyzing-text-color: #93c5fd;
+    --live-log-frame-color: rgba(0, 180, 200, 0.6);
+    --live-log-frame-glow: rgba(0, 240, 255, 0.2);
+}
 
 /* Analysis Section Container */
 .analysis-section {
     margin-bottom: var(--spacing-xl);
     width: 100%;
-  }
-  
-  /* Card Styling */
-  .analysis-card {
+}
+
+/* Card Styling */
+.analysis-card {
     background: rgba(1, 8, 25, 0.95);
     backdrop-filter: blur(10px);
     border-radius: var(--border-radius-lg);
@@ -14,24 +36,24 @@
     border: 1px solid rgba(79, 121, 255, 0.3);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(79, 121, 255, 0.2);
     transition: all var(--transition-normal);
-  }
-  
-  .analysis-card:hover {
+}
+
+.analysis-card:hover {
     border-color: rgba(79, 121, 255, 0.4);
     box-shadow: 0 0 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 121, 255, 0.3);
-  }
-  
-  /* Card Header */
-  .card-header {
+}
+
+/* Card Header */
+.card-header {
     background: rgba(1, 8, 25, 0.95);
     padding: var(--spacing-md) var(--spacing-lg);
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgba(79, 121, 255, 0.3);
-  }
-  
-  .card-header h2 {
+}
+
+.card-header h2 {
     color: var(--text-light);
     font-size: var(--font-size-lg);
     font-weight: 600;
@@ -39,16 +61,16 @@
     display: flex;
     align-items: center;
     gap: 0.625rem;
-  }
-  
-  .card-header h2 i {
+}
+
+.card-header h2 i {
     color: #4f79ff;
     font-size: 1.125rem;
     text-shadow: 0 0 8px rgba(79, 121, 255, 0.8);
-  }
-  
-  /* Status Badge */
-  .status-badge {
+}
+
+/* Status Badge */
+.status-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
@@ -62,748 +84,488 @@
     color: var(--text-secondary);
     border: 1px solid rgba(79, 121, 255, 0.2);
     transition: all var(--transition-normal);
-  }
-  
-  .status-badge::before {
+}
+
+.status-badge::before {
     content: "";
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
     background-color: var(--text-secondary);
-  }
-  
-  .status-badge.running {
+}
+
+.status-badge.running {
     background: linear-gradient(90deg, rgba(5, 15, 35, 0.8), rgba(15, 25, 60, 0.8));
     color: #4f79ff;
     border-color: rgba(79, 121, 255, 0.6);
     box-shadow: 0 0 15px rgba(79, 121, 255, 0.3);
-  }
-  
-  .status-badge.running::before {
+}
+
+.status-badge.running::before {
     background: #4f79ff;
     box-shadow: 0 0 0 2px rgba(79, 121, 255, 0.3), 0 0 10px rgba(79, 121, 255, 0.8);
     animation: pulse 1.5s infinite;
-  }
-  
-  .status-badge.completed {
+}
+
+.status-badge.completed {
     background: linear-gradient(90deg, rgba(5, 15, 35, 0.8), rgba(15, 35, 50, 0.8));
     color: #36eee0;
     border-color: rgba(54, 238, 224, 0.6);
     box-shadow: 0 0 15px rgba(54, 238, 224, 0.3);
-  }
-  
-  .status-badge.completed::before {
+}
+
+.status-badge.completed::before {
     background: #36eee0;
     box-shadow: 0 0 0 2px rgba(54, 238, 224, 0.3), 0 0 10px rgba(54, 238, 224, 0.8);
-  }
-  
-  .status-badge.error {
+}
+
+.status-badge.error {
     background: linear-gradient(90deg, rgba(25, 5, 5, 0.8), rgba(40, 10, 10, 0.8));
     color: #ff4f79;
     border-color: rgba(255, 79, 121, 0.6);
     box-shadow: 0 0 15px rgba(255, 79, 121, 0.3);
-  }
-  
-  .status-badge.error::before {
+}
+
+.status-badge.error::before {
     background: #ff4f79;
     box-shadow: 0 0 0 2px rgba(255, 79, 121, 0.3), 0 0 10px rgba(255, 79, 121, 0.8);
-  }
-  
-  /* Card Body Layout */
-  .card-body {
+}
+
+/* Card Body Layout - Adjust for new structure */
+.card-body {
     padding: var(--spacing-lg);
     position: relative;
-    min-height: 550px;
+    min-height: 450px; /* Adjusted min-height */
+    display: flex; /* Use flex for the main card body */
+    flex-direction: column; /* Stack layout and other elements */
+}
+
+/* --- NEW LAYOUT STYLES --- */
+.analysis-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align top */
+    gap: 40px;
+    padding: 20px 0; /* Vertical padding */
+    position: relative;
+    width: 100%;
+    flex-grow: 1; /* Allow layout to take available space */
+}
+
+.analysis-left {
+    flex: 2; /* Give more space to agent/stages */
     display: flex;
     flex-direction: column;
-  }
-  
-  /* Main Content Layout */
-  .analysis-main-content {
-    display: flex;
-    min-height: 300px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  
-  /* AI Agent Element */
-  .ai-agent-element {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    align-items: center; /* Center AI agent and label */
+    padding-top: 20px; /* Add some top padding */
+}
+
+.analysis-right {
+    flex: 1; /* Less space for the log */
+    /* Styles for the right column (live log) are below */
+}
+
+/* --- AI Agent Styling (Refined) --- */
+.ai-agent-element {
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 2;
-    pointer-events: none;
-  }
-  
-  .ai-agent-circle {
+    margin-bottom: 30px; /* Increased margin */
+    width: 160px; /* Match circle size */
+    height: auto; /* Adjust height based on content */
+    position: relative; /* Keep relative for transform origin */
+    z-index: 10;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    opacity: 1; /* Default opacity to 1, control visibility via JS */
+}
+
+.ai-agent-circle {
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: rgba(1, 8, 25, 0.5);
-    border: 3px solid rgba(79, 121, 255, 0.4);
-    box-shadow: 0 0 40px rgba(79, 121, 255, 0.8), 0 0 20px rgba(79, 121, 255, 0.4) inset;
+    /* Glossy blue background with glow */
+    background: radial-gradient(ellipse at center, rgba(79, 121, 255, 0.6) 0%, rgba(1, 8, 25, 0.85) 70%);
+    border: 3px solid rgba(79, 121, 255, 0.7);
+    /* Enhanced Glow */
+    box-shadow: 0 0 35px var(--agent-glow-color), 0 0 50px var(--agent-glow-color), 0 0 20px var(--agent-inner-glow-color) inset;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
     position: relative;
-  }
-  
-  .ai-agent-circle::after {
-    content: '';
-    position: absolute;
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    border: 1px solid rgba(79, 121, 255, 0.3);
-    box-shadow: 0 0 20px rgba(79, 121, 255, 0.2);
-    animation: ripple 4s linear infinite;
-  }
-  
-  @keyframes ripple {
-    0% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1.2);
-      opacity: 0;
-    }
-  }
-  
-  .ai-agent-text {
-    font-size: 60px;
+    /* Update animation */
+    animation: agentPulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Remove old ripple effect if present */
+/* .ai-agent-circle::after { display: none; } */
+
+@keyframes agentPulse {
+    0% { transform: scale(1); box-shadow: 0 0 35px var(--agent-glow-color), 0 0 50px var(--agent-glow-color), 0 0 20px var(--agent-inner-glow-color) inset; }
+    50% { transform: scale(1.03); box-shadow: 0 0 50px var(--agent-glow-color), 0 0 70px var(--agent-glow-color), 0 0 25px var(--agent-inner-glow-color) inset; }
+    100% { transform: scale(1); box-shadow: 0 0 35px var(--agent-glow-color), 0 0 50px var(--agent-glow-color), 0 0 20px var(--agent-inner-glow-color) inset; }
+}
+
+.ai-agent-text {
+    font-size: 3.5em; /* Larger text */
     font-weight: 700;
     color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 0 20px rgba(79, 121, 255, 0.8), 0 0 40px rgba(79, 121, 255, 0.4);
-    letter-spacing: 2px;
-  }
-  
-  .ai-agent-label {
-    font-size: 20px;
+    text-shadow: 0 0 10px var(--agent-text-glow), 0 0 20px var(--agent-text-glow), 0 0 35px var(--agent-glow-color);
+    letter-spacing: 1px;
+}
+
+.ai-agent-label {
+    font-size: 1.1em;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
-    text-shadow: 0 0 10px rgba(79, 121, 255, 0.6);
+    color: var(--agent-text-glow);
+    text-shadow: 0 0 10px var(--agent-glow-color);
     letter-spacing: 4px;
     text-transform: uppercase;
-  }
-  
-  .analyzing-label {
-    font-size: 24px;
-    font-weight: 700;
-    color: #00f0ff;
-    text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+    margin-top: 5px;
+}
+
+/* --- Analyzing Label (Refined) --- */
+.analyzing-label {
+    font-size: 1.1em; /* Slightly smaller */
+    font-weight: 500;
+    color: var(--analyzing-text-color);
+    text-shadow: 0 0 8px rgba(147, 197, 253, 0.5);
     letter-spacing: 2px;
     text-transform: uppercase;
-    opacity: 0.7;
-    margin-top: 20px;
+    margin-top: 30px; /* Space below AI agent */
+    margin-bottom: 40px; /* Space above stages */
     text-align: center;
-  }
-  
-  /* Tech Nodes - Horizontal Stage Progression */
-  .stages-container {
-    position: relative;
+    opacity: 0; /* Hidden by default, shown by JS */
+    transition: opacity 0.5s ease;
+}
+
+/* --- Stages Styling (Refined) --- */
+.stages-container {
+    display: flex; /* Use flexbox for stages */
+    justify-content: space-between; /* Space them out */
+    align-items: center; /* Vertically align stage content */
     width: 100%;
-    height: 80px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    z-index: 3;
-  }
-  
-  .stages-container::before {
+    padding: 0 5%; /* Add horizontal padding */
+    position: relative; /* Needed for connecting line */
+    height: auto; /* Adjust height based on content */
+    margin-bottom: 30px;
+    background: none; /* Remove any previous background */
+    border: none; /* Remove any previous border */
+}
+
+/* Connecting line */
+.stages-container::before {
     content: "";
     position: absolute;
-    top: 40px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: rgba(79, 121, 255, 0.3);
+    top: 29px; /* Align perfectly with border */
+    left: 10%; /* Start after first icon */
+    right: 10%; /* End before last icon */
+    height: 1px; /* Make thinner */
+    background: var(--stage-border-pending); /* Solid line initially */
+    box-shadow: 0 0 5px var(--stage-border-pending); /* Subtle glow */
     z-index: 1;
-  }
-  
-  .stage {
-    position: absolute;
-    transform: translateX(-50%);
+    transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+.stage {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    position: relative; /* Ensure z-index works */
     z-index: 2;
-  }
-  
-  .stage:nth-child(1) { left: 6%; }
-  .stage:nth-child(2) { left: 25%; }
-  .stage:nth-child(3) { left: 50%; }
-  .stage:nth-child(4) { left: 75%; }
-  .stage:nth-child(5) { left: 94%; }
-  
-  .stage-icon {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 80px; /* Give stages some width */
+    color: var(--stage-text-pending);
+}
+
+.stage-icon {
     width: 60px;
     height: 60px;
-    border-radius: 10px;
-    border: 2px solid rgba(79, 121, 255, 0.4);
+    border-radius: 8px; /* Rounded square */
+    border: 2px solid var(--stage-border-pending);
+    background: var(--stage-bg-pending);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 10px;
-    color: rgba(79, 121, 255, 0.6);
-    font-size: 1.4rem;
-    position: relative;
-    background: rgba(1, 8, 25, 0.7);
-    box-shadow: inset 0 0 10px rgba(79, 121, 255, 0.2);
-    transform: rotate(45deg);
+    color: var(--stage-text-pending);
+    font-size: 1.6rem;
+    box-shadow: inset 0 0 10px rgba(79, 121, 255, 0.3), 0 0 5px var(--stage-border-pending); /* Add subtle outer glow */
     transition: all 0.4s ease;
-  }
-  
-  .stage-icon i {
-    transform: rotate(-45deg);
+}
+
+.stage-icon i {
     transition: all 0.4s ease;
-  }
-  
-  .stage-label {
-    font-size: 14px;
+}
+
+.stage-label {
+    font-size: 0.75em; /* Smaller label */
     font-weight: 600;
-    color: rgba(79, 121, 255, 0.4);
-    text-align: center;
+    color: var(--stage-text-pending);
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: all 0.4s ease;
-  }
-  
-  /* Stage States */
-  .stage.active .stage-icon {
-    background: rgba(5, 25, 50, 0.8);
-    border-color: rgba(79, 121, 255, 0.9);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(79, 121, 255, 0.5), inset 0 0 10px rgba(79, 121, 255, 0.4);
-    transform: rotate(45deg) scale(1.1);
-  }
-  
-  .stage.active .stage-label {
-    color: rgba(79, 121, 255, 0.9);
-    font-weight: 700;
-    text-shadow: 0 0 10px rgba(79, 121, 255, 0.5);
-  }
-  
-  .stage.completed .stage-icon {
-    border-color: rgba(0, 240, 255, 0.8);
-    background: rgba(5, 30, 40, 0.7);
-    color: #00f0ff;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.5), inset 0 0 5px rgba(0, 240, 255, 0.3);
-  }
-  
-  .stage.completed .stage-label {
-    color: rgba(0, 240, 255, 0.7);
-    text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
-  }
-  
-  .stage-progress {
-    position: absolute;
-    top: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, #00f0ff, #4f79ff);
-    left: 0;
-    z-index: 1;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 0%;
-    box-shadow: 0 0 10px rgba(79, 121, 255, 0.6);
-  }
-  
-  /* Live Log Panel */
-  .live-log-panel {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 350px;
-    background: rgba(1, 8, 25, 0.3);
-    border: 1px solid #00f0ff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    backdrop-filter: blur(5px);
-    z-index: 10;
-    clip-path: polygon(
-      0% 0%, 
-      95% 0%, 
-      100% 10%, 
-      100% 90%, 
-      95% 100%, 
-      0% 100%
-    );
-  }
-  
-  .live-log-panel::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 1px solid #00f0ff;
-    border-radius: 10px;
-    opacity: 0.5;
-    pointer-events: none;
-    clip-path: polygon(
-      0% 0%, 
-      95% 0%, 
-      100% 10%, 
-      100% 90%, 
-      95% 100%, 
-      0% 100%
-    );
-  }
-  
-  .live-log-header {
-    color: #00f0ff;
-    font-size: 18px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.3);
-    padding-bottom: 10px;
-  }
-  
-  .live-log-item {
-    margin-bottom: 16px;
-    position: relative;
-    padding-left: 24px;
-    color: #ddf;
-    font-size: 14px;
-    line-height: 1.4;
-    text-shadow: 0 0 5px rgba(0, 240, 255, 0.4);
-    opacity: 0.9;
-  }
-  
-  .live-log-item::before {
-    content: "›";
-    position: absolute;
-    left: 0;
-    color: #00f0ff;
-    font-size: 16px;
-    font-weight: bold;
-    opacity: 0.8;
-  }
-  
-  /* Loading Animation */
-  .loading-container {
-    display: none;
+}
+
+/* Active State */
+.stage.active .stage-icon {
+    border-color: var(--stage-border-active);
+    box-shadow: 0 0 20px var(--stage-glow-active), 0 0 10px var(--stage-glow-active), inset 0 0 10px rgba(0, 240, 255, 0.3);
+    transform: scale(1.08); /* Slightly less scaling */
+    background: var(--stage-bg-active);
+    color: var(--stage-text-active);
+}
+
+.stage.active .stage-label {
+    color: var(--stage-text-active);
+    text-shadow: 0 0 8px var(--stage-glow-active);
+}
+
+/* Completed State */
+.stage.completed .stage-icon {
+    border-color: var(--stage-border-completed);
+    box-shadow: 0 0 8px var(--stage-border-completed), inset 0 0 5px rgba(0, 240, 255, 0.2);
+    background: var(--stage-bg-completed);
+    color: var(--stage-text-completed);
+}
+
+.stage.completed .stage-label {
+    color: var(--stage-text-completed);
+}
+
+/* Update connecting line color (Simpler logic) */
+.stages-container:has(.stage.loading.completed)::before {
+    background: linear-gradient(to right, var(--stage-border-completed) 33%, var(--stage-border-pending) 33%);
+    box-shadow: 0 0 8px var(--stage-border-completed);
+}
+.stages-container:has(.stage.data.completed)::before {
+    background: linear-gradient(to right, var(--stage-border-completed) 66%, var(--stage-border-pending) 66%);
+     box-shadow: 0 0 8px var(--stage-border-completed);
+}
+.stages-container:has(.stage.complete.completed)::before,
+.stages-container:has(.stage.complete.active)::before {
+    background: var(--stage-border-completed);
+    box-shadow: 0 0 8px var(--stage-border-completed);
+}
+/* Active stage line coloring (gradient) */
+.stages-container:has(.stage.loading.active)::before {
+    background: linear-gradient(to right, var(--stage-border-active), var(--stage-border-pending));
+    box-shadow: 0 0 8px var(--stage-border-active);
+}
+.stages-container:has(.stage.data.active)::before {
+    background: linear-gradient(to right, var(--stage-border-completed) 33%, var(--stage-border-active) 33%, var(--stage-border-active) 66%, var(--stage-border-pending) 66%);
+    box-shadow: 0 0 8px var(--stage-border-active);
+}
+
+/* Remove old stage progress bar */
+.stage-progress { display: none; }
+
+/* --- Live Log Panel Styling (Refined Frame) --- */
+.live-log-panel {
+    background-color: var(--live-log-bg);
+    border: 1px solid transparent; /* Make main border transparent */
+    border-radius: 8px;
+    padding: 1px; /* Padding for inner content away from pseudo-elements */
+    height: 350px;
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-xl) 0;
+    box-shadow: 0 0 20px var(--live-log-frame-glow), inset 0 0 15px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
     position: relative;
-    z-index: 2;
-  }
-  
-  .loading-animation {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    margin-bottom: 15px;
-  }
-  
-  .loading-circle {
+    opacity: 0; /* Hidden by default, shown via JS */
+    transition: opacity 0.5s ease;
+    /* Use pseudo-elements for the frame */
+}
+
+.live-log-panel::before, .live-log-panel::after {
+    content: "";
     position: absolute;
-    width: 100%;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.live-log-panel::before {
+    /* Outer frame border */
+    inset: 0;
+    border: 1px solid var(--live-log-frame-color);
+    /* Optional: Clip-path for cut corners if desired */
+    /* clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px); */
+}
+
+.live-log-panel::after {
+    /* Inner subtle border/inset effect */
+    inset: 4px;
+    border: 1px solid rgba(0, 240, 255, 0.1);
+    /* Optional: Clip-path for cut corners if desired */
+    /* clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px); */
+}
+
+/* Container for the actual content inside the frame */
+.live-log-content-wrapper {
+    position: relative; /* To keep content above pseudo-elements */
+    z-index: 1;
+    padding: 15px 20px; /* Actual content padding */
     height: 100%;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #4f79ff;
-    animation: spin 1.5s linear infinite;
-    box-shadow: 0 0 15px rgba(79, 121, 255, 0.3);
-  }
-  
-  .loading-circle:nth-child(2) {
-    width: 75%;
-    height: 75%;
-    top: 12.5%;
-    left: 12.5%;
-    border-top-color: #00f0ff;
-    animation-duration: 2s;
-    animation-direction: reverse;
-  }
-  
-  .loading-circle:nth-child(3) {
-    width: 50%;
-    height: 50%;
-    top: 25%;
-    left: 25%;
-    border-top-color: #7d65f6;
-    animation-duration: 2.5s;
-  }
-  
-  .loading-pulse {
-    position: absolute;
-    width: 30%;
-    height: 30%;
-    top: 35%;
-    left: 35%;
-    background: #4f79ff;
-    border-radius: 50%;
-    animation: pulse 1.5s ease-in-out infinite;
-    box-shadow: 0 0 20px #4f79ff;
-  }
-  
-  .loading-text {
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(79, 121, 255, 0.4);
-  }
-  
-  /* Terminal Section */
-  .terminal-section {
-    margin-top: auto;
-    width: 100%;
-  }
-  
-  /* LIVE STREAM Section */
-  .live-stream-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    border-top: 1px solid rgba(79, 121, 255, 0.2);
-    padding-top: 15px;
-  }
-  
-  .live-stream-label {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: #00f0ff;
-    font-weight: 600;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Adjust header and messages to be inside the wrapper */
+.live-log-header {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--live-log-header-color);
     text-transform: uppercase;
     letter-spacing: 1.5px;
-  }
-  
-  .live-stream-label::before {
-    content: '';
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    background-color: #00f0ff;
-    border-radius: 50%;
-    margin-right: 10px;
-    box-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
-    animation: pulse 2s infinite;
-  }
-  
-  .live-stream-stats {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-family: var(--font-mono);
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
-  }
-  
-  .live-stream-stats span {
-    display: inline-block;
-    margin-left: 5px;
-    color: #fff;
-  }
-  
-  /* Terminal Container */
-  .terminal-container {
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-    background: rgba(1, 6, 20, 0.9);
-    height: 180px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(79, 121, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(79, 121, 255, 0.2);
-    z-index: 3;
-  }
-  
-  .terminal-header {
-    display: none; /* Hide the header for the Image 1/2 style */
-  }
-  
-  .terminal-content {
-    flex: 1;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+    text-align: center;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.live-log-messages {
+    flex-grow: 1;
     overflow-y: auto;
-    padding: 15px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(79, 121, 255, 0.3) transparent;
-    position: relative;
-  }
-  
-  .terminal-content::-webkit-scrollbar {
-    width: 5px;
-    background: transparent;
-  }
-  
-  .terminal-content::-webkit-scrollbar-thumb {
-    background: rgba(79, 121, 255, 0.3);
-    border-radius: 3px;
-  }
-  
-  .terminal-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(79, 121, 255, 0.4);
-  }
-  
-  /* Terminal Messages */
-  .terminal-messages {
     list-style: none;
+    padding: 0 5px 0 0; /* Add padding for scrollbar */
+    margin: 0;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 0.85em;
     line-height: 1.6;
-    color: #adbddf;
+    color: var(--live-log-text-color);
+}
+
+/* Custom Scrollbar */
+.live-log-messages::-webkit-scrollbar {
+    width: 6px;
+}
+.live-log-messages::-webkit-scrollbar-track {
+    background: rgba(0, 240, 255, 0.05);
+    border-radius: 3px;
+}
+.live-log-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 240, 255, 0.4);
+    border-radius: 3px;
+}
+.live-log-messages::-webkit-scrollbar-thumb:hover {
+    background-color: var(--live-log-border);
+}
+
+.live-log-item {
+    margin-bottom: 8px;
+    padding-left: 18px; /* Space for prefix */
     position: relative;
-    z-index: 2;
-  }
-  
-  .terminal-message {
-    position: relative;
-    padding: 4px 0 4px 20px;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: terminalSlideIn 0.3s ease forwards;
-    margin-bottom: 3px;
-  }
-  
-  .terminal-message::before {
+    color: var(--live-log-text-color);
+    transition: color 0.3s ease;
+}
+
+.live-log-item::before {
     content: ">";
     position: absolute;
     left: 0;
-    color: rgba(79, 121, 255, 0.6);
-  }
-  
-  .terminal-message.info {
-    color: #adbddf;
-  }
-  
-  .terminal-message.success {
-    color: #00f0ff;
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
-  }
-  
-  .terminal-message.success::before {
-    content: "✓";
-    color: #00f0ff;
+    top: 0;
+    color: var(--live-log-header-color);
+    opacity: 0.8;
     font-weight: bold;
-  }
-  
-  .terminal-message.warning {
-    color: #ffcf4f;
-    text-shadow: 0 0 10px rgba(255, 207, 79, 0.4);
-  }
-  
-  .terminal-message.warning::before {
-    content: "!";
-    color: #ffcf4f;
-  }
-  
-  .terminal-message.error {
-    color: #ff4f79;
-    text-shadow: 0 0 10px rgba(255, 79, 121, 0.4);
-  }
-  
-  .terminal-message.error::before {
-    content: "✗";
-    color: #ff4f79;
-  }
-  
-  .terminal-message.starting {
+}
+
+.live-log-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Status colors */
+.live-log-item.success {
+    color: var(--success-color); /* Use existing success color */
+}
+.live-log-item.success::before {
+    color: var(--success-color);
+}
+
+.live-log-item.warning {
+    color: var(--warning-color); /* Use existing warning color */
+}
+.live-log-item.warning::before {
+    color: var(--warning-color);
+}
+
+.live-log-item.error {
+    color: var(--error-color); /* Use existing error color */
+    font-weight: bold;
+}
+.live-log-item.error::before {
+    color: var(--error-color);
+}
+
+.live-log-item.starting {
+    color: #a5b4fc; /* Lighter blue for starting */
+}
+.live-log-item.starting::before {
     color: #a5b4fc;
-    text-shadow: 0 0 10px rgba(165, 180, 252, 0.4);
-  }
-  
-  .terminal-message.starting::before {
-    content: "→";
-    color: #a5b4fc;
-  }
-  
-  .terminal-message.section {
-    color: #4f79ff;
-    margin-top: 5px;
-    font-weight: 600;
-    text-shadow: 0 0 10px rgba(79, 121, 255, 0.4);
-  }
-  
-  .terminal-message.section::before {
-    content: "#";
-    color: #4f79ff;
-  }
-  
-  .terminal-star-field {
-    position: absolute;
-    top: 0;
-    left: 0;
+}
+
+/* --- REMOVE OLD OR CONFLICTING STYLES --- */
+
+/* Remove old stage positioning/styling */
+/* .stage:nth-child(1) { left: auto; } ... etc */
+/* .stage-icon { transform: rotate(45deg); } */
+/* .stage-icon i { transform: rotate(-45deg); } */
+
+/* Remove old terminal styles */
+.terminal-container,
+.live-stream-header,
+.terminal-content,
+.terminal-messages,
+.terminal-progress,
+.terminal-section,
+.analysis-main-content /* Example of removing potentially conflicting old layout */
+{
+    display: none !important;
+}
+
+/* Ensure loading and error messages are positioned correctly */
+#loading,
+#error-message {
+    margin-top: 20px; /* Add space if they appear below the layout */
     width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-  }
-  
-  @keyframes cursorBlink {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-  }
-  
-  @keyframes terminalSlideIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Terminal Progress Bar */
-  .terminal-progress {
-    height: 3px;
-    background: rgba(5, 10, 20, 0.6);
+    box-sizing: border-box;
+}
+
+/* Remove animations/styles from the first attempt if they linger */
+@keyframes pulse { /* Remove if conflicts with agentPulse */
+    /* ... */
+}
+
+/* Clean up potentially duplicated/conflicting rules from the first attempt */
+/* .analysis-layout { ... } */
+/* .ai-agent-element { ... } */
+/* .ai-agent-circle { ... } */
+/* .analyzing-label { ... } */
+/* .stages-container { ... } */
+/* .stage { ... } */
+/* .stage-icon { ... } */
+/* .live-log-panel { ... } */
+
+/* Reset specific conflicting styles from initial stream.css if needed */
+.ai-agent-element {
+    /* Overwrite potential absolute positioning from original styles */
     position: relative;
-    overflow: hidden;
-  }
-  
-  .terminal-progress-value {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00f0ff, #4f79ff);
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(79, 121, 255, 0.5);
-  }
-  
-  .terminal-progress-text {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 12px;
-    font-family: var(--font-mono);
-    color: rgba(0, 240, 255, 0.8);
-    text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
-    font-weight: 600;
-    z-index: 3;
-  }
-  
-  /* Animations */
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(0.8); opacity: 0.5; }
-    50% { transform: scale(1.2); opacity: 1; }
-  }
-  
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-  
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-  
-  /* Error Message */
-  .error-message {
-    display: none;
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-    background: rgba(30, 5, 15, 0.4);
-    border-left: 3px solid #ff4f79;
-    color: #ff4f79;
-    margin-bottom: var(--spacing-md);
-    font-weight: 500;
-    box-shadow: 0 0 15px rgba(255, 79, 121, 0.2);
-    text-shadow: 0 0 8px rgba(255, 79, 121, 0.3);
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .stages-container {
-      height: 60px;
-    }
-    
-    .stage-icon {
-      width: 40px;
-      height: 40px;
-      font-size: 1rem;
-    }
-    
-    .stage-label {
-      font-size: 11px;
-    }
-    
-    .terminal-container {
-      height: 150px;
-    }
-    
-    .terminal-message {
-      padding: 2px 0 2px 0;
-      font-size: 11px;
-    }
-    
-    .ai-agent-element {
-      transform: translate(-50%, -50%) scale(0.8);
-    }
-    
-    .analyzing-label {
-      font-size: 18px;
-    }
-    
-    .live-log-panel {
-      width: 280px;
-      padding: 15px;
-      right: 10px;
-    }
-    
-    .live-log-header {
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-    
-    .live-log-item {
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .stages-container {
-      margin-top: 20px;
-    }
-    
-    .stage:nth-child(1) { left: 10%; }
-    .stage:nth-child(5) { left: 90%; }
-    
-    .stage-icon {
-      width: 30px;
-      height: 30px;
-      font-size: 0.9rem;
-    }
-    
-    .stage-label {
-      font-size: 9px;
-    }
-    
-    .live-log-panel {
-      position: relative;
-      top: 0;
-      right: 0;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    
-    .ai-agent-element {
-      transform: translate(-50%, -50%) scale(0.6);
-    }
-    
-    .analyzing-label {
-      font-size: 16px;
-    }
-  }
+}
+
+.stage {
+    /* Overwrite potential absolute positioning from original styles */
+    position: relative;
+}
+
+.live-log-panel {
+    /* Overwrite potential absolute positioning from original styles */
+    position: relative; 
+    /* Re-apply display flex for internal structure */
+    display: none; /* Controlled by JS */
+}

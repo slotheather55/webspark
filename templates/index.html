@@ -78,52 +78,61 @@
                     <div class="status-badge" id="analysis-status">Waiting to start</div>
                 </div>
                 <div class="card-body">
-                    <!-- AI Agent Element (background) -->
-                    <div class="ai-agent-element">
-                        <div class="ai-agent-circle">
-                            <div class="ai-agent-text">AI</div>
+                    <!-- New structure based on the second image -->
+                    <div class="analysis-layout">
+                        <div class="analysis-left">
+                            <!-- AI Agent Element -->
+                            <div class="ai-agent-element">
+                                <div class="ai-agent-circle">
+                                    <div class="ai-agent-text">AI</div>
+                                </div>
+                                <div class="ai-agent-label">AGENT</div>
+                            </div>
+                            <div class="analyzing-label">ANALYZING TAG PERFORMANCE</div>
+
+                            <!-- Stage Progression -->
+                            <div class="stages-container">
+                                <div class="stage pending" id="stage-setup">
+                                    <div class="stage-icon"><i class="fas fa-rocket"></i></div>
+                                    <div class="stage-label">INITIALIZATION</div>
+                                </div>
+                                <div class="stage pending" id="stage-loading">
+                                    <div class="stage-icon"><i class="fas fa-globe"></i></div>
+                                    <div class="stage-label">PAGE LOAD</div>
+                                </div>
+                                <div class="stage pending" id="stage-data">
+                                    <div class="stage-icon"><i class="fas fa-database"></i></div>
+                                    <div class="stage-label">DATA COLLECTION</div>
+                                </div>
+                                <!-- Interaction stage removed based on second image -->
+                                <div class="stage pending" id="stage-complete">
+                                    <div class="stage-icon"><i class="fas fa-check"></i></div>
+                                    <div class="stage-label">COMPLETION</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ai-agent-label">AGENT</div>
-                    </div>
-                    <div class="analyzing-label">ANALYZING TAG PERFORMANCE</div>
-                    
-                    <!-- Live Log Panel (new) -->
-                    <div class="live-log-panel">
-                        <div class="live-log-header">LIVE LOG</div>
-                        <div class="live-log-item">DETECTED 12 TAGS...</div>
-                        <div class="live-log-item">DOM MUTATION OBSERVER ACTIVE</div>
-                        <div class="live-log-item">3 GTM EVENTS FIRED</div>
-                        <div class="live-log-item">PIXEL MISSING ON CTA BUTTON!</div>
-                        <div class="live-log-item">ALL CRITICAL TAGS PASSED QA</div>
-                    </div>
-                    
-                    <!-- Stage Progression - Redesigned to match futuristic look -->
-                    <div class="stages-container">
-                        <div class="stage pending" id="stage-setup">
-                            <div class="stage-icon"><i class="fas fa-rocket"></i></div>
-                            <div class="stage-label">INITIALIZATION</div>
+
+                        <div class="analysis-right">
+                            <!-- Live Log Panel -->
+                            <div class="live-log-panel" id="live-log-panel"> <!-- Add ID -->
+                                <!-- Content Wrapper for Padding/Positioning -->
+                                <div class="live-log-content-wrapper">
+                                    <div class="live-log-header">LIVE LOG</div>
+                                    <ul id="live-log-list" class="live-log-messages">
+                                        <!-- Placeholder Log Items - JS should populate this -->
+                                        <li class="live-log-item">> DETECTED 12 TAGS...</li>
+                                        <li class="live-log-item">> DOM MUTATION OBSERVER ACTIVE</li>
+                                        <li class="live-log-item">> 3 GTM EVENTS FIRED</li>
+                                        <li class="live-log-item error">> PIXEL MISSING ON CTA BUTTON!</li>
+                                        <li class="live-log-item success">> ALL CRITICAL TAGS PASSED QA</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="stage pending" id="stage-loading">
-                            <div class="stage-icon"><i class="fas fa-globe"></i></div>
-                            <div class="stage-label">PAGE LOAD</div>
-                        </div>
-                        <div class="stage pending" id="stage-data">
-                            <div class="stage-icon"><i class="fas fa-database"></i></div>
-                            <div class="stage-label">DATA COLLECTION</div>
-                        </div>
-                        <div class="stage pending" id="stage-clicks">
-                            <div class="stage-icon"><i class="fas fa-mouse-pointer"></i></div>
-                            <div class="stage-label">INTERACTION</div>
-                        </div>
-                        <div class="stage pending" id="stage-complete">
-                            <div class="stage-icon"><i class="fas fa-check"></i></div>
-                            <div class="stage-label">COMPLETION</div>
-                        </div>
-                        <div class="stage-progress" id="stages-progress-bar"></div>
                     </div>
 
-                    <!-- Loading Animation -->
-                    <div id="loading" class="loading-container">
+                    <!-- Loading Animation (Keep as is) -->
+                    <div id="loading" class="loading-container" style="display: none;"> <!-- Hide initially -->
                         <div class="loading-animation">
                             <div class="loading-circle"></div>
                             <div class="loading-circle"></div>
@@ -133,49 +142,7 @@
                         <div class="loading-text">Processing</div>
                     </div>
 
-                    <!-- Terminal Container - Redesigned for more futuristic look -->
-                    <div class="terminal-container">
-                        <div class="terminal-header">
-                            <div class="terminal-title">
-                                <div class="terminal-title-dot"></div>
-                                <div class="terminal-title-text">LIVE STREAM</div>
-                            </div>
-                            <div class="terminal-stats">
-                                <div class="terminal-stat">
-                                    <span class="terminal-stat-label">TIME:</span>
-                                    <span id="elapsed-time">00:00</span>
-                                </div>
-                                <div class="terminal-stat">
-                                    <span class="terminal-stat-label">STEPS:</span>
-                                    <span id="steps-count">0</span>
-                                </div>
-                            </div>
-                            <div class="terminal-actions">
-                                <button id="auto-scroll" class="terminal-action" title="Toggle auto-scroll">
-                                    <i class="fas fa-angle-double-down"></i>
-                                </button>
-                                <button id="clear-log" class="terminal-action" title="Clear log">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="terminal-content">
-                            <ul id="status-list" class="terminal-messages">
-                                <!-- Sample terminal messages (will be cleared by JavaScript) -->
-                                <li class="terminal-message starting">Initializing analysis engine...</li>
-                                <li class="terminal-message info">Preparing browser environment</li>
-                                <li class="terminal-message success">Browser launched successfully</li>
-                            </ul>
-                        </div>
-                        <div class="terminal-progress">
-                            <div class="terminal-progress-bar">
-                                <div class="terminal-progress-value" id="progress-bar"></div>
-                            </div>
-                            <div class="terminal-progress-text" id="progress-percentage">0%</div>
-                        </div>
-                    </div>
-
-                    <!-- Error Message Container -->
+                    <!-- Error Message Container (Keep as is) -->
                     <div id="error-message" class="error-message"></div>
                 </div>
             </div>
