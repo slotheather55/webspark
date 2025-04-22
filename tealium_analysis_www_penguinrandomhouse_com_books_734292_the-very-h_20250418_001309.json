@@ -1,0 +1,1232 @@
+{
+  "url": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/",
+  "analysisTimestamp": "2025-04-18T00:12:30.353062",
+  "steps": [
+    {
+      "step": "Page Load",
+      "duration_sec": 4.20995306968689,
+      "status": "Completed (or Timeout)"
+    },
+    {
+      "step": "Initial Data Collection",
+      "status": "Success"
+    },
+    {
+      "step": "Page Type Detection",
+      "status": "Success",
+      "detected_type": "Product Detail Page"
+    },
+    {
+      "step": "Interaction Analysis",
+      "status": "Completed",
+      "interactionsTested": 9
+    },
+    {
+      "step": "Analysis Completion",
+      "status": "Success"
+    }
+  ],
+  "pageLoadAnalysis": {
+    "utag_data": {
+      "page_name": "The Very Hungry Caterpillar's Peekaboo Easter by Eric Carle: 9780593751756 | PenguinRandomHouse.com: Books",
+      "code_release_version": "cb20250417030828",
+      "product_list_price": [
+        9.99
+      ],
+      "product_isbn": [
+        9780593751756
+      ],
+      "product_title": [
+        "The Very Hungry Caterpillar's Peekaboo Easter"
+      ],
+      "product_author": [
+        "Eric Carle"
+      ],
+      "product_author_id": [
+        "45198"
+      ],
+      "retailer_link_present": "yes",
+      "page_type": "Product Detail Page",
+      "product_imprint": [
+        "World of Eric Carle"
+      ],
+      "product_format": [
+        "Board Book"
+      ],
+      "product_work_id": [
+        "734292"
+      ],
+      "product_category": [
+        "Children's Classics | Children's Board Books | Children's Books"
+      ],
+      "product_division": [
+        "Penguin Young Readers"
+      ],
+      "auth_count": 1,
+      "module_present": "cartbutton",
+      "event_type": "alsobyauthor_load,recommendation_load",
+      "age_range": "Baby-3",
+      "ip_country": "IL",
+      "website_banner": "Get a FREE Books of the Moment sampler!",
+      "user_status": "external",
+      "cp.timetorise": "1744924353040",
+      "cp.utag_main__pn": "1",
+      "cp.utag_main_v_id": "01964598a28a0037c7ab91a79e4e0006f009306700bd0",
+      "cp.utag_main_ses_id": "1744924353163",
+      "cp.utag_main__ss": "1",
+      "cp.utag_main__se": "1",
+      "cp.utag_main__sn": "1",
+      "cp.utag_main__st": "1744926153163",
+      "meta.viewport": "initial-scale=1,width=device-width,height=device-height",
+      "meta.og:site_name": "PenguinRandomhouse.com",
+      "meta.fb:app_id": "356679881167712",
+      "meta.twitter:card": "summary",
+      "meta.twitter:site": "@penguinrandomhouse",
+      "meta.og:title": "The Very Hungry Caterpillar's Peekaboo Easter by Eric Carle: 9780593751756 | PenguinRandomHouse.com: Books",
+      "meta.twitter:title": "The Very Hungry Caterpillar's Peekaboo Easter by Eric Carle: 9780593751756 | PenguinRandomHouse.com: Books",
+      "meta.fb:pages": "13673457388",
+      "meta.description": "NATIONAL BESTSELLER \u2022 Join The Very Hungry Caterpillar as he hides among tasty treats in this search-and-find, Easter basket\u2013shaped board book!...",
+      "meta.og:description": "NATIONAL BESTSELLER \u2022 Join The Very Hungry Caterpillar as he hides among tasty treats in this search-and-find, Easter basket\u2013shaped board book! A charming gift for Easter that highlights the...",
+      "meta.twitter:description": "NATIONAL BESTSELLER \u2022 Join The Very Hungry Caterpillar as he hides among tasty treats in this search-and-find, Easter basket\u2013shaped board book! A charming gift for Easter that highlights...",
+      "meta.og:url": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179",
+      "meta.og:image": "https://images4.penguinrandomhouse.com/cover/9780593751756",
+      "meta.twitter:image": "https://images4.penguinrandomhouse.com/cover/9780593751756",
+      "meta.og:price:currency": "USD",
+      "meta.og:price:amount": "9.99",
+      "meta.og:type": "product",
+      "meta.format-detection": "telephone=no",
+      "meta.twitter:url": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/",
+      "meta.twitter:url:preview": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179#excerpt",
+      "meta.twitter:text:isbn": "9780593751756",
+      "meta.twitter:text:cta": "Start reading",
+      "meta.og:availability": "instock",
+      "meta.Tealium": "Tealium meta values",
+      "meta.robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "dom.referrer": "",
+      "dom.title": "The Very Hungry Caterpillar's Peekaboo Easter by Eric Carle: 9780593751756 | PenguinRandomHouse.com: Books",
+      "dom.domain": "www.penguinrandomhouse.com",
+      "dom.query_string": "",
+      "dom.hash": "",
+      "dom.url": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/",
+      "dom.pathname": "/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/",
+      "dom.viewport_height": 1080,
+      "dom.viewport_width": 1920,
+      "ut.domain": "penguinrandomhouse.com",
+      "ut.version": "ut4.51.202504041433",
+      "ut.event": "view",
+      "ut.visitor_id": "01964598a28a0037c7ab91a79e4e0006f009306700bd0",
+      "ut.session_id": "1744924353163",
+      "ut.account": "random",
+      "ut.profile": "rhcorp-prh",
+      "ut.env": "prod",
+      "tealium_event": "parent_window",
+      "tealium_visitor_id": "01964598a28a0037c7ab91a79e4e0006f009306700bd0",
+      "tealium_session_id": "1744924353163",
+      "tealium_session_number": "1",
+      "tealium_session_event_number": "1",
+      "tealium_datasource": "",
+      "tealium_account": "random",
+      "tealium_profile": "rhcorp-prh",
+      "tealium_environment": "prod",
+      "tealium_random": "8746963971781674",
+      "tealium_library_name": "utag.js",
+      "tealium_library_version": "4.51.0",
+      "tealium_timestamp_epoch": 1744924353,
+      "tealium_timestamp_utc": "2025-04-17T21:12:33.164Z",
+      "tealium_timestamp_local": "2025-04-18T00:12:33.164",
+      "ss.prhpage": "1",
+      "ss.deskhdr": "",
+      "ss.moblhdr": "<div class=\"sign-in-container\"></div>",
+      "ss.bttnhdr": "<img class=\"account-icon\" src=\"/wp-content/themes/penguinrandomhouse/images/nav-account-icon.svg\" alt=\"Sign In\" />",
+      "product_author_id_array": [
+        "45198"
+      ],
+      "_ccity": "",
+      "_ccountry": "",
+      "_ccurrency": "",
+      "_ccustid": "",
+      "_corder": "",
+      "_cpromo": "",
+      "_cship": "",
+      "_cstate": "",
+      "_cstore": "",
+      "_csubtotal": "",
+      "_ctax": "",
+      "_ctotal": "",
+      "_ctype": "",
+      "_czip": "",
+      "_cprod": "[Circular Reference]",
+      "_cprodname": [],
+      "_cbrand": [],
+      "_ccat": [],
+      "_ccat2": [],
+      "_cquan": [],
+      "_cprice": [],
+      "_csku": [],
+      "_cpdisc": [],
+      "tag_for_child_directed_treatment": "1",
+      "google_pixel_id": "1066425277",
+      "product_author_string": "Eric Carle",
+      "product_category_string": "Children's Classics | Children's Board Books | Children's Books",
+      "product_format_string": "Board Book",
+      "product_isbn_string": "9780593751756",
+      "referrer": "",
+      "product_author_array": [
+        "Eric Carle"
+      ],
+      "product_genres": [
+        "Arts & Entertainment",
+        "Biography & Memoir",
+        "Children\u2019s",
+        "Cooking",
+        "Fantasy",
+        "Fiction",
+        "History",
+        "Humor",
+        "Mystery & Suspense",
+        "Nonfiction",
+        "Poetry",
+        "Romance",
+        "Science Fiction",
+        "Travel",
+        "Young Adult",
+        "Teen & Young Adult",
+        "Children's Books",
+        "Historical Fiction",
+        "Politics",
+        "Science & Tech",
+        "Business"
+      ],
+      "product_genre": [
+        "Children's Books"
+      ],
+      "product_subgenre": [
+        "Children's Classics",
+        "Children's Board Books"
+      ],
+      "product_category_array": [
+        "Children's Classics",
+        "Children's Board Books",
+        "Children's Books"
+      ],
+      "product_list_price_string": "9.99",
+      "cp.utag_main_dc_visit": "1",
+      "cp.utag_main_dc_event": "2"
+    },
+    "tealium_events": [
+      {
+        "type": "utag.link",
+        "timestamp": "2025-04-17T21:12:33.839Z",
+        "data": {
+          "event_type": "cookie_notification",
+          "module_type": "Cookie Acknowledgment Banner",
+          "module_variation": "Load"
+        }
+      }
+    ],
+    "general_events": {
+      "network": [
+        {
+          "url": "/ajax/nonce/?referer=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&w=c9a4a05e-507f-4ab9-9e9f-166482c2c919",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.068Z"
+        },
+        {
+          "url": "/ajaxc/check_aff_rules/734292/",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.082Z"
+        },
+        {
+          "url": "/wp-admin/admin-ajax.php",
+          "method": "POST",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.084Z"
+        },
+        {
+          "url": "/ajaxc/get-affiliate-link/734292?affiliatesiteid=301",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.123Z"
+        },
+        {
+          "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+          "method": "post",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.393Z"
+        },
+        {
+          "url": "//rum-collector-2.pingdom.net/img/beacon.gif?id=620bed0a9034fb00110007eb&sAW=1920&sAH=1080&bIW=1920&bIH=1080&pD=24&dPR=1&or=landscape-primary&nT=0&rC=0&nS=0&cS=167&cE=216&dLE=165&dLS=17&fS=1&hS=182&rE=-1&rS=-1&reS=218&resS=233&resE=243&uEE=-1&uES=-1&dL=246&dI=581&dCLES=582&dCLEE=582&dC=996&lES=996&lEE=997&s=nt&title=The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&path=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&ref=&sId=7osx2bwz&sST=1744924353&sIS=1&rV=0&v=1.4.1",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.470Z"
+        },
+        {
+          "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+          "method": "post",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.845Z"
+        },
+        {
+          "url": "https://dpm.demdex.net/id?d_visid_ver=3.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=683138055267EABE0A490D4C%40AdobeOrg&d_nsid=0&ts=1744924353949",
+          "method": "get",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:33.949Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/user/?tid=2612358431345&ov=%7B%22page_name%22%3A%22The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books%22%2C%22page_category%22%3A%22%22%7D&pd=%7B%7D&cb=1744924354085&dep=2%2CPAGE_LOAD",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:34.085Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/user/?event=PageVisit&ed=%7B%7D&tid=2612358431345&cb=1744924354091&dep=5%2CEVENT_TAGS_ABSENT",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:34.091Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/v3/?tid=2612358431345&ov=%7B%22page_name%22%3A%22The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books%22%2C%22page_category%22%3A%22%22%7D&pd=%7B%7D&event=init&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Atrue%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D&cb=1744924354093",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-17T21:12:34.093Z"
+        },
+        {
+          "url": "https://px.ads.linkedin.com/attribution_trigger?pid=497116&time=1744924354124&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:34.125Z"
+        },
+        {
+          "url": "https://rp.liadm.com/j?dtstmp=1744924354177&aid=a-00m0&se=eyJldmVudCI6InBhcmVudF93aW5kb3cifQ&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:34.178Z"
+        },
+        {
+          "url": "https://tr.snapchat.com/config/com/8e810b99-aff4-4421-9c2c-d7f1896583e1.json?v=3.42.1-2504172044",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-17T21:12:34.238Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/v3/?event=PageVisit&ed=%7B%7D&tid=2612358431345&cb=1744924354395&dep=5%2CEVENT_TAGS_ABSENT&pd=%7B%7D&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Atrue%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-17T21:12:34.395Z"
+        },
+        {
+          "url": "https://analytics.google.com/g/collect?v=2&tid=G-6FH2HCYPE6&gtm=45je54h1h1v867677768za200zb9134321088&_p=1744924353934&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316~103116026~103130495~103130497&gdid=dYmQxMT&cid=950804114.1744924355&ul=en-us&sr=1920x1080&uaa=x64&uab=64&uafvl=Not(A%253ABrand%3B99.0.0.0%7CHeadlessChrome%3B133.0.6943.16%7CChromium%3B133.0.6943.16&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&pae=1&frm=0&pscdl=noapi&_s=1&sid=1744924354&sct=1&seg=0&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&dt=The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2092",
+          "method": "POST",
+          "type": "fetch",
+          "timestamp": "2025-04-17T21:12:34.539Z"
+        },
+        {
+          "url": "https://px.ads.linkedin.com/wa/",
+          "method": "POST",
+          "type": "xhr",
+          "timestamp": "2025-04-17T21:12:35.075Z"
+        }
+      ],
+      "analyticsCalls": [],
+      "dataLayer": []
+    },
+    "tag_detection": {
+      "globalObjects": [
+        {
+          "name": "Google Tags",
+          "path": "gtag"
+        },
+        {
+          "name": "Facebook Pixel",
+          "path": "fbq"
+        },
+        {
+          "name": "Pinterest Tag",
+          "path": "pintrk"
+        },
+        {
+          "name": "Snapchat Pixel",
+          "path": "snaptr"
+        },
+        {
+          "name": "TikTok Pixel",
+          "path": "ttq"
+        },
+        {
+          "name": "Adobe Analytics",
+          "path": "s_c_il"
+        },
+        {
+          "name": "Adobe Analytics",
+          "path": "s"
+        }
+      ],
+      "scriptTags": [
+        "https://c.lytics.io/api/experience/candidate/1615abb2fee499fc8f7dd878cbe2db80/config.js",
+        "https://c.lytics.io/static/pathfora.min.js",
+        "https://www.googletagmanager.com/gtag/js?id=G-6FH2HCYPE6&l=dataLayer&cx=c&gtm=45be54h1h1v9134321088za200&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316",
+        "https://analytics.tiktok.com/i18n/pixel/static/identify_935b0d03.js",
+        "https://analytics.tiktok.com/i18n/pixel/static/main.MWNmMmE2MzYzMA.js",
+        "https://s.pinimg.com/ct/lib/main.8821a9da.js",
+        "https://sc-static.net/scevent.min.js",
+        "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+        "https://cdn01.basis.net/assets/up.js?um=1",
+        "https://b-code.liadm.com/a-00m0.min.js",
+        "https://connect.facebook.net/en_US/fbevents.js",
+        "https://pixel.byspotify.com/ping.min.js",
+        "https://s.pinimg.com/ct/core.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-1051027031",
+        "https://c.lytics.io/",
+        "https://c.lytics.io/api/tag/1615abb2fee499fc8f7dd878cbe2db80/latest.min.js",
+        "https://rum-static.pingdom.net/prum.min.js",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.js",
+        "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js?ver=3.7.1",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/slick.min.js?ver=1.6.0",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/purl.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/tooltip.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/modal-survey.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/product.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/newsletter-form.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/toolpop.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/collapse.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/account.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/transition.min.js?ver=cb20250417030828",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.23.js?utv=ut4.51.202406061615",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.583.js?utv=ut4.51.202203032103",
+        "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=random/rhcorp-prh/202504041433&cb=1744924353394",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/01964598a28a0037c7ab91a79e4e0006f009306700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1744924353704",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.326.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.663.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.1.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.184.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.69.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.239.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.405.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.416.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.358.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.576.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.590.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.598.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.637.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.654.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.661.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.682.js?utv=ut4.51.202504041433",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.687.js?utv=ut4.51.202504041433",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/01964598a28a0037c7ab91a79e4e0006f009306700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1744924353935",
+        "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4SGAO96H18A0MH1EN5G&lib=ttq",
+        "https://c.lytics.io/api/personalize/1615abb2fee499fc8f7dd878cbe2db80/user/_uid/d696aade-f065-48fe-98b4-5228d1ba9328?segments=true&fields=academic_role_tally_explicit,account_created_date,account_created_flag,age_segment_array_tally_implicit,age_stage_tally_explicit,article_category_tally_explicit,article_tag_tally_implicit,author_id_tally_explicit,author_id_tally_implicit,author_name_tally_explicit,author_tally_implicit,format_tally_explicit,format_tally_implicit,genre_tally_explicit,genre_tally_implicit,other_tally_explicit,retailer_pref_brightly_tally_implicit,retailer_pref_prh_tally_implicit,retailer_pref_tally_implicit,retailer_tally_explicit,subgenre_tally_implicit,work_id_tally_implicit&mergestate=true&state=%7B%22_uid%22%3A%22d696aade-f065-48fe-98b4-5228d1ba9328%22%2C%22_sesstart%22%3A%221%22%2C%22_tz%22%3A3%2C%22_ul%22%3A%22en-US%22%2C%22_sz%22%3A%221920x1080%22%2C%22_e%22%3A%22pv%22%2C%22_nmob%22%3A%22t%22%2C%22_device%22%3A%22desktop%22%2C%22url%22%3A%22www.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22_v%22%3A%223.0.50%22%7D&ts=1744924354155&callback=u_267538851327099740",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1035905995/?random=1744924354262&cv=11&fst=1744924354262&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1744924354273&cv=11&fst=1744924354273&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11222383759/?random=1744924354279&cv=11&fst=1744924354279&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1744924354282&cv=11&fst=1744924354282&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1744924354286&cv=11&fst=1744924354286&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1744924354290&cv=11&fst=1744924354290&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1744924354292&cv=11&fst=1744924354292&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/01964598a28a0037c7ab91a79e4e0006f009306700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1744924355710",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/01964598a28a0037c7ab91a79e4e0006f009306700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1744924355941",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/01964598a28a0037c7ab91a79e4e0006f009306700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1744924357715",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/01964598a28a0037c7ab91a79e4e0006f009306700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1744924357939",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/fes21.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/vendor/react.min.js?ver=18.3.1",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/escape-html.min.js?ver=6561a406d2d232a6fbd2",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/element.min.js?ver=cb762d190aebbec25b27",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/build/newsletter.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/global.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/account.min.js?ver=cb20250417030828",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/minicart.js?ver=cb20250417030828"
+      ],
+      "tealiumInfo": {
+        "detected": true,
+        "version": "ut4.51.202504041433",
+        "profile": null,
+        "account": null,
+        "tagsLoaded": 24
+      },
+      "gtmInfo": {
+        "detected": true,
+        "containers": []
+      }
+    },
+    "vendors_on_page": {
+      "tag_manager": [
+        "Google Tag Manager",
+        "Tealium iQ"
+      ],
+      "advertising": [
+        "Facebook Pixel",
+        "Google Ads",
+        "LinkedIn Insight",
+        "Pinterest Tag",
+        "Snapchat Pixel",
+        "TikTok Analytics",
+        "TikTok Pixel"
+      ],
+      "analytics": [
+        "Adobe Analytics",
+        "Google Tags"
+      ]
+    },
+    "load_network_summary": {
+      "total_requests": 227,
+      "vendors_detected": {
+        "Tealium iQ": [
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.js",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.23.js?utv=ut4.51.202406061615",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.583.js?utv=ut4.51.202203032103",
+          "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=random/rhcorp-prh/202504041433&cb=1744924353394",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.326.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.663.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.1.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.184.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.69.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.239.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.405.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.416.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.358.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.576.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.590.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.598.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.637.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.654.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.661.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.682.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.687.js?utv=ut4.51.202504041433"
+        ],
+        "Google Tag Manager": [
+          "https://www.googletagmanager.com/gtag/js?id=AW-1051027031",
+          "https://www.google.com/ccm/collect?tid=AW-1035905995&en=page_view&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&scrsrc=www.googletagmanager.com&frm=0&rnd=186904448.1744924354&dt=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&auid=88379719.1744924354&navt=n&npa=0&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&tft=1744924354266&tfd=1820&apve=1",
+          "https://www.googletagmanager.com/gtag/js?id=G-6FH2HCYPE6&l=dataLayer&cx=c&gtm=45be54h1h1v9134321088za200&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316",
+          "https://www.googletagmanager.com/static/service_worker/54a0/sw_iframe.html?origin=https%3A%2F%2Fwww.penguinrandomhouse.com"
+        ],
+        "Adobe Audience Manager": [
+          "https://dpm.demdex.net/id?d_visid_ver=3.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=683138055267EABE0A490D4C%40AdobeOrg&d_nsid=0&ts=1744924353949",
+          "https://ranh.demdex.net/dest5.html?d_nsid=undefined",
+          "https://dpm.demdex.net/ibs:dpid=411&dpuuid=aAFuwgAAAICNbAOV",
+          "https://dpm.demdex.net/ibs:dpid=82530&dpuuid=5bd471f1-c596-4297-ad53-e6d7adde83e5-68016ec3-494c&gdpr=0&gdpr_consent="
+        ],
+        "Facebook Pixel": [
+          "https://connect.facebook.net/en_US/fbevents.js"
+        ],
+        "TikTok Analytics": [
+          "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4SGAO96H18A0MH1EN5G&lib=ttq",
+          "https://analytics.tiktok.com/i18n/pixel/static/main.MWNmMmE2MzYzMA.js",
+          "https://analytics.tiktok.com/i18n/pixel/static/identify_935b0d03.js"
+        ],
+        "LinkedIn Insight": [
+          "https://snap.licdn.com/li.lms-analytics/insight.min.js"
+        ],
+        "Snapchat Pixel": [
+          "https://sc-static.net/scevent.min.js",
+          "https://sc-static.net/scevent.min.js"
+        ],
+        "Google Ads": [
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1035905995/?random=1744924354262&cv=11&fst=1744924354262&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1035905995?random=1744924354262&cv=11&fst=1744924354262&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1744924354273&cv=11&fst=1744924354273&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1744924354273&cv=11&fst=1744924354273&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11222383759/?random=1744924354279&cv=11&fst=1744924354279&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/11222383759?random=1744924354279&cv=11&fst=1744924354279&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1744924354282&cv=11&fst=1744924354282&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1744924354282&cv=11&fst=1744924354282&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&ct_cookie_present=0",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1744924354286&cv=11&fst=1744924354286&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1744924354286&cv=11&fst=1744924354286&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1744924354290&cv=11&fst=1744924354290&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1744924354290&cv=11&fst=1744924354290&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&ct_cookie_present=0",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1744924354292&cv=11&fst=1744924354292&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1744924354292&cv=11&fst=1744924354292&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&capi=1&data=event%3Dconversion&ct_cookie_present=0",
+          "https://www.google.com/pagead/1p-user-list/11222383759/?random=1744924354279&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzITuukg3BuQUiVzs0tNzpun25eStLXw&random=1487226823&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/11222383759/?random=1744924354279&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzITuukg3BuQUiVzs0tNzpun25eStLXw&random=1487226823&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1744924354273&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzL1DYw6girbR48GkUZqTc6e7QA0mYcg&random=3486356697&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1744924354273&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzL1DYw6girbR48GkUZqTc6e7QA0mYcg&random=3486356697&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1744924354286&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyz3UEqxLMUyQZVXAmwG28Sx_-aLjWxcQ&random=1828428573&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1744924354286&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyz3UEqxLMUyQZVXAmwG28Sx_-aLjWxcQ&random=1828428573&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/1035905995/?random=1744924354262&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzoZglpKGETJtkZPd22hRIQgJcJ7gmlQ&random=3241581869&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1035905995/?random=1744924354262&cv=11&fst=1744923600000&bg=ffffff&guid=ON&async=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzoZglpKGETJtkZPd22hRIQgJcJ7gmlQ&random=3241581869&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1291248593&cv=11&fst=1744924354290&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSid0cmlnZ2VyLCBldmVudC1zb3VyY2U9bmF2aWdhdGlvbi1zb3VyY2VaAwoBAWIECgICAw&pscrd=IhMIoubO4v3fjAMVTkb2CB35GxDGMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjFEMkE3VW9ndFdacFl3WUZQV2FLYUJzaTM2OHhxYnRHYVVnQ2JFeDk5NEYyYmNzMm1YY09Eeg",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1297698271&cv=11&fst=1744924354282&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIobixAgixwbECCLDBsQIIscOxAgiKxbECCMLJsQIItMaxAgiQybECCNPFsQII68yxAgjPzrECCP7OsQII_86xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMIueXO4v3fjAMVRWj2CB3fIQSEMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjBIaTFFMXRuSGIxdE41NDV5MjJLZ2lkMFBUSHdiNWJONkFWdEUyYTZHWjdVWmVjUVZQQ3VfSQ",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=303878041&cv=11&fst=1744924354292&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMInbDP4v3fjAMVLV_2CB2bpSceMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjFqd3QydnhaZzdGdlJoN0FnSTd4VmkxQ1c4YkZqc0F3dk5aUlFWV3cyek44VmE3cUItbE03Zw",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=1297698271&cv=11&fst=1744924354282&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIobixAgixwbECCLDBsQIIscOxAgiKxbECCMLJsQIItMaxAgiQybECCNPFsQII68yxAgjPzrECCP7OsQII_86xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMIueXO4v3fjAMVRWj2CB3fIQSEMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjBIaTFFMXRuSGIxdE41NDV5MjJLZ2lkMFBUSHdiNWJONkFWdEUyYTZHWjdVWmVjUVZQQ3VfSQ&is_vtc=1&cid=CAQSKQDZpuyzAoItK4jEGA6EIcJCULt7IxELc4hcIsro4JRMLL94Vi8H3yy2&random=3320593150",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=1291248593&cv=11&fst=1744924354290&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSid0cmlnZ2VyLCBldmVudC1zb3VyY2U9bmF2aWdhdGlvbi1zb3VyY2VaAwoBAWIECgICAw&pscrd=IhMIoubO4v3fjAMVTkb2CB35GxDGMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjFEMkE3VW9ndFdacFl3WUZQV2FLYUJzaTM2OHhxYnRHYVVnQ2JFeDk5NEYyYmNzMm1YY09Eeg&is_vtc=1&cid=CAQSKQDZpuyzuk-QpGlaojbHOfzT8TxImnJTu1SzQtgkqZ95Fre6ZyjQvS2n&random=2755251789",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=303878041&cv=11&fst=1744924354292&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMInbDP4v3fjAMVLV_2CB2bpSceMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjFqd3QydnhaZzdGdlJoN0FnSTd4VmkxQ1c4YkZqc0F3dk5aUlFWV3cyek44VmE3cUItbE03Zw&is_vtc=1&cid=CAQSKQDZpuyzznwwdyrHSbxzI4hrFHZ6CRg-raiv61nrjEfIPcQPqNbAsBTw&random=606708555",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=1291248593&cv=11&fst=1744924354290&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSid0cmlnZ2VyLCBldmVudC1zb3VyY2U9bmF2aWdhdGlvbi1zb3VyY2VaAwoBAWIECgICAw&is_vtc=1&cid=CAQSKQDZpuyzuk-QpGlaojbHOfzT8TxImnJTu1SzQtgkqZ95Fre6ZyjQvS2n&random=2755251789&ipr=y&pscrd=IhMIoubO4v3fjAMVTkb2CB35GxDGMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjFEMkE3VW9ndFdacFl3WUZQV2FLYUJzaTM2OHhxYnRHYVVnQ2JFeDk5NEYyYmNzMm1YY09Eeg",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=303878041&cv=11&fst=1744924354292&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzznwwdyrHSbxzI4hrFHZ6CRg-raiv61nrjEfIPcQPqNbAsBTw&random=606708555&ipr=y&pscrd=IhMInbDP4v3fjAMVLV_2CB2bpSceMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjFqd3QydnhaZzdGdlJoN0FnSTd4VmkxQ1c4YkZqc0F3dk5aUlFWV3cyek44VmE3cUItbE03Zw",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=1297698271&cv=11&fst=1744924354282&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54h1h1v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&hn=www.googleadservices.com&frm=0&tiba=The%20Very%20Hungry%20Caterpillar%27s%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=88379719.1744924354&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIobixAgixwbECCLDBsQIIscOxAgiKxbECCMLJsQIItMaxAgiQybECCNPFsQII68yxAgjPzrECCP7OsQII_86xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzAoItK4jEGA6EIcJCULt7IxELc4hcIsro4JRMLL94Vi8H3yy2&random=3320593150&ipr=y&pscrd=IhMIueXO4v3fjAMVRWj2CB3fIQSEMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JYQ2hFSThNMkN3QVlRc2FXR3lzS3gwdTd0QVJJdEFDWVdoUjBIaTFFMXRuSGIxdE41NDV5MjJLZ2lkMFBUSHdiNWJONkFWdEUyYTZHWjdVWmVjUVZQQ3VfSQ"
+        ],
+        "Google DoubleClick": [
+          "https://stats.g.doubleclick.net/g/collect?v=2&tid=G-6FH2HCYPE6&cid=950804114.1744924355&gtm=45je54h1h1v867677768za200zb9134321088&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316~103116026~103130495~103130497",
+          "https://td.doubleclick.net/td/ga/rul?tid=G-6FH2HCYPE6&gacid=950804114.1744924355&gtm=45je54h1h1v867677768za200zb9134321088&dma=0&gcd=13l3l3l3l1l1&npa=0&pscdl=noapi&aip=1&fledge=1&frm=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316~103116026~103130495~103130497&z=853820418",
+          "https://sync-tm.everesttech.net/upi/pid/5w3jqr4k?redir=https%3A%2F%2Fcm.g.doubleclick.net%2Fpixel%3Fgoogle_nid%3Dg8f47s39e399f3fe%26google_push%26google_sc%26google_hm%3D%24%7BTM_USER_ID_BASE64ENC_URLENC%7D",
+          "https://cm.g.doubleclick.net/pixel?google_nid=g8f47s39e399f3fe&google_push&google_sc&google_hm=YUFGdXdnQUFBSUNOYkFPVg=="
+        ]
+      }
+    }
+  },
+  "clickAnalysis": [
+    {
+      "elementDescription": "Add to Cart Button (Main Format)",
+      "type": "click",
+      "selector": "div[id^=\"collapse\"].in form[action*=\"prhcart.php\"] button:has-text(\"Add to cart\")",
+      "clickStatus": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-17T21:12:38.582Z",
+          "data": {
+            "module_type": "D2C Button",
+            "event_type": "cart_add",
+            "module_variation": "add-to-cart",
+            "work_id": [
+              "734292"
+            ],
+            "product_work_id": [
+              "734292"
+            ],
+            "page_type": "Product Detail Page",
+            "product_title": [
+              "The Very Hungry Caterpillar's Peekaboo Easter"
+            ],
+            "product_isbn": [
+              "9780593750179"
+            ],
+            "product_author": [
+              "Eric Carle"
+            ],
+            "product_author_id": [
+              "45198"
+            ],
+            "product_format": [
+              "Board Book"
+            ],
+            "product_category": [
+              "Children's Classics | Children's Board Books | Children's Books"
+            ],
+            "product_imprint": [
+              "World of Eric Carle"
+            ],
+            "product_division": [
+              "Penguin Young Readers"
+            ],
+            "age_segment": [
+              "Baby-3"
+            ],
+            "product_list_price": [
+              "9.99"
+            ]
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:38.569Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:38.585Z"
+          },
+          {
+            "url": "https://scode.randomhouse.com/b/ss/ranhrollup/1/JS-2.10.0/s71845254867432",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:38.589Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=addtocart&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924358598&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:38.598Z"
+          },
+          {
+            "url": "https://px.ads.linkedin.com/attribution_trigger?pid=497116&time=1744924358602&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&conversionId=15021220",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:38.602Z"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-6FH2HCYPE6&gtm=45je54h1h1v867677768za200zb9134321088&_p=1744924353934&gcd=13l3l3l3l1l1&npa=0&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316~103116026~103130495~103130497&gdid=dYmQxMT&cid=950804114.1744924355&ul=en-us&sr=1920x1080&uaa=x64&uab=64&uafvl=Not(A%253ABrand%3B99.0.0.0%7CHeadlessChrome%3B133.0.6943.16%7CChromium%3B133.0.6943.16&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&pae=1&frm=0&pscdl=noapi&_eu=AAAAAAI&_s=2&sid=1744924354&sct=1&seg=0&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&dt=The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&en=add_to_cart&_c=1&_ee=1&pr1=id9780593750179&_et=4069&tfd=6165",
+            "method": "POST",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:38.611Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1744924358624&aid=a-00m0&se=eyJuYW1lIjoicHJvZHVjdF9wdXJjaGFzZSIsImV2ZW50IjoiY29udmVyc2lvbiJ9&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:38.624Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=addtocart&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924358640&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:38.640Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Amazon Retailer Link (Main Format)",
+      "type": "click",
+      "selector": "div[id^=\"collapse\"].in .affiliate-buttons a:has-text(\"Amazon\")",
+      "clickStatus": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-17T21:12:40.036Z",
+          "data": {
+            "event_type": "affiliate_click",
+            "affiliate_name": "Amazon",
+            "work_id": [
+              "734292"
+            ],
+            "product_work_id": [
+              "734292"
+            ],
+            "page_type": "Product Detail Page",
+            "product_title": [
+              "The Very Hungry Caterpillar's Peekaboo Easter"
+            ],
+            "product_isbn": [
+              "9780593750179"
+            ],
+            "product_author": [
+              "Eric Carle"
+            ],
+            "product_author_id": [
+              "45198"
+            ],
+            "product_format": [
+              "Board Book"
+            ],
+            "product_category": [
+              "Children's Classics | Children's Board Books | Children's Books"
+            ],
+            "product_imprint": [
+              "World of Eric Carle"
+            ],
+            "product_division": [
+              "Penguin Young Readers"
+            ],
+            "age_segment": [
+              "Baby-3"
+            ],
+            "product_list_price": [
+              "9.99"
+            ]
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:40.030Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:40.038Z"
+          },
+          {
+            "url": "https://scode.randomhouse.com/b/ss/ranhrollup/1/JS-2.10.0/s77256320141888",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:40.041Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=lead&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924360047&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:40.047Z"
+          },
+          {
+            "url": "https://px.ads.linkedin.com/attribution_trigger?pid=497116&time=1744924360047&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&conversionId=15021204",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:40.047Z"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-6FH2HCYPE6&gtm=45je54h1h1v867677768za200zb9134321088&_p=1744924353934&gcd=13l3l3l3l1l1&npa=0&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316~103116026~103130495~103130497&gdid=dYmQxMT&cid=950804114.1744924355&ul=en-us&sr=1920x1080&uaa=x64&uab=64&uafvl=Not(A%253ABrand%3B99.0.0.0%7CHeadlessChrome%3B133.0.6943.16%7CChromium%3B133.0.6943.16&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&pae=1&frm=0&pscdl=noapi&_eu=AAAAAAI&_s=3&sid=1744924354&sct=1&seg=0&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&dt=The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&en=affiliate_click&_c=1&_ee=1&_et=1439&tfd=7607",
+            "method": "POST",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:40.053Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1744924360062&aid=a-00m0&se=eyJuYW1lIjoiYnV5X2J1dHRvbiIsImV2ZW50IjoiY29udmVyc2lvbiJ9&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:40.063Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=lead&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924360075&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:40.075Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Recommendations Carousel Next Arrow",
+      "type": "click",
+      "selector": "#recommendationCarousel button.slick-next.slick-arrow",
+      "clickStatus": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-17T21:12:41.457Z",
+          "data": {
+            "event_type": "recommendation_module",
+            "product_author": [
+              "Eric Carle"
+            ],
+            "product_title": [
+              "The Very Hungry Caterpillar's Peekaboo Easter"
+            ],
+            "product_isbn": [
+              9780593751756
+            ],
+            "product_imprint": [
+              "World of Eric Carle"
+            ],
+            "product_format": [
+              "Board Book"
+            ],
+            "product_division": [
+              "Penguin Young Readers"
+            ],
+            "product_work_id": [
+              "734292"
+            ],
+            "product_category": [
+              "Children's Classics | Children's Board Books | Children's Books"
+            ],
+            "product_author_id": [
+              "45198"
+            ],
+            "module_type": "PDP Recommendations",
+            "module_variation": "Carousel Right Arrow"
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:41.452Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:41.460Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=PageVisit&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A9780593751756%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924361468&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:41.468Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1744924361478&aid=a-00m0&se=eyJldmVudCI6InBhcmVudF93aW5kb3cifQ&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:41.478Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=PageVisit&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A9780593751756%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924361490&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:41.490Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Recommendations Carousel Prev Arrow",
+      "type": "click",
+      "selector": "#recommendationCarousel button.slick-prev.slick-arrow",
+      "clickStatus": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-17T21:12:42.899Z",
+          "data": {
+            "event_type": "recommendation_module",
+            "product_author": [
+              "Eric Carle"
+            ],
+            "product_title": [
+              "The Very Hungry Caterpillar's Peekaboo Easter"
+            ],
+            "product_isbn": [
+              9780593751756
+            ],
+            "product_imprint": [
+              "World of Eric Carle"
+            ],
+            "product_format": [
+              "Board Book"
+            ],
+            "product_division": [
+              "Penguin Young Readers"
+            ],
+            "product_work_id": [
+              "734292"
+            ],
+            "product_category": [
+              "Children's Classics | Children's Board Books | Children's Books"
+            ],
+            "product_author_id": [
+              "45198"
+            ],
+            "module_type": "PDP Recommendations",
+            "module_variation": "Carousel Left Arrow"
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:42.895Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:42.902Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=PageVisit&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A9780593751756%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924362910&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:42.910Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1744924362920&aid=a-00m0&se=eyJldmVudCI6InBhcmVudF93aW5kb3cifQ&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:42.920Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=PageVisit&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A9780593751756%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924362926&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:42.926Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Quick View Add to Cart Button",
+      "type": "click",
+      "selector": "#single-title-view .modal-dialog.quickview-modal form[action*=\"prhcart.php\"] button:has-text(\"Add to cart\")",
+      "clickStatus": "Error (Timeout)",
+      "clickError": "Locator.wait_for: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator(\"#single-title-view .modal-dialog.quickview-modal form[action*=\\\"prhcart.php\\\"] button:has-text(\\\"Add to cart\\\")\").first to be visible\n"
+    },
+    {
+      "elementDescription": "Barnes & Noble Retailer Link (Main Format)",
+      "type": "click",
+      "selector": "div[id^=\"collapse\"].in .affiliate-buttons a:has-text(\"Barnes & Noble\")",
+      "clickStatus": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-17T21:12:59.370Z",
+          "data": {
+            "event_type": "affiliate_click",
+            "affiliate_name": "Barnes & Noble",
+            "work_id": [
+              "734292"
+            ],
+            "product_work_id": [
+              "734292"
+            ],
+            "page_type": "Product Detail Page",
+            "product_title": [
+              "The Very Hungry Caterpillar's Peekaboo Easter"
+            ],
+            "product_isbn": [
+              "9780593750179"
+            ],
+            "product_author": [
+              "Eric Carle"
+            ],
+            "product_author_id": [
+              "45198"
+            ],
+            "product_format": [
+              "Board Book"
+            ],
+            "product_category": [
+              "Children's Classics | Children's Board Books | Children's Books"
+            ],
+            "product_imprint": [
+              "World of Eric Carle"
+            ],
+            "product_division": [
+              "Penguin Young Readers"
+            ],
+            "age_segment": [
+              "Baby-3"
+            ],
+            "product_list_price": [
+              "9.99"
+            ]
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:59.361Z"
+          },
+          {
+            "url": "https://scode.randomhouse.com/b/ss/ranhrollup/1/JS-2.10.0/s79004191883154",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:59.366Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:59.372Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=lead&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924379382&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:59.383Z"
+          },
+          {
+            "url": "https://px.ads.linkedin.com/attribution_trigger?pid=497116&time=1744924379383&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&conversionId=15021204",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:59.383Z"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-6FH2HCYPE6&gtm=45je54h1h1v867677768za200zb9134321088&_p=1744924353934&gcd=13l3l3l3l1l1&npa=0&dma=0&tag_exp=102509682~102803279~102813109~102887800~102926062~103027016~103051953~103055465~103077950~103106314~103106316~103116026~103130495~103130497&gdid=dYmQxMT&cid=950804114.1744924355&ul=en-us&sr=1920x1080&uaa=x64&uab=64&uafvl=Not(A%253ABrand%3B99.0.0.0%7CHeadlessChrome%3B133.0.6943.16%7CChromium%3B133.0.6943.16&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&pae=1&frm=0&pscdl=noapi&_eu=AAAAAAI&_s=5&sid=1744924354&sct=1&seg=1&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&dt=The%20Very%20Hungry%20Caterpillar's%20Peekaboo%20Easter%20by%20Eric%20Carle%3A%209780593751756%20%7C%20PenguinRandomHouse.com%3A%20Books&en=affiliate_click&_c=1&_ee=1&_et=19318&tfd=26943",
+            "method": "POST",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:59.389Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1744924379399&aid=a-00m0&se=eyJuYW1lIjoiYnV5X2J1dHRvbiIsImV2ZW50IjoiY29udmVyc2lvbiJ9&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:12:59.399Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=lead&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924379412&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:12:59.413Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Look Inside Link (PDP)",
+      "type": "click",
+      "selector": "a.insight:has-text(\"Look Inside\")",
+      "clickStatus": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-17T21:13:00.827Z",
+          "data": {
+            "event_type": "insight_widget_view",
+            "work_id": [
+              "734292"
+            ],
+            "product_work_id": [
+              "734292"
+            ],
+            "page_type": "Product Detail Page",
+            "product_title": [
+              "The Very Hungry Caterpillar's Peekaboo Easter"
+            ],
+            "product_isbn": [
+              "9780593750179"
+            ],
+            "product_author": [
+              "Eric Carle"
+            ],
+            "product_author_id": [
+              "45198"
+            ],
+            "product_format": [
+              "Board Book"
+            ],
+            "product_category": [
+              "Children's Classics | Children's Board Books | Children's Books"
+            ],
+            "product_imprint": [
+              "World of Eric Carle"
+            ],
+            "product_division": [
+              "Penguin Young Readers"
+            ],
+            "age_segment": [
+              "Baby-3"
+            ],
+            "product_list_price": [
+              "9.99"
+            ]
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:00.812Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:00.832Z"
+          },
+          {
+            "url": "https://scode.randomhouse.com/b/ss/ranhrollup/1/JS-2.10.0/s74688093848445",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:00.836Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=PageVisit&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924380841&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:00.841Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1744924380850&aid=a-00m0&se=eyJuYW1lIjoicmVhZF9leGNlcnB0IiwiZXZlbnQiOiJjb252ZXJzaW9uIn0&duid=0316fa6083bc--01js2sh9m0w41jqrbkqy2vjnah&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=29eed1f7-1f16-447c-8f51-680ca74d3c7d",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:00.850Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=PageVisit&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593750179%22%2C%22product_category%22%3A%22Children's%20Classics%20%7C%20Children's%20Board%20Books%20%7C%20Children's%20Books%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU5tSTVaalV5WVRVdFlXVmtZaTAwT0RVNUxUZ3pPRE10TURaa09UQXlNVEJpTUdZMA%22%7D&cb=1744924380858&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F734292%2Fthe-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle%2F9780593750179%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not(A%3ABrand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22133%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22133%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22133.0.6943.16%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:13:00.858Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Add to Bookshelf (PDP)",
+      "type": "click",
+      "selector": "div.book-shelf-add",
+      "clickStatus": "Success",
+      "tealium_events": [],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://secure.penguinrandomhouse.com/davinci/policy/ed9b6514d07f5273da5a8f149a8bbb50/start",
+            "method": "POST",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:13:05.221Z"
+          },
+          {
+            "url": "https://secure.penguinrandomhouse.com/.well-known/ping-endpoints.json",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-17T21:13:05.223Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    },
+    {
+      "elementDescription": "Add to Cart via Carousel Quick View",
+      "type": "sequence",
+      "sequenceSteps": [
+        {
+          "action": "waitFor",
+          "description": "Wait for First Quick View button in Rec Carousel to be visible",
+          "selector": "div#recommendationCarousel .element-wrapper:first-child .quick-view",
+          "status": "Failure",
+          "checked_visibility": false,
+          "error": "Locator.wait_for: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"div#recommendationCarousel .element-wrapper:first-child .quick-view\").first to be visible\n"
+        }
+      ],
+      "sequenceStatus": "Failure",
+      "sequenceError": "Locator.wait_for: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\"div#recommendationCarousel .element-wrapper:first-child .quick-view\").first to be visible\n",
+      "tealium_events": [],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://app.launchdarkly.com/sdk/goals/5e73beba6edcf0076d131eb2",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:05.775Z"
+          },
+          {
+            "url": "https://app.launchdarkly.com/sdk/evalx/5e73beba6edcf0076d131eb2/users/eyJrZXkiOiI1OTMzYjk5Ny0wNzg0LTQ2ZDMtYjEwMC1mNWExMTk4YjVjODgifQ",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:05.777Z"
+          },
+          {
+            "url": "https://events.launchdarkly.com/events/diagnostic/5e73beba6edcf0076d131eb2",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:05.777Z"
+          },
+          {
+            "url": "https://events.launchdarkly.com/events/bulk/5e73beba6edcf0076d131eb2",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-17T21:13:07.786Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {}
+    }
+  ]
+}
