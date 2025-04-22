@@ -409,88 +409,256 @@ async def analyze_page_tags_and_events(url: str) -> AsyncGenerator[Dict[str, Any
                         # --- Click Loop ---
                         for i, element_config in enumerate(elements_to_test_for_this_page):
                             description = element_config["description"]
-                            selector = element_config["selector"]
-                            click_result = {"elementDescription": description, "selector": selector}
-                            yield {"status": "progress", "message": f"\n      ▶️ Testing Click {i+1}/{len(elements_to_test_for_this_page)}: '{description}'"}
-                            try:
-                                element = page.locator(selector).first
-                                yield {"status": "progress", "message": "        Attempting to dismiss overlays before interaction..."}
-                                await dismiss_overlays(page)
+                            config_type = element_config.get("type", "click") # Default to "click" if type is missing
+                            click_result = {"elementDescription": description, "type": config_type} # Store type in results
 
-                                yield {"status": "progress", "message": f"        Waiting for element ('{selector}') to be visible..."}
-                                # Increased wait time slightly for visibility check
-                                await element.wait_for(state='visible', timeout=15000)
-                                yield {"status": "progress", "message": "        Element is visible."}
+                            yield {"status": "progress", "message": f"\n      ▶️ Testing Interaction {i+1}/{len(elements_to_test_for_this_page)}: '{description}' ({config_type})"}
+
+                            if config_type == "sequence":
+                                click_result["sequenceSteps"] = []
+                                sequence_success = True
+                                sequence_error = None
+
+                                yield {"status": "progress", "message": "        Clearing tracking data before sequence..."}
+                                await clear_tracking_data(page) # Clear before starting the sequence
+
+                                for step_index, step in enumerate(element_config.get("steps", [])):
+                                    step_action = step.get("action")
+                                    step_selector = step.get("selector")
+                                    step_desc = step.get("description", f"Step {step_index + 1}")
+                                    step_check_visibility = step.get("check_visibility_after_previous", False)
+                                    step_result = {
+                                        "action": step_action,
+                                        "description": step_desc,
+                                        "selector": step_selector,
+                                        "status": "Pending",
+                                        "checked_visibility": False # Add field to track if visibility check was done
+                                    }
+                                    click_result["sequenceSteps"].append(step_result)
+
+                                    yield {"status": "progress", "message": f"        Executing Step {step_index + 1}/{len(element_config['steps'])}: {step_action.upper()} - '{step_desc}'"}
+
+                                    try:
+                                        element = page.locator(step_selector).first if step_selector else None
+                                        if not element and step_action in ["click", "waitFor"]: # Require element for these actions
+                                             raise ValueError(f"Selector missing for required action '{step_action}'")
+
+                                        # --- Visibility Check (if flagged) ---
+                                        if step_check_visibility:
+                                            step_result["checked_visibility"] = True
+                                            trigger_desc = click_result["sequenceSteps"][step_index - 1]["description"] if step_index > 0 else "Start of Sequence"
+                                            yield {"status": "progress", "message": f"          Triggered by: '{trigger_desc}'"}
+                                            yield {"status": "progress", "message": f"          Checking interactability for target: '{step_desc}' ({step_selector})"}
+                                            try:
+                                                # Use is_visible with a reasonable timeout for the check itself
+                                                await element.wait_for(state='visible', timeout=step.get("visibility_check_timeout", 5000))
+                                                # Optionally, add is_enabled() check if needed for buttons
+                                                # is_enabled = await element.is_enabled(timeout=1000)
+                                                # if not is_enabled:
+                                                #     raise Exception("Target element is visible but not enabled.")
+
+                                                yield {"status": "progress", "message": f"          ✅ Target '{step_desc}' is visible."}
+                                                step_result["visibility_status"] = "Visible"
+                                            except PlaywrightTimeoutError as vis_error:
+                                                yield {"status": "error", "message": f"          ❌ Target '{step_desc}' did NOT become visible/interactable within timeout."}
+                                                step_result["visibility_status"] = "Timeout"
+                                                raise Exception(f"Target element for '{step_desc}' failed visibility check after trigger. Error: {vis_error}") # Fail the step
+                                            except Exception as vis_error:
+                                                yield {"status": "error", "message": f"          ❌ Error checking visibility for '{step_desc}': {vis_error}"}
+                                                step_result["visibility_status"] = "Error"
+                                                raise # Re-raise to fail the step
+
+                                        # --- Perform Main Step Action ---
+                                        await dismiss_overlays(page) # Dismiss overlays before each action
+
+                                        if step_action == "click":
+                                            if not element: continue # Should have been caught above, but safety check
+                                            yield {"status": "progress", "message": f"          Waiting for element ('{step_selector}') to be visible for click..."}
+                                            await element.wait_for(state='visible', timeout=step.get("timeout", 15000))
+                                            yield {"status": "progress", "message": "          Element is visible."}
+                                            try:
+                                                await element.scroll_into_view_if_needed(timeout=7000)
+                                            except Exception as scroll_e:
+                                                yield {"status": "warning", "message": f"          Warning: Could not scroll element into view ({scroll_e}). Continuing attempt."}
+                                            await page.wait_for_timeout(300)
+
+                                            step_click_error_msg = None
+                                            try:
+                                                await element.click(timeout=step.get("timeout", 15000))
+                                            except PlaywrightError as pe:
+                                                if "intercept" in str(pe).lower():
+                                                    yield {"status": "warning", "message": "          Click intercepted, trying force=True..."}
+                                                    await dismiss_overlays(page) # Try dismissing again
+                                                    try:
+                                                        await element.click(timeout=step.get("timeout", 10000), force=True)
+                                                    except Exception as force_e:
+                                                        step_click_error_msg = f"Forced click failed: {force_e}"
+                                                else:
+                                                    step_click_error_msg = f"Click failed (PlaywrightError): {pe}"
+                                            except Exception as e:
+                                                step_click_error_msg = f"Click failed (General Exception): {e}"
+
+                                            if step_click_error_msg:
+                                                raise Exception(step_click_error_msg) # Propagate click error to fail the step
+                                            else:
+                                                yield {"status": "progress", "message": "          ✅ Click initiated successfully."}
+                                                step_result["status"] = "Success"
+
+
+                                        elif step_action == "waitFor":
+                                            if not element: continue # Should have been caught above
+                                            state_to_wait = step.get("state", "visible") # Default to visible
+                                            timeout_ms = step.get("timeout", 15000) # Default wait time
+                                            yield {"status": "progress", "message": f"          Waiting for element ('{step_selector}') state: '{state_to_wait}' (timeout: {timeout_ms}ms)..."}
+                                            await element.wait_for(state=state_to_wait, timeout=timeout_ms)
+                                            yield {"status": "progress", "message": f"          ✅ Element reached state '{state_to_wait}'."}
+                                            step_result["status"] = "Success"
+
+                                        elif step_action == "waitTimeout":
+                                            timeout_ms = step.get("timeout", 1000) # Default wait time
+                                            yield {"status": "progress", "message": f"          Waiting for fixed timeout: {timeout_ms}ms..."}
+                                            await page.wait_for_timeout(timeout_ms)
+                                            yield {"status": "progress", "message": f"          ✅ Timeout finished."}
+                                            step_result["status"] = "Success"
+
+                                        # Add more actions (e.g., fill, type) here if needed
+
+                                        else:
+                                            raise ValueError(f"Unsupported sequence action: {step_action}")
+
+                                        step_result["status"] = "Success" # Mark step as success if action didn't raise error
+                                        await page.wait_for_timeout(200) # Small pause after each successful step
+
+                                    except Exception as step_e:
+                                        error_msg = f"        ❌ Sequence Step Failed: {step_e}"
+                                        yield {"status": "error", "message": error_msg}
+                                        step_result["status"] = "Failure"
+                                        step_result["error"] = str(step_e)
+                                        sequence_success = False
+                                        sequence_error = str(step_e)
+                                        traceback.print_exc() # Log full traceback for step failure
+                                        break # Stop sequence execution on failure
+
+                                # --- After sequence loop ---
+                                if sequence_success:
+                                     click_result["sequenceStatus"] = "Success"
+                                     yield {"status": "progress", "message": f"        ✅ Sequence '{description}' completed successfully."}
+                                     yield {"status": "progress", "message": f"        Waiting {POST_CLICK_WAIT_MS / 1000}s for events after sequence..."}
+                                     await page.wait_for_timeout(POST_CLICK_WAIT_MS)
+                                     yield {"status": "progress", "message": "        Retrieving data after sequence..."}
+                                     click_result["tealium_events"] = await get_data_from_page(page, "tealiumSpecificEvents")
+                                     click_result["general_events"] = await get_data_from_page(page, "generalTrackingEvents")
+                                     if isinstance(click_result["general_events"], dict) and "network" in click_result["general_events"]:
+                                         network_data = click_result["general_events"]["network"]
+                                         if isinstance(network_data, list):
+                                             click_result["vendors_in_network"] = find_vendors_in_requests(network_data)
+                                         else:
+                                             click_result["vendors_in_network"] = {"error": "Network data is not a list"}
+                                     else:
+                                         click_result["vendors_in_network"] = {"error": "General events or network data missing/invalid"}
+                                else:
+                                     click_result["sequenceStatus"] = "Failure"
+                                     click_result["sequenceError"] = sequence_error
+                                     yield {"status": "error", "message": f"        ❌ Sequence '{description}' failed."}
+                                     # Data might still be partially useful, try retrieving anyway
+                                     yield {"status": "progress", "message": "        Retrieving any available data after failed sequence..."}
+                                     try:
+                                         click_result["tealium_events"] = await get_data_from_page(page, "tealiumSpecificEvents")
+                                         click_result["general_events"] = await get_data_from_page(page, "generalTrackingEvents")
+                                         if isinstance(click_result["general_events"], dict) and "network" in click_result["general_events"]:
+                                            network_data = click_result["general_events"]["network"]
+                                            if isinstance(network_data, list):
+                                                click_result["vendors_in_network"] = find_vendors_in_requests(network_data)
+                                            else:
+                                                click_result["vendors_in_network"] = {"error": "Network data is not a list"}
+                                         else:
+                                              click_result["vendors_in_network"] = {"error": "General events or network data missing/invalid"}
+                                     except Exception as post_fail_e:
+                                         yield {"status": "warning", "message": f"        Warning: Error retrieving data after failed sequence: {post_fail_e}"}
+                                         click_result["post_sequence_data_error"] = str(post_fail_e)
+
+
+                            elif config_type == "click": # Original click logic
+                                selector = element_config["selector"]
+                                click_result["selector"] = selector # Store selector for click type
                                 try:
-                                    await element.scroll_into_view_if_needed(timeout=7000)
-                                except Exception as scroll_e:
-                                     yield {"status": "warning", "message": f"        Warning: Could not scroll element into view ({scroll_e}). Continuing click attempt."}
+                                    element = page.locator(selector).first
+                                    yield {"status": "progress", "message": "        Attempting to dismiss overlays before interaction..."}
+                                    await dismiss_overlays(page)
 
-                                await page.wait_for_timeout(300) # Short pause after scroll
+                                    yield {"status": "progress", "message": f"        Waiting for element ('{selector}') to be visible..."}
+                                    await element.wait_for(state='visible', timeout=15000)
+                                    yield {"status": "progress", "message": "        Element is visible."}
+                                    try:
+                                        await element.scroll_into_view_if_needed(timeout=7000)
+                                    except Exception as scroll_e:
+                                        yield {"status": "warning", "message": f"        Warning: Could not scroll element into view ({scroll_e}). Continuing click attempt."}
 
-                                yield {"status": "progress", "message": "        Clearing tracking data..."}
-                                await clear_tracking_data(page)
+                                    await page.wait_for_timeout(300)
 
-                                yield {"status": "progress", "message": "        Attempting click..."}
-                                click_error_msg = None
-                                try:
-                                    # Consider adding trial=True if clicks are flaky and might need retries
-                                    await element.click(timeout=15000)
-                                except PlaywrightError as pe:
-                                    if "intercept" in str(pe).lower(): # Broader check for interception
-                                        yield {"status": "warning", "message":"        Click intercepted, trying force=True..."}
-                                        await dismiss_overlays(page)
-                                        try:
-                                            await element.click(timeout=10000, force=True)
-                                            # No error means forced click succeeded
-                                        except Exception as force_e:
-                                            click_error_msg = f"Forced click failed: {force_e}"
+                                    yield {"status": "progress", "message": "        Clearing tracking data..."}
+                                    await clear_tracking_data(page)
+
+                                    yield {"status": "progress", "message": "        Attempting click..."}
+                                    click_error_msg = None
+                                    try:
+                                        await element.click(timeout=15000)
+                                    except PlaywrightError as pe:
+                                        if "intercept" in str(pe).lower():
+                                            yield {"status": "warning", "message": "        Click intercepted, trying force=True..."}
+                                            await dismiss_overlays(page)
+                                            try:
+                                                await element.click(timeout=10000, force=True)
+                                            except Exception as force_e:
+                                                click_error_msg = f"Forced click failed: {force_e}"
+                                        else:
+                                            click_error_msg = f"Click failed (PlaywrightError): {pe}"
+                                    except Exception as e:
+                                        click_error_msg = f"Click failed (General Exception): {e}"
+
+                                    if click_error_msg:
+                                        yield {"status": "warning", "message": f"        ❌ Click attempt resulted in error: {click_error_msg}"}
+                                        click_result["clickStatus"] = "Failure"
+                                        click_result["clickError"] = click_error_msg
                                     else:
-                                        click_error_msg = f"Click failed (PlaywrightError): {pe}"
+                                        yield {"status": "progress", "message": "        ✅ Click initiated successfully."}
+                                        click_result["clickStatus"] = "Success"
+                                        yield {"status": "progress", "message": f"        Waiting {POST_CLICK_WAIT_MS / 1000}s for events..."}
+                                        await page.wait_for_timeout(POST_CLICK_WAIT_MS)
+
+                                    yield {"status": "progress", "message": "        Retrieving data after click attempt..."}
+                                    click_result["tealium_events"] = await get_data_from_page(page, "tealiumSpecificEvents")
+                                    click_result["general_events"] = await get_data_from_page(page, "generalTrackingEvents")
+                                    if isinstance(click_result["general_events"], dict) and "network" in click_result["general_events"]:
+                                        network_data = click_result["general_events"]["network"]
+                                        if isinstance(network_data, list):
+                                            click_result["vendors_in_network"] = find_vendors_in_requests(network_data)
+                                        else:
+                                            click_result["vendors_in_network"] = {"error": "Network data is not a list"}
+                                    else:
+                                        click_result["vendors_in_network"] = {"error": "General events or network data missing/invalid"}
+
+                                except PlaywrightTimeoutError as e:
+                                    error_msg = f"        ❌ Timeout error finding/interacting with '{description}': {e}"
+                                    yield {"status": "error", "message": error_msg}
+                                    click_result["clickStatus"] = "Error (Timeout)"
+                                    click_result["clickError"] = str(e)
                                 except Exception as e:
-                                    click_error_msg = f"Click failed (General Exception): {e}"
+                                    error_msg = f"        ❌ Unexpected error testing '{description}': {e}"
+                                    yield {"status": "error", "message": error_msg}
+                                    click_result["clickStatus"] = "Error (General)"
+                                    click_result["clickError"] = str(e)
+                                    traceback.print_exc()
+                            else:
+                                 yield {"status": "warning", "message": f"        Skipping unsupported interaction type: '{config_type}'"}
+                                 click_result["status"] = "Skipped"
+                                 click_result["reason"] = f"Unsupported type: {config_type}"
 
-                                if click_error_msg:
-                                    yield {"status": "warning", "message": f"        ❌ Click attempt resulted in error: {click_error_msg}"}
-                                    click_result["clickStatus"] = "Failure"
-                                    click_result["clickError"] = click_error_msg
-                                else:
-                                    yield {"status": "progress", "message": "        ✅ Click initiated successfully."}
-                                    click_result["clickStatus"] = "Success" # Mark as success if click didn't error
-                                    yield {"status": "progress", "message": f"        Waiting {POST_CLICK_WAIT_MS / 1000}s for events..."}
-                                    await page.wait_for_timeout(POST_CLICK_WAIT_MS)
-
-                                yield {"status": "progress", "message": "        Retrieving data after click attempt..."}
-                                click_result["tealium_events"] = await get_data_from_page(page, "tealiumSpecificEvents")
-                                click_result["general_events"] = await get_data_from_page(page, "generalTrackingEvents")
-
-                                # Network Vendor Analysis
-                                if isinstance(click_result["general_events"], dict) and "network" in click_result["general_events"]:
-                                    network_data = click_result["general_events"]["network"]
-                                    if isinstance(network_data, list):
-                                        click_result["vendors_in_network"] = find_vendors_in_requests(network_data)
-                                    else:
-                                        click_result["vendors_in_network"] = {"error": "Network data is not a list"}
-                                else:
-                                    click_result["vendors_in_network"] = {"error": "General events or network data missing/invalid"}
-
-                            except PlaywrightTimeoutError as e:
-                                error_msg = f"        ❌ Timeout error finding/interacting with '{description}': {e}"
-                                yield {"status": "error", "message": error_msg}
-                                click_result["clickStatus"] = "Error (Timeout)"
-                                click_result["clickError"] = str(e)
-                            except Exception as e:
-                                error_msg = f"        ❌ Unexpected error testing '{description}': {e}"
-                                yield {"status": "error", "message": error_msg}
-                                click_result["clickStatus"] = "Error (General)"
-                                click_result["clickError"] = str(e)
-                                traceback.print_exc() # Print stack trace for unexpected errors
-                            finally:
-                                click_analysis_results.append(click_result)
+                            click_analysis_results.append(click_result) # Append result regardless of type/status
 
                         results["clickAnalysis"] = click_analysis_results
-                        results["steps"].append({"step": "Click Event Analysis", "status": "Completed", "clicksTested": len(elements_to_test_for_this_page)})
-            else: # Handle critical navigation failure
+                        results["steps"].append({"step": "Interaction Analysis", "status": "Completed", "interactionsTested": len(elements_to_test_for_this_page)}) # Renamed step
+            else:
                  yield {"status": "error", "message": "Skipping remaining analysis due to navigation failure."}
                  results["error"] = results.get("error", "Navigation failed")
 
@@ -626,45 +794,83 @@ def format_results_for_console(results: Dict[str, Any]) -> str:
 
 
     # --- Click Analysis Summary ---
-    report.append("--- Click Event Analysis ---")
+    report.append("--- Interaction Analysis ---") # Renamed section
     if not click_analysis:
-        report.append(f"No click events were configured or analyzed for page type '{page_type}'.")
+        report.append(f"No interactions were configured or analyzed for page type '{page_type}'.")
     else:
-        for i, click in enumerate(click_analysis):
-            report.append(f"\n▶ Click {i+1}: {click.get('elementDescription')} ({click.get('clickStatus')})")
-            report.append(f"  Selector: {click.get('selector')}")
-            if click.get('clickError'):
-                 report.append(f"  Error: {click.get('clickError')}")
+        for i, interaction_result in enumerate(click_analysis):
+            interaction_type = interaction_result.get('type', 'click') # Get interaction type
+            description = interaction_result.get('elementDescription', 'Unknown Interaction')
+            status = "Unknown" # Default status
 
-            # Tealium Events
-            tealium_events = click.get('tealium_events', [])
-            if isinstance(tealium_events, list):
-                 report.append(f"  Tealium Events Triggered: {len(tealium_events)}")
-                 if tealium_events:
-                     for event in tealium_events:
-                         event_type = event.get('type', 'N/A')
-                         event_data = event.get('data', {})
-                         desc = ''
-                         if isinstance(event_data, dict):
-                             desc = event_data.get('event_name', event_data.get('event_type', event_data.get('event', event_data.get('link_id',''))))
-                         report.append(f"    - {event_type} {'('+desc+')' if desc else ''}")
-            elif isinstance(tealium_events, dict) and 'error' in tealium_events:
-                 report.append(f"  Tealium Events Triggered: Error retrieving ({tealium_events['error']})")
+            report.append(f"\n▶ Interaction {i+1}: {description} (Type: {interaction_type})")
+
+            if interaction_type == "click":
+                status = interaction_result.get('clickStatus', 'Unknown')
+                report.append(f"  Status: {status}")
+                report.append(f"  Selector: {interaction_result.get('selector')}")
+                if interaction_result.get('clickError'):
+                    report.append(f"  Error: {interaction_result.get('clickError')}")
+            elif interaction_type == "sequence":
+                status = interaction_result.get('sequenceStatus', 'Unknown')
+                report.append(f"  Status: {status}")
+                if interaction_result.get('sequenceError'):
+                    report.append(f"  Error: {interaction_result.get('sequenceError')}")
+                report.append("  Sequence Steps:")
+                for step_num, step_result in enumerate(interaction_result.get("sequenceSteps", [])):
+                    step_status = step_result.get('status', 'N/A')
+                    step_action_desc = f"{step_result.get('action', 'N/A').upper()} - '{step_result.get('description', 'N/A')}'"
+                    report.append(f"    Step {step_num + 1}: [{step_status}] {step_action_desc}")
+
+                    # Report visibility check outcome if it was performed
+                    if step_result.get("checked_visibility", False):
+                        vis_status = step_result.get("visibility_status", "Not Checked")
+                        report.append(f"      └─ Interactability Check: {vis_status}")
+
+                    if step_result.get('error'):
+                         report.append(f"      └─ Error: {step_result['error']}") # Indent error slightly
+            elif interaction_result.get('status') == 'Skipped':
+                 status = 'Skipped'
+                 report.append(f"  Status: {status}")
+                 report.append(f"  Reason: {interaction_result.get('reason', 'Unknown')}")
             else:
-                 report.append("  Tealium Events Triggered: None or invalid data")
+                 report.append("  Status: Unknown interaction format")
 
 
-            # Network Vendors
-            network_vendors = click.get('vendors_in_network', {})
-            if isinstance(network_vendors, dict) and 'error' not in network_vendors:
-                 report.append(f"  Network Requests to Vendors After Click: {len(network_vendors)}")
-                 if network_vendors:
-                     for name, urls in sorted(network_vendors.items()):
-                         report.append(f"    - {name} ({len(urls)} reqs)")
-            elif isinstance(network_vendors, dict) and 'error' in network_vendors:
-                 report.append(f"  Network Requests to Vendors After Click: Error ({network_vendors['error']})")
-            else:
-                 report.append("  Network Requests to Vendors After Click: None or invalid data")
+            # Don't report analytics/network data if the interaction was skipped or failed entirely
+            if status not in ["Failure", "Error (Timeout)", "Error (General)", "Skipped", "Unknown"]:
+                # Tealium Events (Applies to successful clicks and sequences)
+                tealium_events = interaction_result.get('tealium_events', [])
+                if isinstance(tealium_events, list):
+                    report.append(f"  Tealium Events Triggered: {len(tealium_events)}")
+                    if tealium_events:
+                        for event in tealium_events:
+                            event_type = event.get('type', 'N/A')
+                            event_data = event.get('data', {})
+                            desc = ''
+                            if isinstance(event_data, dict):
+                                desc = event_data.get('event_name', event_data.get('event_type', event_data.get('event', event_data.get('link_id',''))))
+                            report.append(f"    - {event_type} {'('+desc+')' if desc else ''}")
+                elif isinstance(tealium_events, dict) and 'error' in tealium_events:
+                    report.append(f"  Tealium Events Triggered: Error retrieving ({tealium_events['error']})")
+                elif 'post_sequence_data_error' in interaction_result: # Check for data error after sequence fail
+                     report.append(f"  Tealium Events Triggered: Error retrieving after sequence failure ({interaction_result['post_sequence_data_error']})")
+                # else: # Don't report 'None or invalid data' if the interaction failed anyway
+                #     report.append("  Tealium Events Triggered: None or invalid data")
+
+                # Network Vendors (Applies to successful clicks and sequences)
+                network_vendors = interaction_result.get('vendors_in_network', {})
+                if isinstance(network_vendors, dict) and 'error' not in network_vendors:
+                    report.append(f"  Network Requests to Vendors After Interaction: {len(network_vendors)}")
+                    if network_vendors:
+                        for name, urls in sorted(network_vendors.items()):
+                            report.append(f"    - {name} ({len(urls)} reqs)")
+                elif isinstance(network_vendors, dict) and 'error' in network_vendors:
+                    report.append(f"  Network Requests to Vendors After Interaction: Error ({network_vendors['error']})")
+                elif 'post_sequence_data_error' in interaction_result: # Check for data error after sequence fail
+                    report.append(f"  Network Requests to Vendors After Interaction: Error retrieving after sequence failure ({interaction_result['post_sequence_data_error']})")
+                # else: # Don't report 'None or invalid data' if the interaction failed anyway
+                #     report.append("  Network Requests to Vendors After Interaction: None or invalid data")
 
 
     report.append("\n=================================================")
