@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Test Agent</title>
+    <link rel="stylesheet" href="/static/base.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/analyzer-form.css">
+    <link rel="stylesheet" href="/static/results.css">
+    <link rel="stylesheet" href="/static/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="agent-loader" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+    <div class="background-wrapper">
+        <img src="/static/images/space-background.webp" alt="" class="background-image">
+    </div>
+    <div class="main-content">
+        <header class="app-header">
+            <div class="logo-container">
+                <div class="logo-icon"></div>
+                <h1>Webspark</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/agent" class="nav-link active">Agent</a>
+                <a href="#" class="nav-link">Docs</a>
+                <a href="#" class="nav-link">About</a>
+                <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <div class="hero-content-left">
+                <h1 class="hero-title">AI Test Agent</h1>
+                <p class="hero-subtitle">Enter a task for the agent and view its action history below.</p>
+                <form id="agent-form" class="url-form">
+                    <textarea id="task" name="task" placeholder="Enter task for agent" class="url-input" rows="3"></textarea>
+                    <button type="button" id="run-agent-btn" class="analyze-button">Run Agent</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="results-section">
+            <div class="results-card" id="history-container">
+                <h2>Agent History</h2>
+                <!-- populated via AJAX -->
+            </div>
+        </section>
+
+        <section class="raw-json-section">
+            <div class="results-card" id="raw-json-container">
+                <h2>Raw Output JSON</h2>
+                <!-- populated via AJAX -->
+            </div>
+        </section>
+
+        <footer class="app-footer">
+            <p>2025 Webspark Tag Analyzer | All rights reserved</p>
+        </footer>
+    </div>
+    <script src="/static/scripts.js"></script>
+    <script>
+    document.getElementById('run-agent-btn').addEventListener('click', async function() {
+        const task = document.getElementById('task').value;
+        const loader = document.getElementById('agent-loader');
+        loader.style.display = 'flex';
+        try {
+            const res = await fetch('/api/agent', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({task})
+            });
+            const data = await res.json();
+            // Render history
+            const historyContainer = document.getElementById('history-container');
+            historyContainer.innerHTML = '<h2>Agent History</h2>';
+            if (data.history && data.history.length) {
+                data.history.forEach(entry => {
+                    const div = document.createElement('div');
+                    div.className = 'result-entry';
+                    div.innerHTML = `
+                        <h3>Step ${entry.metadata.step_number}</h3>
+                        <p><strong>Action:</strong> <code>${JSON.stringify(entry.model_output.action[0])}</code></p>
+                        <p><strong>Result:</strong> ${entry.result[0].extracted_content}</p>
+                        ${entry.screenshot_filename ? `<p><strong>Screenshot:</strong> <a href="/screenshots/${entry.screenshot_filename}" target="_blank">${entry.screenshot_filename}</a></p>` : ''}
+                    `;
+                    historyContainer.appendChild(div);
+                });
+            } else {
+                historyContainer.innerHTML += '<p>No history available. Submit a task to run the agent.</p>';
+            }
+            // Render raw JSON
+            const rawContainer = document.getElementById('raw-json-container');
+            rawContainer.innerHTML = '<h2>Raw Output JSON</h2><pre class="raw-json"><code>' + JSON.stringify(data.full_data, null, 2) + '</code></pre>';
+        } catch(err) {
+            console.error(err);
+            alert('Error running agent; check console.');
+        } finally {
+            loader.style.display = 'none';
+        }
+    });
+    </script>
+</body>
+</html>

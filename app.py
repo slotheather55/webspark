@@ -8,10 +8,12 @@ if sys.platform.startswith('win'):
 import json
 import re
 import traceback
+import uvicorn
 from urllib.parse import unquote
 from datetime import datetime # Added for timestamping filename
+from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -26,6 +28,7 @@ app = FastAPI()
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/screenshots", StaticFiles(directory="browser-use/dom_state_data"), name="screenshots")
 
 # Configure templates
 templates = Jinja2Templates(directory="templates")
@@ -90,6 +93,42 @@ async def stream(request: Request, url: str = DEFAULT_URL):
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+# Agent page endpoints
+@app.get("/agent", response_class=HTMLResponse)
+async def show_agent_form(request: Request):
+    return templates.TemplateResponse("agent.html", {"request": request})
+
+@app.post("/agent", response_class=HTMLResponse)
+async def run_agent(request: Request, task: str = Form(...)):
+    # Run test agent with the given task, outputs to out.json
+    import test_agent
+    await test_agent.main(task)
+    # Load history from JSON
+    data = json.load(open("out.json", "r", encoding="utf-8"))
+    history = data.get("history", [])
+    # Normalize screenshot filenames for template
+    for entry in history:
+        screenshot = entry.get("state", {}).get("screenshot")
+        if screenshot:
+            entry["screenshot_filename"] = Path(screenshot).name
+    # Render agent page with history and full JSON data
+    return templates.TemplateResponse("agent.html", {"request": request, "history": history, "task": task, "full_data": data})
+
+# AJAX endpoint for agent tasks
+@app.post("/api/agent")
+async def api_run_agent(request: Request):
+    """Run the AI test agent and return JSON results."""
+    body = await request.json()
+    task = body.get("task")
+    import test_agent
+    await test_agent.main(task)
+    data = json.load(open("out.json", "r", encoding="utf-8"))
+    history = data.get("history", [])
+    for entry in history:
+        screenshot = entry.get("state", {}).get("screenshot")
+        if screenshot:
+            entry["screenshot_filename"] = Path(screenshot).name
+    return {"history": history, "full_data": data}
+
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run("app:app", host="0.0.0.0", port=5000, reload=False)

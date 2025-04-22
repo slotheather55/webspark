@@ -19,10 +19,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'browser-use'))
 from langchain_openai import ChatOpenAI
 from browser_use import Agent
 
-async def main():
+async def main(task_prompt: str = None):
     load_dotenv()
-    # Hardcoded task: navigate and add to cart
-    task_prompt = "Click on https://www.penguinrandomhouse.com/books/536247/devotions-a-read-with-jenna-pick-by-mary-oliver/ and then add to cart."
+    if task_prompt is None:
+        # Hardcoded default task: navigate and add to cart
+        task_prompt = "Click on https://www.penguinrandomhouse.com/books/536247/devotions-a-read-with-jenna-pick-by-mary-oliver/ and then add to cart."
     llm = ChatOpenAI(model="gpt-4o")
     agent = Agent(task=task_prompt, llm=llm)
     history = await agent.run(max_steps=50)
@@ -44,4 +45,6 @@ async def main():
     print("Done. History saved to out.json; screenshots in dom_state_data")
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    import sys
+    # Allow passing task prompt via CLI argument
+    asyncio.run(main(sys.argv[1] if len(sys.argv) > 1 else None))
