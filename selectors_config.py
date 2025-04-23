@@ -1,3 +1,6 @@
+import json
+import os
+from pathlib import Path
 from playwright.sync_api import Page
 
 # A helper to reveal the "prev" arrow on recommendation carousel
@@ -5,12 +8,10 @@ def reveal_prev(page: Page):
     page.click("#recommendationCarousel button.slick-next.slick-arrow")
     page.wait_for_selector("#recommendationCarousel button.slick-prev.slick-arrow", state='visible')
 
-# A helper to open the Quick‑View modal for a recommendation
+# Helper function placeholder - Quick View functionality removed
 def open_quickview(page: Page):
-    # Try clicking the Quick View trigger; supports both aria-label and class selectors
-    page.click('div#recommendationCarousel button[aria-label="Quick View"], div#recommendationCarousel .quick-view')
-    # Wait for the modal dialog to become visible
-    page.wait_for_selector('div.dk-modal-dialog.quickview-modal, div[role="dialog"]', state='visible')
+    print("Quick View functionality has been disabled")
+    pass
 
 PAGE_TYPE_SELECTORS = {
     # --- Selectors for Product Detail Pages ---
@@ -33,11 +34,6 @@ PAGE_TYPE_SELECTORS = {
             "selector": "#recommendationCarousel button.slick-prev.slick-arrow"
         },
         {
-            "description": "Quick View Add to Cart Button",
-            "preAction": open_quickview,
-            "selector": 'div.dk-modal-dialog.quickview-modal form[action*="prhcart.php"] button:has-text("ADD TO CART")'
-        },
-        {
             "description": "Barnes & Noble Retailer Link (Main Format)",
             "selector": 'div[id^="collapse"].in .affiliate-buttons a:has-text("Barnes & Noble")'
         },
@@ -49,38 +45,7 @@ PAGE_TYPE_SELECTORS = {
             "description": "Add to Bookshelf (PDP)",
             "selector": 'div.book-shelf-add'
         },
-        # Sequence for interacting with the Quick View modal via carousel
-        {
-            "description": "Add to Cart via Carousel Quick View",
-            "type": "sequence",
-            "steps": [
-                {
-                    "action": "waitFor",
-                    "description": "Wait for First Quick View button in Rec Carousel to be visible",
-                    "selector": 'div#recommendationCarousel .element-wrapper:first-child .quick-view',
-                    "state": "visible",
-                    "timeout": 3000
-                },
-                {
-                    "action": "click",
-                    "description": "Click First Quick View button in Recommendation Carousel",
-                    "selector": 'div#recommendationCarousel .element-wrapper:first-child .quick-view'
-                },
-                {
-                    "action": "waitFor",
-                    "description": "Wait for Quick View Modal to appear",
-                    "selector": 'div.dk-modal-dialog.quickview-modal, div[role="dialog"]',
-                    "state": "visible",
-                    "timeout": 10000
-                },
-                {
-                    "action": "click",
-                    "description": "Click Add to Cart button inside Quick View Modal",
-                    "selector": 'div.dk-modal-dialog.quickview-modal form[action*="prhcart.php"] button:has-text("ADD TO CART")',
-                    "check_visibility_after_previous": True
-                }
-            ]
-        }
+        
     ],
 
     # --- Selectors for List Detail Pages (like ReadDown) ---
@@ -111,3 +76,24 @@ PAGE_TYPE_SELECTORS = {
         }
     ]
 }
+
+# Load agent-discovered selectors if available, but only when explicitly requested
+# This keeps the agent flow separate from the regular analysis flow
+USE_AGENT_SELECTORS = os.environ.get('USE_AGENT_SELECTORS', '').lower() == 'true'
+AGENT_SELECTORS_FILE = Path(__file__).parent / "agent_discovered_selectors.json"
+AGENT_DISCOVERED_SELECTORS = []
+
+if USE_AGENT_SELECTORS and AGENT_SELECTORS_FILE.exists():
+    try:
+        with open(AGENT_SELECTORS_FILE, "r", encoding="utf-8") as f:
+            AGENT_DISCOVERED_SELECTORS = json.load(f)
+        print(f"Loaded {len(AGENT_DISCOVERED_SELECTORS)} agent-discovered selectors")
+        
+        # Add agent-discovered selectors to appropriate page types
+        for selector in AGENT_DISCOVERED_SELECTORS:
+            # For simplicity, add to DEFAULT category
+            if "DEFAULT" not in PAGE_TYPE_SELECTORS:
+                PAGE_TYPE_SELECTORS["DEFAULT"] = []
+            PAGE_TYPE_SELECTORS["DEFAULT"].append(selector)
+    except Exception as e:
+        print(f"Error loading agent-discovered selectors: {e}")

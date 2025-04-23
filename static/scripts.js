@@ -365,37 +365,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle form submission
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-  
+
       // If analysis is already running, prevent starting another one
       if (analysisInProgress) {
         return;
       }
-  
+
       // Update UI for analysis start
       updateUIState('running');
-  
+
       // Close any existing connection
       if (eventSource) {
         eventSource.close();
       }
-  
+
       // Get URL to analyze
       let urlToAnalyze = urlInput.value.trim();
       if (!urlToAnalyze) {
         urlToAnalyze = urlInput.placeholder;
       }
-  
+
       // Basic check if it needs https:// prepended
       if (!urlToAnalyze.startsWith('http://') && !urlToAnalyze.startsWith('https://')) {
         urlToAnalyze = 'https://' + urlToAnalyze;
       }
-  
+      
+      // Check if user wants to use agent-discovered selectors
+      // This is set by the button in the agent page
+      let useAgentSelectors = localStorage.getItem('useAgentSelectors') === 'true';
+      
+      // If using agent selectors, set environment variable via query parameter
+      // This keeps the two flows separate - regular analysis vs agent-enhanced analysis
+      let streamUrl = `/stream?url=${encodeURIComponent(urlToAnalyze)}`;
+      if (useAgentSelectors) {
+        streamUrl += '&use_agent_selectors=true';
+        addStatusMessage('Using agent-discovered selectors for this analysis', 'info');
+      }
+
       // Remove redundant status message added before SSE connection
       // addStatusMessage(`🚀 Starting Analysis for: ${urlToAnalyze}`, 'starting');
-  
+
       // Setup Server-Sent Events (SSE)
-      const encodedUrl = encodeURIComponent(urlToAnalyze);
-      eventSource = new EventSource(`/stream?url=${encodedUrl}`);
+      eventSource = new EventSource(streamUrl);
   
       // Event handlers for SSE
       eventSource.onopen = () => {

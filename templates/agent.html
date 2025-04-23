@@ -48,6 +48,21 @@
                 </form>
             </div>
         </section>
+        
+        <!-- Live Agent Logs Section -->
+        <section class="results-section" id="agent-logs-section" style="display: none;">
+            <div class="results-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-terminal"></i> Live Agent Logs</h2>
+                    <div class="status-badge" id="agent-status">Running</div>
+                </div>
+                <div class="card-body">
+                    <div class="live-log-container">
+                        <ul id="agent-log-list" class="live-log-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section class="results-section">
             <div class="results-card" id="history-container">
@@ -56,6 +71,13 @@
             </div>
         </section>
 
+        <section class="raw-json-section">
+            <div class="results-card" id="selectors-container">
+                <h2>Extracted Selectors</h2>
+                <!-- populated via AJAX -->
+            </div>
+        </section>
+        
         <section class="raw-json-section">
             <div class="results-card" id="raw-json-container">
                 <h2>Raw Output JSON</h2>
@@ -67,46 +89,193 @@
             <p>2025 Webspark Tag Analyzer | All rights reserved</p>
         </footer>
     </div>
-    <script src="/static/scripts.js"></script>
+    <!-- Removed default scripts.js to avoid auto-run on load -->
     <script>
-    document.getElementById('run-agent-btn').addEventListener('click', async function() {
-        const task = document.getElementById('task').value;
-        const loader = document.getElementById('agent-loader');
-        loader.style.display = 'flex';
-        try {
-            const res = await fetch('/api/agent', {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({task})
-            });
-            const data = await res.json();
-            // Render history
-            const historyContainer = document.getElementById('history-container');
-            historyContainer.innerHTML = '<h2>Agent History</h2>';
-            if (data.history && data.history.length) {
-                data.history.forEach(entry => {
-                    const div = document.createElement('div');
-                    div.className = 'result-entry';
-                    div.innerHTML = `
-                        <h3>Step ${entry.metadata.step_number}</h3>
-                        <p><strong>Action:</strong> <code>${JSON.stringify(entry.model_output.action[0])}</code></p>
-                        <p><strong>Result:</strong> ${entry.result[0].extracted_content}</p>
-                        ${entry.screenshot_filename ? `<p><strong>Screenshot:</strong> <a href="/screenshots/${entry.screenshot_filename}" target="_blank">${entry.screenshot_filename}</a></p>` : ''}
-                    `;
-                    historyContainer.appendChild(div);
-                });
-            } else {
-                historyContainer.innerHTML += '<p>No history available. Submit a task to run the agent.</p>';
-            }
-            // Render raw JSON
-            const rawContainer = document.getElementById('raw-json-container');
-            rawContainer.innerHTML = '<h2>Raw Output JSON</h2><pre class="raw-json"><code>' + JSON.stringify(data.full_data, null, 2) + '</code></pre>';
-        } catch(err) {
-            console.error(err);
-            alert('Error running agent; check console.');
-        } finally {
-            loader.style.display = 'none';
+    window.addEventListener('DOMContentLoaded', function() {
+        const agentLogList = document.getElementById('agent-log-list');
+        const agentLogsSection = document.getElementById('agent-logs-section');
+        const agentStatus = document.getElementById('agent-status');
+        let eventSource = null;
+        
+        // Function to add a log message to the UI
+        function addLogMessage(message, type = 'info') {
+            const li = document.createElement('li');
+            li.className = `live-log-item ${type}`;
+            li.textContent = message;
+            agentLogList.appendChild(li);
+            // Auto-scroll to bottom
+            agentLogList.scrollTop = agentLogList.scrollHeight;
         }
+        
+        // Handle the Run Agent button click
+        document.getElementById('run-agent-btn').addEventListener('click', async function() {
+            const task = document.getElementById('task').value;
+            if (!task.trim()) {
+                alert('Please enter a task for the agent');
+                return;
+            }
+            
+            // Show loader and logs section
+            const loader = document.getElementById('agent-loader');
+            loader.style.display = 'flex';
+            agentLogsSection.style.display = 'block';
+            
+            // Clear previous logs
+            agentLogList.innerHTML = '';
+            agentStatus.textContent = 'Running';
+            agentStatus.className = 'status-badge';
+            
+            // Close any existing event source
+            if (eventSource) {
+                eventSource.close();
+            }
+            
+            // Start streaming logs
+            eventSource = new EventSource('/stream-agent');
+            
+            eventSource.onmessage = function(event) {
+                try {
+                    // Handle potential JSON parsing errors
+                    let data;
+                    try {
+                        data = JSON.parse(event.data);
+                    } catch (jsonError) {
+                        console.error('Error parsing JSON:', jsonError, 'Raw data:', event.data);
+                        addLogMessage(`Error parsing server response: ${event.data}`, 'error');
+                        return;
+                    }
+                    
+                    if (data.status === 'log') {
+                        // Determine log type based on content
+                        let logType = 'info';
+                        if (data.message.includes('ERROR') || data.message.includes('Error') || data.message.includes('❌')) {
+                            logType = 'error';
+                        } else if (data.message.includes('WARNING') || data.message.includes('Warning')) {
+                            logType = 'warning';
+                        } else if (data.message.includes('SUCCESS') || data.message.includes('✅')) {
+                            logType = 'success';
+                        }
+                        addLogMessage(data.message, logType);
+                    } else if (data.status === 'complete') {
+                        addLogMessage('Agent task completed', 'success');
+                        agentStatus.textContent = 'Completed';
+                        agentStatus.className = 'status-badge success';
+                        eventSource.close();
+                    } else if (data.status === 'error') {
+                        addLogMessage(`Error: ${data.message}`, 'error');
+                        agentStatus.textContent = 'Error';
+                        agentStatus.className = 'status-badge error';
+                        eventSource.close();
+                    }
+                } catch (e) {
+                    console.error('Error handling event:', e);
+                    addLogMessage(`Error processing server message: ${e.message}`, 'error');
+                }
+            };
+            
+            eventSource.onerror = function() {
+                addLogMessage('Connection to server lost', 'error');
+                eventSource.close();
+            };
+            
+            // Submit the task to the agent API
+            try {
+                addLogMessage(`Starting agent with task: ${task}`, 'section');
+                
+                const res = await fetch('/api/agent', {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({task})
+                });
+                const data = await res.json();
+                
+                // Render history
+                const historyContainer = document.getElementById('history-container');
+                historyContainer.innerHTML = '<h2>Agent History</h2>';
+                if (data.history && data.history.length) {
+                    data.history.forEach(entry => {
+                        const div = document.createElement('div');
+                        div.className = 'result-entry';
+                        div.innerHTML = `
+                            <h3>Step ${entry.metadata.step_number}</h3>
+                            <p><strong>Action:</strong> <code>${JSON.stringify(entry.model_output.action[0])}</code></p>
+                            <p><strong>Result:</strong> ${entry.result[0].extracted_content}</p>
+                            ${entry.screenshot_filename ? `<p><strong>Screenshot:</strong> <a href="/screenshots/${entry.screenshot_filename}" target="_blank">${entry.screenshot_filename}</a></p>` : ''}
+                            
+                            <!-- Add selector information if available -->
+                            ${entry.selector_info ? `
+                            <div class="selector-info">
+                                <p><strong>Selector Information:</strong></p>
+                                <pre class="raw-json">${JSON.stringify(entry.selector_info, null, 2)}</pre>
+                            </div>` : ''}
+                            
+                            <!-- Tealium events before interaction -->
+                            ${entry.tealium_events ? `
+                            <div class="tealium-events">
+                                <p><strong>Tealium Events (Page Load):</strong></p>
+                                <pre class="raw-json">${JSON.stringify(entry.tealium_events, null, 2)}</pre>
+                            </div>` : ''}
+                            
+                            <!-- Tealium events during click action (if available) -->
+                            ${entry.click_tealium_events ? `
+                            <div class="tealium-events">
+                                <p><strong>Tealium Events (During Click Action):</strong></p>
+                                <pre class="raw-json">${JSON.stringify(entry.click_tealium_events, null, 2)}</pre>
+                            </div>` : ''}
+                            
+                            <!-- Tealium events after interaction (if available) -->
+                            ${entry.post_click_tealium_events ? `
+                            <div class="tealium-events">
+                                <p><strong>Tealium Events (After Navigation):</strong></p>
+                                <pre class="raw-json">${JSON.stringify(entry.post_click_tealium_events, null, 2)}</pre>
+                            </div>` : ''}
+                        `;
+                        historyContainer.appendChild(div);
+                    });
+                } else {
+                    historyContainer.innerHTML += '<p>No history available. Submit a task to run the agent.</p>';
+                }
+                
+                // Render selectors section
+                const selectorsContainer = document.getElementById('selectors-container');
+                if (data.extracted_selectors && data.extracted_selectors.length > 0) {
+                    let selectorsHTML = '<h2>Extracted Selectors</h2>';
+                    selectorsHTML += '<div class="selector-controls">';
+                    selectorsHTML += '<button id="use-selectors-btn" class="analyze-button">Use These Selectors in Future Analyses</button>';
+                    selectorsHTML += '<p class="selector-note">This will enable the agent-discovered selectors for use in the home page analyzer.</p>';
+                    selectorsHTML += '</div>';
+                    selectorsHTML += '<pre class="raw-json"><code>' + JSON.stringify(data.extracted_selectors, null, 2) + '</code></pre>';
+                    selectorsContainer.innerHTML = selectorsHTML;
+                    
+                    // Add event listener for the use selectors button
+                    document.getElementById('use-selectors-btn').addEventListener('click', function() {
+                        localStorage.setItem('useAgentSelectors', 'true');
+                        alert('Agent selectors will be used in future analyses. Refresh the page to see the changes.');
+                    });
+                } else {
+                    selectorsContainer.innerHTML = '<h2>Extracted Selectors</h2><p>No selectors were extracted from this agent run.</p>';
+                }
+                
+                // Render raw JSON
+                const rawContainer = document.getElementById('raw-json-container');
+                rawContainer.innerHTML = '<h2>Raw Output JSON</h2><pre class="raw-json"><code>' + JSON.stringify(data.full_data, null, 2) + '</code></pre>';
+                
+                // Update status
+                agentStatus.textContent = 'Completed';
+                agentStatus.className = 'status-badge success';
+                
+            } catch(err) {
+                console.error(err);
+                addLogMessage(`Error running agent: ${err.message}`, 'error');
+                agentStatus.textContent = 'Error';
+                agentStatus.className = 'status-badge error';
+            } finally {
+                loader.style.display = 'none';
+                if (eventSource) {
+                    eventSource.close();
+                }
+            }
+        });
     });
     </script>
 </body>
