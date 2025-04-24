@@ -1,19 +1,5 @@
 [
     {
-        "description": "Agent-discovered: click_element_by_index on button",
-        "selector": "html > body > div:nth-of-type(5) > main > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(5) > div > div:nth-of-type(2) > div > ul > li > div > form > button.btn.buy2[type=\"submit\"]",
-        "type": "click"
-    },
-    {
-        "selector": "html > body > div:nth-of-type(5) > main > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(5) > div > div:nth-of-type(2) > div > ul > li > div > form > button.btn.buy2[type=\"submit\"]",
-        "url": "https://www.penguinrandomhouse.com/books/536247/devotions-a-read-with-jenna-pick-by-mary-oliver/",
-        "description": "Agent: button (27)",
-        "count": 1,
-        "tag_name": "button",
-        "xpath": "html/body/div[5]/main/div[3]/div/div/div[2]/div/div[3]/div[5]/div/div[2]/div/ul/li/div/form/button",
-        "highlight_index": 27
-    },
-    {
         "selector": "html > body > div:nth-of-type(5) > main > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(5) > div > div:nth-of-type(2) > div > ul > li > div > form > button.btn.buy2[type=\"submit\"]",
         "url": "https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/",
         "description": "Agent: button (28)",

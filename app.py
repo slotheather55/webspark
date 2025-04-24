@@ -27,6 +27,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 import gemini_analyzer
+import test_agent
 
 # Default URL
 DEFAULT_URL = "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/"
@@ -37,6 +38,20 @@ app = FastAPI()
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/screenshots", StaticFiles(directory="browser-use/dom_state_data"), name="screenshots")
+
+# Serve specific JSON files directly
+@app.get("/agent_discovered_selectors.json")
+async def get_agent_discovered_selectors():
+    """Serve the agent discovered selectors JSON file."""
+    try:
+        file_path = Path(__file__).parent / "agent_discovered_selectors.json"
+        if file_path.exists():
+            with open(file_path, "r") as f:
+                return json.load(f)
+        return []  # Return empty array if file doesn't exist
+    except Exception as e:
+        logging.error(f"Error reading selector file: {e}")
+        return []
 
 # Configure templates
 templates = Jinja2Templates(directory="templates")
@@ -292,7 +307,6 @@ async def api_run_agent(request: Request):
         agent_logger.addHandler(file_handler)
     
         # Run the agent with the configured logging
-        import test_agent
         result = await test_agent.main(task)
         
         # Remove the file handler to avoid duplicate logs
@@ -369,6 +383,33 @@ async def api_run_agent(request: Request):
             
         # Return error response
         return {"error": str(e), "history": [], "full_data": {}, "extracted_selectors": []}
+
+@app.post("/stream-agent-run")
+async def stream_agent_run(request: Request):
+    data = await request.json()
+    task = data.get('task')
+    if not task:
+        # Return an SSE error message
+        async def error_stream():
+             yield f"data: {json.dumps({'status': 'error', 'message': 'Task description is required'})}\n\n"
+        return StreamingResponse(error_stream(), media_type='text/event-stream', status=400)
+
+    async def generate():
+        try:
+            # Use 'async for' to iterate through the async generator
+            async for message_json in test_agent.main_generator(task):
+                # message_json is already a JSON string from the generator
+                yield f"data: {message_json}\n\n" # Format as SSE
+                await asyncio.sleep(0.01) # Small sleep to allow event loop switching if needed
+        except Exception as e:
+            print(f"Error during agent streaming for task '{task}': {e}")
+            traceback.print_exc()
+            # Yield a final error message in SSE format
+            yield f"data: {json.dumps({'status': 'error', 'message': f'Internal server error: {e}'})}\n\n"
+
+    # Return the streaming response
+    # Use await generate() if needed, but Response handles async generators directly
+    return StreamingResponse(generate(), media_type="text/event-stream")
 
 if __name__ == "__main__":
     # Try different ports if the default one is in use

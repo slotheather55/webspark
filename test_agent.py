@@ -13,16 +13,19 @@ import base64
 import time
 from pathlib import Path
 import json
+import logging
+import traceback
 from playwright.async_api import async_playwright
 from typing import List, Dict, Any
 
 # Ensure browser-use library is on the path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'browser-use'))
+# sys.path.append(os.path.join(os.path.dirname(__file__), 'browser-use')) # Removed potential conflict
 
 # Import required packages
 from langchain_openai import ChatOpenAI
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import HumanMessage, AIMessage
+# from browser_use import run # Remove this import
 
 # Create a simple mock chat model for testing
 from typing import List, Any, Optional, Dict
@@ -53,8 +56,8 @@ from browser_use import Agent
 async def main(task_prompt: str = None):
     load_dotenv()
     if task_prompt is None:
-        # Hardcoded default task: navigate and add to cart
-        task_prompt = "Click on https://www.penguinrandomhouse.com/books/536247/devotions-a-read-with-jenna-pick-by-mary-oliver/ and then add to cart."
+        # Hardcoded default task: navigate and find the buy button
+        task_prompt = "Go to https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/ and click on the 'Buy' button, then find and click on any other interactive element on the page."
     
     # Check for OpenAI API key
     openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -141,8 +144,10 @@ async def main(task_prompt: str = None):
                 # Add to list if it seems like a successful action (e.g., has a selector and was part of a known action type)
                 action = h_entry.get("model_output", {}).get("action", [{}])[0]
                 action_type = list(action.keys())[0] if action and isinstance(action, dict) else "unknown"
+                print(f"DEBUG: Processing action type: {action_type}, has selector: {bool(selector_info.get('selector'))}")
                 if selector_info.get("selector") and action_type not in ["finish", "fail", "unknown"]:
                     successful_selectors.append(selector_info)
+                    print(f"DEBUG: Added selector to successful_selectors: {selector_info['selector']}")
 
             except Exception as e:
                 print(f"Error extracting selector info: {e}")
@@ -159,8 +164,10 @@ async def main(task_prompt: str = None):
     print("Data processing complete and saved to out.json")
 
     # --- Extract and Save Selectors --- #
-    if successful_selectors: # Only run if we found selectors
-        extract_and_save_selectors(successful_selectors)
+    print(f"DEBUG: Found {len(successful_selectors)} successful selectors")
+    # Always try to save selectors, even if the list is empty
+    # This ensures the file is created even if no selectors were found
+    extract_and_save_selectors(successful_selectors)
 
 def extract_and_save_selectors(selectors_to_save: List[Dict[str, Any]]):
     """
@@ -170,6 +177,7 @@ def extract_and_save_selectors(selectors_to_save: List[Dict[str, Any]]):
     """
     output_file = Path(__file__).parent / "agent_discovered_selectors.json"
     print(f"Extracting and saving successful selectors to {output_file}...")
+    print(f"DEBUG: selectors_to_save: {selectors_to_save}")
 
     unique_selectors_by_url = {}
 
@@ -214,12 +222,16 @@ def extract_and_save_selectors(selectors_to_save: List[Dict[str, Any]]):
         if output_file.exists():
             try:
                 with open(output_file, "r", encoding="utf-8") as f:
-                    existing_selectors = json.load(f)
-                    if not isinstance(existing_selectors, list):
-                        print(f"Warning: Existing selectors file format is not a list. Overwriting.")
-                        existing_selectors = []
-            except json.JSONDecodeError:
-                print(f"Warning: Could not decode existing selectors file. Overwriting.")
+                    content = f.read().strip()
+                    if content:  # Only try to parse if there's content
+                        existing_selectors = json.load(f)
+                        if not isinstance(existing_selectors, list):
+                            print(f"Warning: Existing selectors file format is not a list. Overwriting.")
+                            existing_selectors = []
+                    else:
+                        print(f"Warning: Existing selectors file is empty. Starting with empty list.")
+            except json.JSONDecodeError as e:
+                print(f"Warning: Could not decode existing selectors file. Overwriting. Error: {e}")
                 existing_selectors = []
 
         # Combine and deduplicate (based on url + selector)
@@ -238,11 +250,185 @@ def extract_and_save_selectors(selectors_to_save: List[Dict[str, Any]]):
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(final_list_to_save, f, indent=4)
         print(f"Successfully saved {len(final_list_to_save)} unique selectors to {output_file}")
+        
+        # Verify the file was created and has content
+        if output_file.exists():
+            file_size = output_file.stat().st_size
+            print(f"DEBUG: Verified file exists with size: {file_size} bytes")
+            if file_size == 0:
+                print("WARNING: File exists but is empty!")
+        else:
+            print("ERROR: File was not created!")
     except Exception as e:
         print(f"Error saving selectors to {output_file}: {e}")
+        print(f"Exception traceback: {traceback.format_exc()}")
+
+# --- Custom Async Logging Handler ---
+class AsyncQueueHandler(logging.Handler):
+    """Sends LogRecord objects to an asyncio Queue."""
+    def __init__(self, queue: asyncio.Queue):
+        super().__init__()
+        self.queue = queue
+
+    def emit(self, record: logging.LogRecord):
+        # Don't format here, put the raw record
+        try:
+            self.queue.put_nowait(record)
+        except asyncio.QueueFull:
+            # Handle queue full case if necessary, e.g., log a warning
+            print(f"Log queue full, dropping record: {record.getMessage()}", file=sys.stderr)
+
+# --- Main Async Generator ---
+async def main_generator(task: str):
+    """Runs the browser agent task, yielding logs and final results."""
+    log_queue = asyncio.Queue()
+    logger = logging.getLogger() # Get root logger
+    # Ensure log level is appropriate (e.g., INFO)
+    # Avoid setting level here if Flask/Uvicorn manages it, but ensure it's not higher than needed.
+    logger.setLevel(logging.INFO)
+
+    # Setup handler
+    queue_handler = AsyncQueueHandler(log_queue)
+    # Formatter will be used when retrieving from queue
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    queue_handler.setFormatter(formatter)
+
+    # Add handler - check prevents duplicates if called multiple times rapidly
+    # Consider a more robust check if concurrency is expected
+    handler_added = False
+    if queue_handler not in logger.handlers:
+        logger.addHandler(queue_handler)
+        handler_added = True
+
+    agent_task = None
+    queue_reader_task = None
+    history_data = []
+    selectors_data = []
+    error_message = None
+    agent_finished = False
+
+    try:
+        # Create task to run the agent logic (main function is already async)
+        agent_task = asyncio.create_task(main(task), name="agent_run_task")
+        # Create task to read the first item from the queue
+        queue_reader_task = asyncio.create_task(log_queue.get(), name="queue_reader_task")
+
+        pending = {agent_task, queue_reader_task}
+
+        while not agent_finished:
+            # Wait for either task to complete
+            done, pending = await asyncio.wait(
+                pending, return_when=asyncio.FIRST_COMPLETED
+            )
+
+            if queue_reader_task in done:
+                try:
+                    log_record: logging.LogRecord = queue_reader_task.result()
+                    # Format the record using the handler's formatter
+                    log_message_str = queue_handler.format(log_record)
+                    yield json.dumps({"status": "log", "message": log_message_str})
+                    log_queue.task_done()
+                except asyncio.CancelledError:
+                     pass # Task was cancelled, likely because agent finished
+                except Exception as log_e:
+                    print(f"Error processing log record: {log_e}", file=sys.stderr) # Log processing error
+
+                # If the agent is still running, schedule the next queue read
+                if not agent_task.done():
+                    queue_reader_task = asyncio.create_task(log_queue.get(), name="queue_reader_task")
+                    pending.add(queue_reader_task)
+                else:
+                     # Agent finished while we were processing log, ensure flag is set
+                     agent_finished = True
+                     queue_reader_task = None # No more reading needed
+
+            if agent_task in done:
+                agent_finished = True
+                # Cancel the pending queue reader if it exists and is pending
+                if queue_reader_task in pending:
+                    queue_reader_task.cancel()
+                    pending.remove(queue_reader_task) # Remove from pending set
+                # Set task to None to avoid issues if loop iterates again
+                queue_reader_task = None
+
+                try:
+                    # Get the agent output - could be history data or [] if error
+                    history_data = agent_task.result() # Get result or raise exception
+                    
+                    # Data has already been processed and saved by main()
+                    # Load it from the out.json file for consistency
+                    try:
+                        with open('out.json', 'r') as f:
+                            data = json.load(f)
+                            history_data = data.get('history', [])
+                    except (FileNotFoundError, json.JSONDecodeError) as e:
+                        logging.warning(f"Could not load processed data from out.json: {e}")
+                    
+                    # We don't have the selectors_data separately, but the frontend doesn't seem to use it
+                    # directly, so we'll pass an empty list
+                    selectors_data = []
+                    # This log might arrive *after* completion signal if queue is processed slowly
+                    # logging.info("Agent run and processing finished successfully.")
+                except asyncio.CancelledError:
+                     error_message = "Agent task was cancelled."
+                     logging.warning(error_message)
+                except Exception as e:
+                    error_message = f"An error occurred during agent execution/processing: {e}"
+                    # Log the full traceback via the logger itself
+                    logging.exception(error_message)
+                # Agent task is done, remove from loop consideration
+                agent_task = None
 
 
-if __name__ == '__main__':
-    import sys
-    # Allow passing task prompt via CLI argument
-    asyncio.run(main(sys.argv[1] if len(sys.argv) > 1 else None))
+        # Agent finished, drain any remaining logs from the queue
+        while not log_queue.empty():
+            try:
+                log_record = log_queue.get_nowait()
+                log_message_str = queue_handler.format(log_record)
+                yield json.dumps({"status": "log", "message": log_message_str})
+                log_queue.task_done()
+            except asyncio.QueueEmpty:
+                break # Should not happen with check, but safe practice
+            except Exception as drain_e:
+                 print(f"Error draining log queue: {drain_e}", file=sys.stderr)
+
+
+    except asyncio.CancelledError:
+         error_message = "Agent streaming task cancelled."
+         logging.warning(error_message)
+         # Ensure background tasks are cancelled
+         if agent_task and not agent_task.done(): agent_task.cancel()
+         if queue_reader_task and not queue_reader_task.done(): queue_reader_task.cancel()
+
+    except Exception as main_loop_e:
+        error_message = f"Error in agent streaming loop: {main_loop_e}"
+        logging.exception(error_message)
+        # Ensure background tasks are cancelled
+        if agent_task and not agent_task.done(): agent_task.cancel()
+        if queue_reader_task and not queue_reader_task.done(): queue_reader_task.cancel()
+
+
+    finally:
+        # Remove handler only if it was added by this instance
+        if handler_added and queue_handler in logger.handlers:
+             logger.removeHandler(queue_handler)
+
+        # Yield final status (error or complete)
+        if error_message:
+            yield json.dumps({"status": "error", "message": error_message})
+        else:
+            # Yield success log *before* final completion message
+            success_log = logging.LogRecord(
+                name='agent_runner', level=logging.INFO, pathname='', lineno=0,
+                msg='Agent run and processing finished successfully.', args=[], exc_info=None, func=''
+            )
+            yield json.dumps({"status": "log", "message": queue_handler.format(success_log)})
+
+            final_result = {
+                "history": history_data,
+                "extracted_selectors": selectors_data
+            }
+            yield json.dumps({"status": "complete", "result": final_result})
+
+
+# Removed argparse and __main__ block

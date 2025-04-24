@@ -16,17 +16,58 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* Additional styles for new elements if needed, keeping original CSS */
-        .results-card pre { background-color: #f0f0f0; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; }
+        .results-card pre { background-color: rgba(5, 15, 30, 0.6); padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #e6edf3; }
         #analysisStatus .status-message { margin-bottom: 5px; padding: 5px; border-radius: 3px; }
-        #analysisStatus .status-message.error { color: #D8000C; background-color: #FFD2D2; border: 1px solid #D8000C; }
-        #analysisStatus .status-message.info { color: #00529B; background-color: #BDE5F8; border: 1px solid #00529B; }
-        .selector-list { list-style: none; padding: 0; }
-        .selector-item { margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
-        .selector-item:last-child { border-bottom: none; }
-        .selector-item span { display: block; margin-bottom: 3px; }
-        .selector-desc { font-weight: bold; }
-        .selector-url { font-size: 0.9em; color: #555; }
-        .selector-code { font-family: monospace; background-color: #e0e0e0; padding: 2px 4px; border-radius: 3px; }
+        #analysisStatus .status-message.error { color: #D8000C; background-color: rgba(216, 0, 12, 0.2); border: 1px solid #D8000C; }
+        #analysisStatus .status-message.info { color: #00529B; background-color: rgba(0, 82, 155, 0.2); border: 1px solid #00529B; }
+        .no-selectors-message { color: #e6edf3; opacity: 0.8; font-style: italic; text-align: center; padding: 20px; }
+        
+        /* Updated selector styles to match site theme */
+        .selector-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0;
+        }
+        .selector-item { 
+            margin-bottom: 15px; 
+            padding: 12px; 
+            border-radius: 8px;
+            background: rgba(10, 25, 50, 0.7);
+            border: 1px solid rgba(99, 164, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+        .selector-item:hover { 
+            border-color: rgba(99, 164, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .selector-item span { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: #e6edf3;
+        }
+        .selector-desc { 
+            font-weight: bold; 
+            color: #4c8bf5 !important;
+            font-size: 1.05em;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(99, 164, 255, 0.2);
+            margin-bottom: 10px !important;
+        }
+        .selector-url { 
+            font-size: 0.9em; 
+            color: rgba(230, 237, 243, 0.7) !important;
+            font-style: italic;
+        }
+        .selector-code { 
+            font-family: 'JetBrains Mono', monospace; 
+            background-color: rgba(5, 15, 30, 0.6); 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+            border: 1px solid rgba(99, 164, 255, 0.15);
+            color: #e6edf3;
+            overflow-x: auto;
+            display: block;
+        }
         #runAnalysisBtn { margin-top: 15px; /* Add space above analysis button */ }
     </style>
 </head>
@@ -62,21 +103,21 @@
                     <button id="runAgentBtn" class="analyze-button">Run Agent</button>
                 </div>
                  <div id="agentStatus" style="margin-top: 10px;"></div>
+                 
+                 <!-- Live Agent Logs -->
+                 <div id="agentLogsCard" class="results-card" style="display: none; margin-top: 15px; margin-bottom: 15px;">
+                     <div class="card-header">
+                         <h3><i class="fas fa-stream"></i> Live Agent Logs</h3>
+                     </div>
+                     <div class="card-body">
+                         <pre id="agentLogsContent" style="max-height: 300px; overflow-y: auto; background-color: #1a1d21; color: #e6edf3; border: 1px solid #30363d; padding: 10px; border-radius: 6px; white-space: pre-wrap; word-wrap: break-word; font-family: 'JetBrains Mono', monospace; font-size: 0.9em;"></pre>
+                     </div>
+                 </div>
             </div>
         </section>
 
         <!-- Agent Results Section -->
         <section class="results-section" id="agentResultsSection" style="display: none;">
-            <!-- Agent History Card -->
-            <div class="results-card" id="agentHistoryCard" style="display: none;">
-                <div class="card-header">
-                    <h2><i class="fas fa-history"></i> Agent History</h2>
-                </div>
-                <div class="card-body">
-                    <div id="historyContent"></div> <!-- History will be rendered here -->
-                </div>
-            </div>
-
             <!-- Discovered Selectors Card -->
             <div class="results-card" id="extractedSelectorsCard" style="display: none;">
                 <div class="card-header">
@@ -90,11 +131,11 @@
 
         <!-- Phase 2: Agentic Tealium Analysis Section -->
         <section class="hero-section" id="analysisTriggerSection" style="display: none;">
-             <div class="hero-content-left">
+             <div class="hero-content-left" style="border: 2px solid #4c8bf5; border-radius: 8px; padding: 20px; margin-top: 20px; background-color: rgba(20, 28, 58, 0.7);">
                 <h2 class="hero-title">Phase 2: Analyze Discovered Interactions</h2>
                 <p class="hero-subtitle">Click the button below to analyze the interactions found on the target URL for Tealium tags and events.</p>
-                 <p><strong>Target URL:</strong> <span id="analysisTargetUrl"></span></p>
-                <button id="runAnalysisBtn" class="analyze-button">Analyze Discovered Interactions</button>
+                <p><strong>Target URL:</strong> <span id="analysisTargetUrl"></span></p>
+                <button id="runAnalysisBtn" class="analyze-button" style="background-color: #4c8bf5; padding: 12px 24px; font-size: 1.1em;">Analyze Discovered Interactions</button>
              </div>
         </section>
 
@@ -136,8 +177,9 @@
         const agentStatusDiv = document.getElementById('agentStatus'); // Status below input
         
         const agentResultsSection = document.getElementById('agentResultsSection');
-        const agentHistoryCard = document.getElementById('agentHistoryCard');
-        const historyContentDiv = document.getElementById('historyContent');
+        // History section is removed
+        // const agentHistoryCard = document.getElementById('agentHistoryCard');
+        // const historyContentDiv = document.getElementById('historyContent');
         const extractedSelectorsCard = document.getElementById('extractedSelectorsCard');
         const selectorsContentDiv = document.getElementById('selectorsContent');
 
@@ -162,21 +204,27 @@
             }
 
             // Reset UI 
-            agentStatusDiv.innerHTML = '<p>Running agent... <i class="fas fa-spinner fa-spin"></i></p>';
+            agentStatusDiv.innerHTML = '<p>Agent running... <i class="fas fa-spinner fa-spin"></i></p>';
+            
+            // Show logs card and clear previous logs
+            document.getElementById('agentLogsCard').style.display = 'block';
+            const agentLogsContent = document.getElementById('agentLogsContent');
+            agentLogsContent.innerHTML = 'Agent running... receiving logs...\n';
+            
+            // Reset other UI elements
             agentResultsSection.style.display = 'none';
-            agentHistoryCard.style.display = 'none';
-            historyContentDiv.innerHTML = '';
             extractedSelectorsCard.style.display = 'none';
             selectorsContentDiv.innerHTML = '';
             analysisTriggerSection.style.display = 'none';
             analysisTargetUrlSpan.textContent = '';
             runAnalysisBtn.disabled = true;
             analysisResultsSection.style.display = 'none';
-            analysisStatusCard.style.display = 'block'; // Show progress card container
             analysisStatusDiv.innerHTML = ''; // Clear progress messages
             analysisResultsCard.style.display = 'none';
             resultsContentPre.textContent = '';
             targetUrl = null;
+            
+            // Close any existing event source
             if (eventSource) {
                 eventSource.close();
                 eventSource = null;
@@ -186,7 +234,9 @@
             taskPromptInput.disabled = true;
 
             try {
-                const response = await fetch('/api/agent', {
+                // Instead of using EventSource which would require a GET endpoint, we'll use the 
+                // fetch streaming approach with our existing POST endpoint
+                const response = await fetch('/stream-agent-run', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -194,57 +244,124 @@
                     body: JSON.stringify({ task: task })
                 });
 
-                const data = await response.json();
-
-                if (!response.ok || data.error) {
-                    throw new Error(data.error || `Server error: ${response.status}`);
+                // Check if response is OK
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
                 }
 
-                agentStatusDiv.innerHTML = '<p style="color: green;">Agent run complete.</p>';
-                agentResultsSection.style.display = 'block'; // Show the results area
-
-                // Display History
-                if (data.history && data.history.length > 0) {
-                    renderHistory(data.history);
-                    agentHistoryCard.style.display = 'block';
-                } else {
-                     historyContentDiv.innerHTML = '<p>No history data returned.</p>';
-                     agentHistoryCard.style.display = 'block';
-                }
-
-                // Display Extracted Selectors & Prepare for Phase 2
-                if (data.extracted_selectors && data.extracted_selectors.length > 0) {
-                    renderSelectors(data.extracted_selectors);
-                    extractedSelectorsCard.style.display = 'block';
+                // Set up reader for the response stream
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                
+                // Process the stream
+                while (true) {
+                    const { done, value } = await reader.read();
                     
-                    // Store the first URL found for Phase 2 analysis
-                    targetUrl = data.extracted_selectors[0].url;
-                    if (targetUrl) {
-                        analysisTargetUrlSpan.textContent = targetUrl;
-                        analysisTriggerSection.style.display = 'block'; // Show Phase 2 trigger section
-                        runAnalysisBtn.disabled = false;
-                        agentStatusDiv.innerHTML += `<p>Found interactions for URL: ${targetUrl}. Ready for Phase 2 analysis.</p>`;
-                    } else {
-                         agentStatusDiv.innerHTML += '<p class="error">Could not determine target URL from selectors.</p>';
+                    if (done) {
+                        console.log('Stream complete.');
+                        break;
                     }
-                } else {
-                    selectorsContentDiv.innerHTML = '<p>No selectors were extracted by the agent.</p>';
-                    extractedSelectorsCard.style.display = 'block';
-                    agentStatusDiv.innerHTML += '<p>No interactions discovered for Phase 2 analysis.</p>';
-                }
+                    
+                    // Decode the chunk and add to buffer
+                    buffer += decoder.decode(value, { stream: true });
+                    
+                    // Process complete messages (SSE format: data: {...}\n\n)
+                    let dataIndex;
+                    while ((dataIndex = buffer.indexOf('data: ')) >= 0) {
+                        // Find the end of this data message
+                        const messageEnd = buffer.indexOf('\n\n', dataIndex);
+                        if (messageEnd === -1) break; // Incomplete message, wait for more data
+                        
+                        // Extract the JSON part (after 'data: ')
+                        const jsonStr = buffer.substring(dataIndex + 6, messageEnd).trim();
+                        buffer = buffer.substring(messageEnd + 2); // Remove processed message
+                        
+                        try {
+                            const data = JSON.parse(jsonStr);
+                            console.log('Received message:', data);
+                            
+                            if (data.status === 'log') {
+                                // Append log message to the logs content
+                                agentLogsContent.innerHTML += `${data.message}\n`;
+                                // Auto-scroll to bottom
+                                agentLogsContent.scrollTop = agentLogsContent.scrollHeight;
+                            } 
+                            else if (data.status === 'complete') {
+                                agentLogsContent.innerHTML += `\nAgent execution complete.\n`;
+                                
+                                // Process results
+                                const result = data.result;
+                                agentStatusDiv.innerHTML = '<p style="color: green;">Agent run complete.</p>';
+                                
+                                // Show agent results section
+                                agentResultsSection.style.display = 'block';
+                                
+                                // Always call renderSelectors to load existing or display 'none'
+                                renderSelectors(result.extracted_selectors); // Pass potential new selectors
+                                extractedSelectorsCard.style.display = 'block'; // Ensure card is visible
 
+                                // Determine targetUrl from history regardless of extracted selectors
+                                targetUrl = null; // Reset targetUrl
+                                if (result.history && result.history.length > 0) {
+                                    // Prioritize URL from the last step's state
+                                    const lastStep = result.history[result.history.length - 1];
+                                    if (lastStep.state && lastStep.state.url && lastStep.state.url !== 'about:blank') {
+                                        targetUrl = lastStep.state.url;
+                                    } else {
+                                        // Fallback: Look for the first valid URL in history entries
+                                        for (const entry of result.history) {
+                                            if (entry.state && entry.state.url && entry.state.url !== 'about:blank') {
+                                                targetUrl = entry.state.url;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // Show Tealium analysis section if a target URL was found
+                                if (targetUrl) {
+                                    analysisTargetUrlSpan.textContent = targetUrl;
+                                    analysisTriggerSection.style.display = 'block';
+                                    runAnalysisBtn.disabled = false;
+                                    agentStatusDiv.innerHTML += `<p style="color: #4c8bf5; font-weight: bold;">✅ Ready for Phase 2: Click the 'Analyze Discovered Interactions' button below.</p>`;
+                                    // Scroll to the analysis section
+                                    setTimeout(() => {
+                                        analysisTriggerSection.scrollIntoView({ behavior: 'smooth' });
+                                    }, 500);
+                                } else {
+                                    // If no URL found, indicate Phase 2 isn't ready
+                                    agentStatusDiv.innerHTML += '<p>No target URL found in history for Phase 2 analysis.</p>';
+                                    analysisTriggerSection.style.display = 'none'; // Hide the button
+                                }
+                            }
+                            else if (data.status === 'error') {
+                                agentLogsContent.innerHTML += `\nERROR: ${data.message}\n`;
+                                agentStatusDiv.innerHTML = `<p class="error">Agent Error: ${data.message}</p>`;
+                                break;
+                            }
+                        } catch (e) {
+                            console.error('Error parsing message:', e, 'Raw JSON:', jsonStr);
+                            agentLogsContent.innerHTML += `\nError parsing message: ${e.message}\n`;
+                        }
+                    }
+                }
             } catch (error) {
                 console.error('Error running agent:', error);
+                agentLogsContent.innerHTML += `\nERROR: ${error.message}\n`;
                 agentStatusDiv.innerHTML = `<p class="error">Error during agent run: ${error.message}</p>`;
             } finally {
-                 runAgentBtn.disabled = false;
-                 taskPromptInput.disabled = false;
+                runAgentBtn.disabled = false;
+                taskPromptInput.disabled = false;
             }
+            
+            return false; // Prevent form submission
         }
 
         function renderHistory(history) {
              // Renders history into historyContentDiv (using list format)
              let html = '<ul>';
+             
              history.forEach((step, index) => {
                  html += `<li style="list-style-type: none; padding-left: 0; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
                             <strong>Step ${index + 1}: ${step.action || 'N/A'}</strong>`;
@@ -272,16 +389,46 @@
 
         function renderSelectors(selectors) {
             // Renders selectors into selectorsContentDiv
-            let html = '<ul class="selector-list">';
-            selectors.forEach(sel => {
-                html += `<li class="selector-item">
-                            <span class="selector-desc">Description: ${sel.description || 'N/A'}</span>
-                            <span class="selector-code">Selector: <code>${sel.selector}</code></span>
-                            <span class="selector-url">URL: ${sel.url}</span>
-                         </li>`;
-            });
-            html += '</ul>';
-            selectorsContentDiv.innerHTML = html;
+            if (!selectors || selectors.length === 0) {
+                // If no selectors provided, fetch them from agent_discovered_selectors.json
+                fetch('/agent_discovered_selectors.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to load selectors');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            displaySelectors(data);
+                            extractedSelectorsCard.style.display = 'block';
+                        } else {
+                            selectorsContentDiv.innerHTML = '<p class="no-selectors-message">No selectors were found in agent_discovered_selectors.json</p>';
+                            extractedSelectorsCard.style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading selectors:', error);
+                        selectorsContentDiv.innerHTML = '<p class="no-selectors-message">No selectors were extracted by the agent.</p>';
+                        extractedSelectorsCard.style.display = 'block';
+                    });
+            } else {
+                // If selectors are provided, use them
+                displaySelectors(selectors);
+            }
+            
+            function displaySelectors(selectorList) {
+                let html = '<ul class="selector-list">';
+                selectorList.forEach(sel => {
+                    html += `<li class="selector-item">
+                                <span class="selector-desc">${sel.description || 'Unnamed Selector'}</span>
+                                <span class="selector-code">${sel.selector}</span>
+                                <span class="selector-url">URL: ${sel.url || 'undefined'}</span>
+                             </li>`;
+                });
+                html += '</ul>';
+                selectorsContentDiv.innerHTML = html;
+            }
         }
 
         // --- Phase 2: Agentic Analysis --- 
@@ -305,8 +452,15 @@
             analysisResultsCard.style.display = 'none'; // Hide final results card initially
             resultsContentPre.textContent = '';
 
+            // Ensure we're using a valid URL
+            if (!targetUrl.startsWith('http')) {
+                targetUrl = 'https://' + targetUrl;
+            }
             const analysisUrl = `/stream-agent-analysis?url=${encodeURIComponent(targetUrl)}`;
             eventSource = new EventSource(analysisUrl);
+            
+            // Show status message that analysis has started
+            agentStatusDiv.innerHTML += '<p style="color: #4c8bf5;">Tealium analysis has started! See results below.</p>';
 
             eventSource.onmessage = function(event) {
                 try {
@@ -317,7 +471,7 @@
                         // Append progress messages to the status div
                         analysisStatusDiv.innerHTML += `<p class="status-message info">${data.message}</p>`;
                     } else if (data.status === 'complete') {
-                        analysisStatusDiv.innerHTML += '<p class="status-message info" style="color: green; background-color: #e6ffed; border-color: green;">Analysis complete.</p>';
+                        analysisStatusDiv.innerHTML += '<p class="status-message info" style="color: #4ade80; background-color: rgba(74, 222, 128, 0.1); border-color: #4ade80;">Analysis complete.</p>';
                         
                         // Call function to render styled results instead of raw JSON
                         renderAnalysisResults(data.results);
@@ -349,46 +503,69 @@
         // --- Helper Function to Render Styled Analysis Results (Phase 2) ---
         function renderAnalysisResults(results) {
             if (!results) {
-                resultsContentPre.innerHTML = '<p class="error">No analysis results received.</p>';
+                resultsContentPre.innerHTML = '<p style="color: #f87171;">No analysis results received.</p>';
                 return;
             }
 
             let html = '';
 
             // Basic Info
-            html += `<h4>Analysis Summary for: ${results.url || 'N/A'}</h4>`;
+            html += `<h4 style="color: #e6edf3;">Analysis Summary for: ${results.url || 'N/A'}</h4>`;
             if (results.page_title) {
-                 html += `<p><strong>Page Title:</strong> ${results.page_title}</p>`;
+                 html += `<p style="color: #e6edf3;"><strong>Page Title:</strong> ${results.page_title}</p>`;
             }
             if (results.error) {
-                 html += `<p class="error"><strong>Error during analysis:</strong> ${results.error}</p>`;
+                 html += `<p style="color: #f87171;"><strong>Error during analysis:</strong> ${results.error}</p>`;
             }
 
             // Page Load Analysis
             if (results.pageLoadAnalysis) {
-                html += `<div class="results-card" style="margin-top:15px; background-color: #f8f9fa;">`; // Nested card styling
-                html += `<div class="card-header"><h5><i class="fas fa-truck-loading"></i> Page Load Analysis</h5></div>`;
+                html += `<div class="results-card" style="margin-top:15px;">`; // Nested card styling
+                html += `<div class="card-header"><h5 style="color: #e6edf3;"><i class="fas fa-truck-loading" style="color: #4c8bf5;"></i> Page Load Analysis</h5></div>`;
                 html += `<div class="card-body">`;
                 const pl = results.pageLoadAnalysis;
                 if (pl.vendorsDetected && pl.vendorsDetected.length > 0) {
-                    html += `<h6>Vendors Detected (${pl.vendorsDetected.length}):</h6><ul>`;
+                    html += `<h6 style="color: #4c8bf5;">Vendors Detected (${pl.vendorsDetected.length}):</h6><ul style="color: #e6edf3;">`;
                     pl.vendorsDetected.forEach(v => { html += `<li>${v}</li>`; });
                     html += `</ul>`;
                 }
-                 if (pl.initialTealiumEvents && pl.initialTealiumEvents.length > 0) {
-                     html += `<h6>Initial Tealium Events (${pl.initialTealiumEvents.length}):</h6><pre>${JSON.stringify(pl.initialTealiumEvents, null, 2)}</pre>`;
+                 if (pl.initial_tealium_events && pl.initial_tealium_events.length > 0) {
+                     html += `<h6 style="color: #4c8bf5;">Initial Tealium Events (${pl.initial_tealium_events.length}):</h6><pre style="background-color: rgba(5, 15, 30, 0.6); color: #e6edf3; padding: 8px; border-radius: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${JSON.stringify(pl.initial_tealium_events, null, 2)}</pre>`;
                  }
-                 if (pl.networkSummary) {
-                     html += `<h6>Network Summary:</h6>`;
-                     html += `<ul>
-                                <li>Total Requests: ${pl.networkSummary.totalRequests || 0}</li>
-                                <li>Failed Requests: ${pl.networkSummary.failedRequests || 0}</li>
-                                <li>Tealium Requests: ${pl.networkSummary.tealiumRequests || 0}</li>
+                 if (pl.initial_general_events && pl.initial_general_events.network) {
+                     const networkEvents = pl.initial_general_events.network;
+                     const totalRequests = networkEvents.length;
+                     const tealiumRequests = networkEvents.filter(req => typeof req.url === 'string' && req.url.includes('tealium')).length;
+                     console.log("Calculated Tealium Requests:", tealiumRequests);
+                     
+                      html += `<h6 style="color: #4c8bf5;">Network Summary:</h6>`;
+                      html += `<ul style="color: #e6edf3;">
+                                <li>Total Requests: ${totalRequests}</li>
+                                <li>Tealium Requests: ${tealiumRequests}</li>
                               </ul>`;
+                      
+                      // Add network events table
+                      html += `<h6 style="color: #4c8bf5;">Initial Network Events (${networkEvents.length > 10 ? '10 of ' + networkEvents.length : networkEvents.length}):</h6>`;
+                      html += `<div style="max-height: 200px; overflow-y: auto;">`;
+                      html += `<table style="width: 100%; color: #e6edf3; border-collapse: collapse;">`;
+                      html += `<tr style="background-color: rgba(5, 15, 30, 0.6);"><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">URL</th><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">Method</th><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">Type</th><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">Timestamp</th></tr>`;
+                      
+                      // Only show first 10 to avoid overwhelming the display
+                      const eventsToShow = networkEvents.slice(0, 10);
+                      eventsToShow.forEach(n => {
+                          html += `<tr style="border: 1px solid rgba(99, 164, 255, 0.15);">`;
+                          html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15); word-break: break-all;"><span style="font-size: 0.9em;">${n.url}</span></td>`;
+                          html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${n.method}</td>`;
+                          html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${n.type}</td>`;
+                          html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${new Date(n.timestamp).toLocaleTimeString()}</td>`;
+                          html += `</tr>`;
+                      });
+                      html += `</table>`;
+                      html += `</div>`;
                  }
                  if (pl.errors && pl.errors.length > 0) {
-                     html += `<h6>Page Load Errors:</h6><ul>`;
-                     pl.errors.forEach(e => { html += `<li class="error">${e}</li>`; });
+                     html += `<h6 style="color: #4c8bf5;">Page Load Errors:</h6><ul>`;
+                      pl.errors.forEach(e => { html += `<li style="color: #f87171;">${e}</li>`; });
                      html += `</ul>`;
                  }
                 html += `</div></div>`;
@@ -396,24 +573,41 @@
 
             // Agent Interaction Analysis
             if (results.agentInteractionAnalysis && results.agentInteractionAnalysis.length > 0) {
-                html += `<h4><i class="fas fa-mouse-pointer"></i> Agent Interaction Analysis (${results.agentInteractionAnalysis.length})</h4>`;
+                html += `<h4 style="color: #e6edf3;"><i class="fas fa-mouse-pointer" style="color: #4c8bf5;"></i> Agent Interaction Analysis (${results.agentInteractionAnalysis.length})</h4>`;
                 results.agentInteractionAnalysis.forEach((interaction, index) => {
-                    html += `<div class="results-card" style="margin-top: 15px; background-color: #f8f9fa;">`; // Nested card styling
-                    html += `<div class="card-header"><h5>Interaction ${index + 1}: ${interaction.description || 'N/A'}</h5></div>`;
+                    html += `<div class="results-card" style="margin-top: 15px;">`; // Nested card styling
+                    html += `<div class="card-header"><h5 style="color: #e6edf3;"><i class="fas fa-mouse-pointer" style="color: #4c8bf5;"></i> Interaction ${index + 1}: ${interaction.description || 'N/A'}</h5></div>`;
                     html += `<div class="card-body">`;
-                    html += `<p><strong>Selector:</strong> <code>${interaction.selector || 'N/A'}</code></p>`;
-                    html += `<p><strong>Status:</strong> ${interaction.success ? '<span style="color: green;">Success</span>' : '<span class="error">Failed</span>'}</p>`;
+                    html += `<p style="color: #e6edf3;"><strong>Selector:</strong> <code style="background-color: rgba(5, 15, 30, 0.6); color: #e6edf3; padding: 4px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">${interaction.selector || 'N/A'}</code></p>`;
+                    html += `<p><strong>Status:</strong> ${interaction.status === 'Success' ? '<span style="color: #4ade80;">Success</span>' : '<span style="color: #f87171;">Failed</span>'}</p>`;
                     if (interaction.error) {
-                        html += `<p class="error"><strong>Error:</strong> ${interaction.error}</p>`;
+                         html += `<p style="color: #f87171;"><strong>Error:</strong> ${interaction.error}</p>`;
                     }
-                    if (interaction.triggeredTealiumEvents && interaction.triggeredTealiumEvents.length > 0) {
-                         html += `<h6>Triggered Tealium Events (${interaction.triggeredTealiumEvents.length}):</h6><pre>${JSON.stringify(interaction.triggeredTealiumEvents, null, 2)}</pre>`;
+                    if (interaction.tealium_events && interaction.tealium_events.length > 0) {
+                         html += `<h6 style="color: #4c8bf5;">Triggered Tealium Events (${interaction.tealium_events.length}):</h6><pre style="background-color: rgba(5, 15, 30, 0.6); color: #e6edf3; padding: 8px; border-radius: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${JSON.stringify(interaction.tealium_events, null, 2)}</pre>`;
                     }
-                     if (interaction.vendorsCalledAfter && interaction.vendorsCalledAfter.length > 0) {
-                         html += `<h6>Vendors Called After Interaction (${interaction.vendorsCalledAfter.length}):</h6><ul>`;
-                         interaction.vendorsCalledAfter.forEach(v => { html += `<li>${v}</li>`; });
-                         html += `</ul>`;
-                     }
+                     if (interaction.vendors_in_network && Object.keys(interaction.vendors_in_network).length > 0) {
+                          html += `<h6 style="color: #4c8bf5;">Vendors Called After Interaction (${Object.keys(interaction.vendors_in_network).length}):</h6><ul style="color: #e6edf3;">`;
+                          Object.keys(interaction.vendors_in_network).forEach(v => { html += `<li>${v}</li>`; });
+                          html += `</ul>`;
+                      }
+                      
+                      if (interaction.general_events && interaction.general_events.network && interaction.general_events.network.length > 0) {
+                          html += `<h6 style="color: #4c8bf5;">Network Events (${interaction.general_events.network.length}):</h6>`;
+                          html += `<div style="max-height: 200px; overflow-y: auto;">`;
+                          html += `<table style="width: 100%; color: #e6edf3; border-collapse: collapse;">`;
+                          html += `<tr style="background-color: rgba(5, 15, 30, 0.6);"><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">URL</th><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">Method</th><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">Type</th><th style="padding: 6px; text-align: left; border: 1px solid rgba(99, 164, 255, 0.15);">Timestamp</th></tr>`;
+                          interaction.general_events.network.forEach(n => {
+                              html += `<tr style="border: 1px solid rgba(99, 164, 255, 0.15);">`;
+                              html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15); word-break: break-all;"><span style="font-size: 0.9em;">${n.url}</span></td>`;
+                              html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${n.method}</td>`;
+                              html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${n.type}</td>`;
+                              html += `<td style="padding: 6px; border: 1px solid rgba(99, 164, 255, 0.15);">${new Date(n.timestamp).toLocaleTimeString()}</td>`;
+                              html += `</tr>`;
+                          });
+                          html += `</table>`;
+                          html += `</div>`;
+                      }
                     html += `</div></div>`;
                 });
             }
