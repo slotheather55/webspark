@@ -1,0 +1,779 @@
+{
+  "url": "https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/",
+  "analysisTimestamp": "2025-04-24T13:01:39.615070",
+  "steps": [
+    {
+      "step": "Page Load",
+      "duration_sec": 60.02708125114441,
+      "status": "Completed (or Timeout)"
+    },
+    {
+      "step": "Initial Data Collection",
+      "status": "Success"
+    },
+    {
+      "step": "Agent Interaction Analysis",
+      "status": "Completed",
+      "interactionsAnalyzed": 1
+    },
+    {
+      "step": "Analysis Completion",
+      "status": "Success"
+    }
+  ],
+  "error": null,
+  "page_title": "Happy Place by Emily Henry: 9780593441190 | PenguinRandomHouse.com: Books",
+  "pageLoadAnalysis": {
+    "utag_data": {
+      "page_name": "Happy Place by Emily Henry: 9780593441190 | PenguinRandomHouse.com: Books",
+      "code_release_version": "cb20250423021351",
+      "product_list_price": [
+        19
+      ],
+      "product_isbn": [
+        9780593441190
+      ],
+      "product_title": [
+        "Happy Place"
+      ],
+      "product_author": [
+        "Emily Henry"
+      ],
+      "product_author_id": [
+        "306512"
+      ],
+      "retailer_link_present": "yes",
+      "page_type": "Product Detail Page",
+      "product_imprint": [
+        "Berkley"
+      ],
+      "product_format": [
+        "Paperback"
+      ],
+      "product_work_id": [
+        "704944"
+      ],
+      "product_category": [
+        "Women's Fiction | Contemporary Romance | Fiction | Romance"
+      ],
+      "product_division": [
+        "Berkley / NAL"
+      ],
+      "auth_count": 1,
+      "module_present": "cartbutton,audiowidget",
+      "event_type": "alsobyauthor_load,recommendation_load",
+      "ip_country": "IL",
+      "website_banner": "Get a FREE Books of the Moment sampler!",
+      "user_status": "external",
+      "cp.utag_main__pn": "1",
+      "cp.utag_main_v_id": "0196673ef254000e99a5fce9d4720006f004b06700bd0",
+      "cp.utag_main_ses_id": "1745488900694",
+      "cp.utag_main__ss": "1",
+      "cp.utag_main__se": "1",
+      "cp.utag_main__sn": "1",
+      "cp.utag_main__st": "1745490700694",
+      "meta.viewport": "initial-scale=1,width=device-width,height=device-height",
+      "meta.og:site_name": "PenguinRandomhouse.com",
+      "meta.fb:app_id": "356679881167712",
+      "meta.twitter:card": "summary",
+      "meta.twitter:site": "@penguinrandomhouse",
+      "meta.og:title": "Happy Place by Emily Henry: 9780593441190 | PenguinRandomHouse.com: Books",
+      "meta.twitter:title": "Happy Place by Emily Henry: 9780593441190 | PenguinRandomHouse.com: Books",
+      "meta.fb:pages": "13673457388",
+      "meta.description": "#1 NEW YORK TIMES BESTSELLER \u2219 A couple who broke up months ago pretend to still be together for their annual weeklong vacation with their best friends...",
+      "meta.og:description": "#1 NEW YORK TIMES BESTSELLER \u2219 A couple who broke up months ago pretend to still be together for their annual weeklong vacation with their best friends in this glittering and wise novel from #1 New...",
+      "meta.twitter:description": "#1 NEW YORK TIMES BESTSELLER \u2219 A couple who broke up months ago pretend to still be together for their annual weeklong vacation with their best friends in this glittering and wise novel...",
+      "meta.og:url": "https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/",
+      "meta.og:image": "https://images3.penguinrandomhouse.com/cover/9780593441190",
+      "meta.twitter:image": "https://images3.penguinrandomhouse.com/cover/9780593441190",
+      "meta.og:price:currency": "USD",
+      "meta.og:price:amount": "19",
+      "meta.og:type": "product",
+      "meta.format-detection": "telephone=no",
+      "meta.twitter:url": "https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/",
+      "meta.twitter:url:preview": "https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/#excerpt",
+      "meta.twitter:text:isbn": "9780593441190",
+      "meta.twitter:text:cta": "Start reading",
+      "meta.og:availability": "instock",
+      "meta.Tealium": "Tealium meta values",
+      "meta.robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "dom.referrer": "",
+      "dom.title": "Happy Place by Emily Henry: 9780593441190 | PenguinRandomHouse.com: Books",
+      "dom.domain": "www.penguinrandomhouse.com",
+      "dom.query_string": "",
+      "dom.hash": "",
+      "dom.url": "https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/",
+      "dom.pathname": "/books/704944/happy-place-by-emily-henry/",
+      "dom.viewport_height": 1080,
+      "dom.viewport_width": 1920,
+      "ut.domain": "penguinrandomhouse.com",
+      "ut.version": "ut4.51.202504231813",
+      "ut.event": "view",
+      "ut.visitor_id": "0196673ef254000e99a5fce9d4720006f004b06700bd0",
+      "ut.session_id": "1745488900694",
+      "ut.account": "random",
+      "ut.profile": "rhcorp-prh",
+      "ut.env": "prod",
+      "tealium_event": "parent_window",
+      "tealium_visitor_id": "0196673ef254000e99a5fce9d4720006f004b06700bd0",
+      "tealium_session_id": "1745488900694",
+      "tealium_session_number": "1",
+      "tealium_session_event_number": "1",
+      "tealium_datasource": "",
+      "tealium_account": "random",
+      "tealium_profile": "rhcorp-prh",
+      "tealium_environment": "prod",
+      "tealium_random": "5026246767963420",
+      "tealium_library_name": "utag.js",
+      "tealium_library_version": "4.51.0",
+      "tealium_timestamp_epoch": 1745488900,
+      "tealium_timestamp_utc": "2025-04-24T10:01:40.695Z",
+      "tealium_timestamp_local": "2025-04-24T13:01:40.695",
+      "product_author_id_array": [
+        "306512"
+      ],
+      "_ccity": "",
+      "_ccountry": "",
+      "_ccurrency": "",
+      "_ccustid": "",
+      "_corder": "",
+      "_cpromo": "",
+      "_cship": "",
+      "_cstate": "",
+      "_cstore": "",
+      "_csubtotal": "",
+      "_ctax": "",
+      "_ctotal": "",
+      "_ctype": "",
+      "_czip": "",
+      "_cprod": "[Circular Reference]",
+      "_cprodname": [],
+      "_cbrand": [],
+      "_ccat": [],
+      "_ccat2": [],
+      "_cquan": [],
+      "_cprice": [],
+      "_csku": [],
+      "_cpdisc": [],
+      "google_pixel_id": "984909446",
+      "product_author_string": "Emily Henry",
+      "product_category_string": "Women's Fiction | Contemporary Romance | Fiction | Romance",
+      "product_format_string": "Paperback",
+      "product_isbn_string": "9780593441190",
+      "referrer": "",
+      "product_author_array": [
+        "Emily Henry"
+      ],
+      "product_genres": [
+        "Arts & Entertainment",
+        "Biography & Memoir",
+        "Children\u2019s",
+        "Cooking",
+        "Fantasy",
+        "Fiction",
+        "History",
+        "Humor",
+        "Mystery & Suspense",
+        "Nonfiction",
+        "Poetry",
+        "Romance",
+        "Science Fiction",
+        "Travel",
+        "Young Adult",
+        "Teen & Young Adult",
+        "Children's Books",
+        "Historical Fiction",
+        "Politics",
+        "Science & Tech",
+        "Business"
+      ],
+      "product_genre": [
+        "Fiction",
+        "Romance"
+      ],
+      "product_subgenre": [
+        "Women's Fiction",
+        "Contemporary Romance"
+      ],
+      "product_category_array": [
+        "Women's Fiction",
+        "Contemporary Romance",
+        "Fiction",
+        "Romance"
+      ],
+      "product_list_price_string": "19",
+      "cp.utag_main_dc_visit": "1",
+      "cp.utag_main_dc_event": "3"
+    },
+    "initial_tealium_events": [
+      {
+        "type": "utag.link",
+        "timestamp": "2025-04-24T10:01:41.802Z",
+        "data": {
+          "serialization_error": "Failed to serialize: Unexpected token 'u', ...\"ion_type\":undefined}\" is not valid JSON"
+        }
+      }
+    ],
+    "initial_general_events": {
+      "network": [
+        {
+          "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+          "method": "post",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.757Z"
+        },
+        {
+          "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+          "method": "post",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.769Z"
+        },
+        {
+          "url": "/ajax/nonce/?referer=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&w=02e3eca9-f826-459d-871e-d69151efb6f4",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.788Z"
+        },
+        {
+          "url": "/ajaxc/check_aff_rules/704944/",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.791Z"
+        },
+        {
+          "url": "/wp-admin/admin-ajax.php",
+          "method": "POST",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.793Z"
+        },
+        {
+          "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+          "method": "post",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.807Z"
+        },
+        {
+          "url": "/ajaxc/get-affiliate-link/704944?affiliatesiteid=301",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:41.898Z"
+        },
+        {
+          "url": "https://px.ads.linkedin.com/attribution_trigger?pid=497116&time=1745488902007&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.008Z"
+        },
+        {
+          "url": "https://tr.snapchat.com/config/com/8e810b99-aff4-4421-9c2c-d7f1896583e1.json?v=3.44.4-2504231700",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-24T10:01:42.069Z"
+        },
+        {
+          "url": "https://rp.liadm.com/j?dtstmp=1745488902090&aid=a-00m0&se=eyJldmVudCI6InBhcmVudF93aW5kb3cifQ&duid=0316fa6083bc--01jskkxxy3mnqh576rr471jm0c&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=11193ce9-f6a7-4116-8f17-c3ba76b0c0e7",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.090Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/user/?tid=2612358431345&ov=%7B%22page_name%22%3A%22Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books%22%2C%22page_category%22%3A%22%22%7D&pd=%7B%7D&cb=1745488902122&dep=2%2CPAGE_LOAD",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.122Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/user/?event=PageVisit&ed=%7B%7D&tid=2612358431345&cb=1745488902122&dep=5%2CEVENT_TAGS_ABSENT",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.122Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/user/?event=PageVisit&ed=%7B%7D&tid=2612358431345&cb=1745488902123&dep=5%2CEVENT_TAGS_ABSENT",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.123Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/v3/?tid=2612358431345&ov=%7B%22page_name%22%3A%22Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books%22%2C%22page_category%22%3A%22%22%7D&pd=%7B%7D&event=init&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Atrue%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22134%22%7D%2C%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2224%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22134%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22134.0.6998.35%22%2C%22ecm_enabled%22%3Afalse%7D&cb=1745488902123",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-24T10:01:42.123Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/v3/?tid=2612358431345&ov=%7B%22page_name%22%3A%22Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books%22%2C%22page_category%22%3A%22%22%7D&pd=%7B%7D&event=init&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Atrue%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22134%22%7D%2C%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2224%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22134%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22134.0.6998.35%22%2C%22ecm_enabled%22%3Afalse%7D&cb=1745488902123",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-24T10:01:42.123Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/v3/?event=PageVisit&ed=%7B%7D&tid=2612358431345&cb=1745488902345&dep=5%2CEVENT_TAGS_ABSENT&pd=%7B%7D&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Atrue%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22134%22%7D%2C%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2224%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22134%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22134.0.6998.35%22%2C%22ecm_enabled%22%3Afalse%7D",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-24T10:01:42.345Z"
+        },
+        {
+          "url": "https://ct.pinterest.com/v3/?event=PageVisit&ed=%7B%7D&tid=2612358431345&cb=1745488902347&dep=5%2CEVENT_TAGS_ABSENT&pd=%7B%7D&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22134%22%7D%2C%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2224%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22134%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22134.0.6998.35%22%2C%22ecm_enabled%22%3Afalse%7D",
+          "method": "GET",
+          "type": "fetch",
+          "timestamp": "2025-04-24T10:01:42.347Z"
+        },
+        {
+          "url": "https://px.ads.linkedin.com/wa/",
+          "method": "POST",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.573Z"
+        },
+        {
+          "url": "https://rp.liadm.com/j?dtstmp=1745488902756&aid=a-00m0&se=eyJldmVudCI6InBhcmVudF93aW5kb3cifQ&duid=0316fa6083bc--01jskkxxy3mnqh576rr471jm0c&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=11193ce9-f6a7-4116-8f17-c3ba76b0c0e7",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:42.756Z"
+        },
+        {
+          "url": "//rum-collector-2.pingdom.net/img/beacon.gif?id=620bed0a9034fb00110007eb&sAW=1920&sAH=1080&bIW=1920&bIH=1080&pD=24&dPR=1&or=landscape-primary&nT=0&rC=0&nS=0&cS=175&cE=208&dLE=171&dLS=8&fS=0&hS=185&rE=-1&rS=-1&reS=212&resS=230&resE=254&uEE=-1&uES=-1&dL=237&dI=511&dCLES=512&dCLEE=519&dC=2996&lES=2996&lEE=2998&s=nt&title=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&path=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=&sId=40sc0g78&sST=1745488902&sIS=2&rV=0&v=1.4.1",
+          "method": "GET",
+          "type": "xhr",
+          "timestamp": "2025-04-24T10:01:43.212Z"
+        },
+        {
+          "url": "https://analytics.google.com/g/collect?v=2&tid=G-6FH2HCYPE6&gtm=45je54m0v867677768za200zb9134321088&_p=1745488901852&gcd=13l3l3l3l1l1&npa=0&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316&ptag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&gdid=dYmQxMT&cid=959683912.1745488902&ul=en-us&sr=1920x1080&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&pae=1&frm=0&pscdl=noapi&_eu=AAAAAAI&_s=1&sid=1745488902&sct=1&seg=1&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&dt=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&en=page_view&_ee=1&_et=3&tfd=7384",
+          "method": "POST",
+          "type": "fetch",
+          "timestamp": "2025-04-24T10:01:47.573Z"
+        }
+      ],
+      "analyticsCalls": [],
+      "dataLayer": []
+    },
+    "tag_detection": {
+      "globalObjects": [
+        {
+          "name": "Google Tags",
+          "path": "gtag"
+        },
+        {
+          "name": "Facebook Pixel",
+          "path": "fbq"
+        },
+        {
+          "name": "Pinterest Tag",
+          "path": "pintrk"
+        },
+        {
+          "name": "Snapchat Pixel",
+          "path": "snaptr"
+        },
+        {
+          "name": "TikTok Pixel",
+          "path": "ttq"
+        },
+        {
+          "name": "Adobe Analytics",
+          "path": "s_c_il"
+        },
+        {
+          "name": "Adobe Analytics",
+          "path": "s"
+        }
+      ],
+      "scriptTags": [
+        "https://c.lytics.io/api/experience/candidate/1615abb2fee499fc8f7dd878cbe2db80/config.js",
+        "https://c.lytics.io/api/experience/candidate/1615abb2fee499fc8f7dd878cbe2db80/config.js",
+        "https://c.lytics.io/static/pathfora.min.js",
+        "https://c.lytics.io/static/pathfora.min.js",
+        "https://analytics.tiktok.com/i18n/pixel/static/identify_935b0d03.js",
+        "https://analytics.tiktok.com/i18n/pixel/static/main.MWYwYWI1NGQ2MA.js",
+        "https://www.googletagmanager.com/gtag/js?id=G-6FH2HCYPE6&l=dataLayer&cx=c&gtm=45be54m0v9134321088za200&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497",
+        "https://s.pinimg.com/ct/lib/main.8821a9da.js",
+        "https://connect.facebook.net/en_US/fbevents.js",
+        "https://pixel.byspotify.com/ping.min.js",
+        "https://pixel.byspotify.com/ping.min.js",
+        "https://b-code.liadm.com/a-00m0.min.js",
+        "https://cdn01.basis.net/assets/up.js?um=1",
+        "https://cdn01.basis.net/assets/up.js?um=1",
+        "https://s.pinimg.com/ct/core.js",
+        "https://sc-static.net/scevent.min.js",
+        "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-1051027031",
+        "https://c.lytics.io/",
+        "https://c.lytics.io/api/tag/1615abb2fee499fc8f7dd878cbe2db80/latest.min.js",
+        "https://c.lytics.io/",
+        "https://c.lytics.io/api/tag/1615abb2fee499fc8f7dd878cbe2db80/latest.min.js",
+        "https://rum-static.pingdom.net/prum.min.js",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.js",
+        "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js?ver=3.7.1",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/slick.min.js?ver=1.6.0",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/purl.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/tooltip.min.js?ver=cb20250423021351",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.23.js?utv=ut4.51.202406061615",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.583.js?utv=ut4.51.202203032103",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/modal-survey.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/product.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/newsletter-form.min.js?ver=cb20250423021351",
+        "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=random/rhcorp-prh/202504231812&cb=1745488901763",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.326.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.663.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.1.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.184.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.69.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.239.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.405.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.416.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.358.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.576.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.590.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.598.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.637.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.654.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.661.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.682.js?utv=ut4.51.202504231813",
+        "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.687.js?utv=ut4.51.202504231813",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/toolpop.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/collapse.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/account.min.js?ver=cb20250423021351",
+        "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4SGAO96H18A0MH1EN5G&lib=ttq",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/bootstrap/transition.min.js?ver=cb20250423021351",
+        "https://c.lytics.io/api/personalize/1615abb2fee499fc8f7dd878cbe2db80/user/_uid/d9b6f721-7f06-4360-9552-4cad5db33e4e?segments=true&fields=academic_role_tally_explicit,account_created_date,account_created_flag,age_segment_array_tally_implicit,age_stage_tally_explicit,article_category_tally_explicit,article_tag_tally_implicit,author_id_tally_explicit,author_id_tally_implicit,author_name_tally_explicit,author_tally_implicit,format_tally_explicit,format_tally_implicit,genre_tally_explicit,genre_tally_implicit,other_tally_explicit,retailer_pref_brightly_tally_implicit,retailer_pref_prh_tally_implicit,retailer_pref_tally_implicit,retailer_tally_explicit,subgenre_tally_implicit,work_id_tally_implicit&mergestate=true&state=%7B%22_uid%22%3A%22d9b6f721-7f06-4360-9552-4cad5db33e4e%22%2C%22_tz%22%3A3%2C%22_ul%22%3A%22en-US%22%2C%22_sz%22%3A%221920x1080%22%2C%22_e%22%3A%22pv%22%2C%22_nmob%22%3A%22t%22%2C%22_device%22%3A%22desktop%22%2C%22url%22%3A%22www.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22_v%22%3A%223.0.52%22%2C%22_uido%22%3A%22570ad3be-e7df-4435-bf08-ca1efe0529b1%22%7D&ts=1745488902014&callback=u_418552117404236160",
+        "https://c.lytics.io/api/personalize/1615abb2fee499fc8f7dd878cbe2db80/user/_uid/5473dfb3-0d7d-4418-92e2-6c5229917351?segments=true&fields=academic_role_tally_explicit,account_created_date,account_created_flag,age_segment_array_tally_implicit,age_stage_tally_explicit,article_category_tally_explicit,article_tag_tally_implicit,author_id_tally_explicit,author_id_tally_implicit,author_name_tally_explicit,author_tally_implicit,format_tally_explicit,format_tally_implicit,genre_tally_explicit,genre_tally_implicit,other_tally_explicit,retailer_pref_brightly_tally_implicit,retailer_pref_prh_tally_implicit,retailer_pref_tally_implicit,retailer_tally_explicit,subgenre_tally_implicit,work_id_tally_implicit&mergestate=true&state=%7B%22_uid%22%3A%225473dfb3-0d7d-4418-92e2-6c5229917351%22%2C%22_e%22%3A%22pv%22%2C%22_tz%22%3A3%2C%22_ul%22%3A%22en-US%22%2C%22_sz%22%3A%221920x1080%22%2C%22_nmob%22%3A%22t%22%2C%22_device%22%3A%22desktop%22%2C%22url%22%3A%22www.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22_v%22%3A%223.0.52%22%2C%22_uido%22%3A%22d9b6f721-7f06-4360-9552-4cad5db33e4e%22%7D&ts=1745488902015&callback=u_679450839610826500",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1035905995/?random=1745488902283&cv=11&fst=1745488902283&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902290&cv=11&fst=1745488902290&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11222383759/?random=1745488902296&cv=11&fst=1745488902296&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902298&cv=11&fst=1745488902298&bg=ffffff&guid=ON&async=1&gcl_ctr=4&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902300&cv=11&fst=1745488902300&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902303&cv=11&fst=1745488902303&bg=ffffff&guid=ON&async=1&gcl_ctr=5&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+        "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902306&cv=11&fst=1745488902306&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902309&cv=11&fst=1745488902309&bg=ffffff&guid=ON&async=1&gcl_ctr=6&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902311&cv=11&fst=1745488902311&bg=ffffff&guid=ON&async=1&gcl_ctr=7&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+        "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902313&cv=11&fst=1745488902313&bg=ffffff&guid=ON&async=1&gcl_ctr=8&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488902333",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488902335",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488902371",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488904320",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488904321",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488904335",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488906330",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488906332",
+        "https://visitor-service-eu-central-1.tealiumiq.com/random/main/0196673ef254000e99a5fce9d4720006f004b06700bd0?callback=utag.ut%5B%22writevamain%22%5D&rnd=1745488906335",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/fes21.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/vendor/react.min.js?ver=18.3.1",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/vendor/react-dom.min.js?ver=18.3.1",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/escape-html.min.js?ver=6561a406d2d232a6fbd2",
+        "https://www.penguinrandomhouse.com/wp-includes/js/dist/element.min.js?ver=cb762d190aebbec25b27",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/build/newsletter.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/global.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/account.min.js?ver=cb20250423021351",
+        "https://www.penguinrandomhouse.com/wp-content/themes/penguinrandomhouse/js/minicart.js?ver=cb20250423021351"
+      ],
+      "tealiumInfo": {
+        "detected": true,
+        "version": "ut4.51.202504231813",
+        "profile": null,
+        "account": null,
+        "tagsLoaded": 24
+      },
+      "gtmInfo": {
+        "detected": true,
+        "containers": []
+      }
+    },
+    "vendors_on_page": {
+      "advertising": [
+        "Facebook Pixel",
+        "Google Ads",
+        "LinkedIn Insight",
+        "Pinterest Tag",
+        "Snapchat Pixel",
+        "TikTok Analytics",
+        "TikTok Pixel"
+      ],
+      "tag_manager": [
+        "Google Tag Manager",
+        "Tealium iQ"
+      ],
+      "analytics": [
+        "Adobe Analytics",
+        "Google Tags"
+      ]
+    },
+    "load_network_summary": {
+      "total_requests": 403,
+      "vendors_detected": {
+        "Tealium iQ": [
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.js",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.js",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.23.js?utv=ut4.51.202406061615",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.583.js?utv=ut4.51.202203032103",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.23.js?utv=ut4.51.202406061615",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.326.js?utv=ut4.51.202504041433",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.663.js?utv=ut4.51.202409052008",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.1.js?utv=ut4.51.202411211955",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.184.js?utv=ut4.51.202212142250",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.69.js?utv=ut4.51.202309121825",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.239.js?utv=ut4.51.202309122044",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.405.js?utv=ut4.51.202402261629",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.416.js?utv=ut4.51.202212142250",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.358.js?utv=ut4.51.202312131512",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.576.js?utv=ut4.51.202407012014",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.583.js?utv=ut4.51.202203032103",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.590.js?utv=ut4.51.202405211329",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.598.js?utv=ut4.51.202406281657",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.654.js?utv=ut4.51.202402142002",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.661.js?utv=ut4.51.202309211557",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.682.js?utv=ut4.51.202405211329",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.687.js?utv=ut4.51.202409052008",
+          "https://tags.tiqcdn.com/utag/tiqapp/utag.v.js?a=random/rhcorp-prh/202504231812&cb=1745488901763",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.326.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.663.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.1.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.184.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.69.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.239.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.405.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.416.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.358.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.576.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.590.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.598.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.637.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.654.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.661.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.682.js?utv=ut4.51.202504231813",
+          "https://tags.tiqcdn.com/utag/random/rhcorp-prh/prod/utag.687.js?utv=ut4.51.202504231813"
+        ],
+        "Adobe Audience Manager": [
+          "https://dpm.demdex.net/id?d_visid_ver=3.3.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=683138055267EABE0A490D4C%40AdobeOrg&d_nsid=0&ts=1745488900717",
+          "https://ranh.demdex.net/dest5.html?d_nsid=0",
+          "https://dpm.demdex.net/ibs:dpid=411&dpuuid=aAoMBwAAANvKXQOJ",
+          "https://dpm.demdex.net/ibs:dpid=82530&dpuuid=b2c7f68d-6707-4c46-a630-a4a39deacc36-680a0c07-494c&gdpr=0&gdpr_consent="
+        ],
+        "Google Tag Manager": [
+          "https://www.googletagmanager.com/gtag/js?id=AW-1051027031",
+          "https://www.googletagmanager.com/gtag/js?id=G-6FH2HCYPE6",
+          "https://www.googletagmanager.com/gtag/js?id=AW-1051027031",
+          "https://www.googletagmanager.com/gtag/js?id=G-6FH2HCYPE6&l=dataLayer&cx=c&gtm=45be54m0v9134321088za200&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497",
+          "https://www.google.com/ccm/collect?tid=AW-1035905995&en=page_view&dr=www.penguinrandomhouse.com&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&scrsrc=www.googletagmanager.com&frm=1&rnd=2019055595.1745488902&dt=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&auid=668084577.1745488902&navt=n&npa=0&did=dYmQxMT&gdid=dYmQxMT&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&tft=1745488902262&tfd=1664&apve=1",
+          "https://www.google.com/ccm/collect?tid=AW-1035905995&en=page_view&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&scrsrc=www.googletagmanager.com&frm=0&rnd=799123708.1745488902&dt=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&auid=668084577.1745488902&navt=n&npa=0&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&tft=1745488902287&tfd=2099&apve=1",
+          "https://www.googletagmanager.com/gtag/js?id=G-6FH2HCYPE6&l=dataLayer&cx=c&gtm=45be54m0v9134321088za200&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497",
+          "https://www.googletagmanager.com/static/service_worker/54l0/sw_iframe.html?origin=https%3A%2F%2Fwww.penguinrandomhouse.com",
+          "https://www.googletagmanager.com/static/service_worker/54l0/sw_iframe.html?origin=https%3A%2F%2Fwww.penguinrandomhouse.com"
+        ],
+        "TikTok Analytics": [
+          "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4SGAO96H18A0MH1EN5G&lib=ttq",
+          "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=C4SGAO96H18A0MH1EN5G&lib=ttq",
+          "https://analytics.tiktok.com/i18n/pixel/static/main.MWYwYWI1NGQ2MA.js",
+          "https://analytics.tiktok.com/i18n/pixel/static/identify_935b0d03.js",
+          "https://analytics.tiktok.com/i18n/pixel/static/main.MWYwYWI1NGQ2MA.js",
+          "https://analytics.tiktok.com/i18n/pixel/static/identify_935b0d03.js",
+          "https://analytics.tiktok.com/api/v2/pixel",
+          "https://analytics.tiktok.com/api/v2/pixel/act"
+        ],
+        "LinkedIn Insight": [
+          "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+          "https://snap.licdn.com/li.lms-analytics/insight.min.js"
+        ],
+        "Snapchat Pixel": [
+          "https://sc-static.net/scevent.min.js",
+          "https://sc-static.net/scevent.min.js",
+          "https://sc-static.net/scevent.min.js",
+          "https://sc-static.net/scevent.min.js"
+        ],
+        "Facebook Pixel": [
+          "https://connect.facebook.net/en_US/fbevents.js"
+        ],
+        "Google Ads": [
+          "https://www.googleadservices.com/pagead/conversion_async.js",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1004846701/?random=1745488902065&cv=9&fst=1745488902065&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=466465925&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=180&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&data=ecomm_pagetype%3Dother%3Becomm_totalvalue%3D&frm=1&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&hn=www.googleadservices.com&async=1&rfmt=3&fmt=4",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902248&cv=11&fst=1745488902248&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dpage_view&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902248&cv=11&fst=1745488902248&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dpage_view",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902258&cv=11&fst=1745488902258&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902258&cv=11&fst=1745488902258&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view&ct_cookie_present=0",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1035905995/?random=1745488902261&cv=11&fst=1745488902261&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1035905995?random=1745488902261&cv=11&fst=1745488902261&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902266&cv=11&fst=1745488902266&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902266&cv=11&fst=1745488902266&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11222383759/?random=1745488902269&cv=11&fst=1745488902269&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/11222383759?random=1745488902269&cv=11&fst=1745488902269&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902272&cv=11&fst=1745488902272&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902272&cv=11&fst=1745488902272&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&ct_cookie_present=0",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902274&cv=11&fst=1745488902274&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902274&cv=11&fst=1745488902274&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&capi=1&data=event%3Dconversion&ct_cookie_present=0",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1035905995/?random=1745488902283&cv=11&fst=1745488902283&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1035905995?random=1745488902283&cv=11&fst=1745488902283&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902290&cv=11&fst=1745488902290&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902290&cv=11&fst=1745488902290&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/11222383759/?random=1745488902296&cv=11&fst=1745488902296&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/11222383759?random=1745488902296&cv=11&fst=1745488902296&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902298&cv=11&fst=1745488902298&bg=ffffff&guid=ON&async=1&gcl_ctr=4&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902298&cv=11&fst=1745488902298&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=4&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&ct_cookie_present=0",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902300&cv=11&fst=1745488902300&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902300&cv=11&fst=1745488902300&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902303&cv=11&fst=1745488902303&bg=ffffff&guid=ON&async=1&gcl_ctr=5&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902303&cv=11&fst=1745488902303&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=5&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&ct_cookie_present=0",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1745488902306&cv=11&fst=1745488902306&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902306&cv=11&fst=1745488902306&fmt=3&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902309&cv=11&fst=1745488902309&bg=ffffff&guid=ON&async=1&gcl_ctr=6&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902309&cv=11&fst=1745488902309&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=6&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&ct_cookie_present=0",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902311&cv=11&fst=1745488902311&bg=ffffff&guid=ON&async=1&gcl_ctr=7&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902311&cv=11&fst=1745488902311&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=7&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&ct_cookie_present=0",
+          "https://www.googleadservices.com/pagead/conversion/1051027031/?random=1745488902313&cv=11&fst=1745488902313&bg=ffffff&guid=ON&async=1&gcl_ctr=8&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&rfmt=3&fmt=4",
+          "https://td.doubleclick.net/td/rul/1051027031?random=1745488902313&cv=11&fst=1745488902313&fmt=3&bg=ffffff&guid=ON&async=1&gcl_ctr=8&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&ct_cookie_present=0",
+          "https://www.google.com/pagead/1p-user-list/1004846701/?random=1745488902065&cv=9&fst=1745488800000&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=466465925&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=180&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&data=ecomm_pagetype%3Dother%3Becomm_totalvalue%3D&frm=1&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&hn=www.googleadservices.com&async=1&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzk7o_nFd7kqkIkAnu5i2tJEkZ6EZaMg&random=2770454207&resp=GooglemKTybQhCsO&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1004846701/?random=1745488902065&cv=9&fst=1745488800000&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=466465925&u_h=1080&u_w=1920&u_ah=1080&u_aw=1920&u_cd=24&u_his=2&u_tz=180&u_java=false&u_nplug=0&u_nmime=0&sendb=1&ig=1&data=ecomm_pagetype%3Dother%3Becomm_totalvalue%3D&frm=1&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&hn=www.googleadservices.com&async=1&rfmt=3&fmt=3&is_vtc=1&cid=CAQSGwDZpuyzk7o_nFd7kqkIkAnu5i2tJEkZ6EZaMg&random=2770454207&resp=GooglemKTybQhCsO&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=677500438&cv=11&fst=1745488902258&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVZXZlbnQtc291cmNlLCB0cmlnZ2VyWgMKAQFiBAoCAgM&pscrd=IhMIxL628LTwjAMVJHZBAh0aSSMkMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNVhQYkZtamNXVk1HdDIwbDBHZjQzUFFCRHU4R2l2NTFPN0JxTGFHRVdhdVN4UWpMZjhwckRJ",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1745488902248&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dpage_view&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzQLFMheMaWizrfKqyGymZyXN0YLJMwnpsCDHwbN-o5o3pcCqy&random=3526890503&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1745488902248&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dpage_view&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzQLFMheMaWizrfKqyGymZyXN0YLJMwnpsCDHwbN-o5o3pcCqy&random=3526890503&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/1035905995/?random=1745488902261&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzF7ZJOCiHaOo0ZE7CZV7zt112K52SAVyM2F4jkoiaH6C-APSg&random=3519614484&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1035905995/?random=1745488902261&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzF7ZJOCiHaOo0ZE7CZV7zt112K52SAVyM2F4jkoiaH6C-APSg&random=3519614484&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/11222383759/?random=1745488902269&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzIltjudJ3Hh91csk_iP0njppEDjH-4eY-qrWSc17y339sqxrG&random=408442376&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/11222383759/?random=1745488902269&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzIltjudJ3Hh91csk_iP0njppEDjH-4eY-qrWSc17y339sqxrG&random=408442376&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1745488902266&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzQTXOiNjvcdSLADokdA39ZKd7ZoTjHEWkEKAmeYU-KRJzwBWA&random=1789032090&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1745488902266&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzQTXOiNjvcdSLADokdA39ZKd7ZoTjHEWkEKAmeYU-KRJzwBWA&random=1789032090&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1748867416&cv=11&fst=1745488902272&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMIkKy38LTwjAMVQkNBAh03Tyn6MgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iOWV5bU1MSkdUT3BZX0FsWTdFR0VvbnpXbkQxemptZ3hLOHlYaXViUVRFUWRrTEpXdGsyMzFn",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=195206105&cv=11&fst=1745488902274&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkonZXZlbnQtc291cmNlPW5hdmlnYXRpb24tc291cmNlLCB0cmlnZ2VyWgMKAQFiBAoCAgM&pscrd=IhMI_8W38LTwjAMVgzoGAB21fTjJMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iLVJKdHRLcXJYVFpQdnJONC1ETVF2NGk3OTlpS0hxMWhoYWNJZ1B3RlRJeDNZem1ENFBLeXJn",
+          "https://www.google.com/pagead/1p-user-list/1035905995/?random=1745488902283&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzHYP2SlwELTjTXrGNOSk-68Vs6mowIQL0TO1bnYleugVVzotD&random=762191990&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1035905995/?random=1745488902283&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzHYP2SlwELTjTXrGNOSk-68Vs6mowIQL0TO1bnYleugVVzotD&random=762191990&rmt_tld=1&ipr=y",
+          "https://www.google.com/pagead/1p-user-list/11222383759/?random=1745488902296&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyz_vIF9cOzjpMqeISpXZreJJmyRgM4h0Ut5DhLuioV_zw8xPHs&random=3836932789&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/11222383759/?random=1745488902296&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyz_vIF9cOzjpMqeISpXZreJJmyRgM4h0Ut5DhLuioV_zw8xPHs&random=3836932789&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1211267739&cv=11&fst=1745488902298&bg=ffffff&guid=ON&async=1&gcl_ctr=4&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSid0cmlnZ2VyO25hdmlnYXRpb24tc291cmNlLCBldmVudC1zb3VyY2VaAwoBAWIECgICAw&pscrd=IhMI8O248LTwjAMVvSwGAB0bjS-XMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNjduMnFVaHV1X3MyZ1hLdkZLNWh2MjJBeXpjWnNaQ1d4allmOFk2RkhMT2daVjFDSHYycE9N",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=189558638&cv=11&fst=1745488902303&bg=ffffff&guid=ON&async=1&gcl_ctr=5&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECShV0cmlnZ2VyLCBldmVudC1zb3VyY2VaAwoBAWIECgICAw&pscrd=IhMI3Je58LTwjAMVXAYGAB2tgwInMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9ieU0tdm4zTmJyVW5Fd1FBbTZGcEREWUlGNEhFbzVLTFNxeURUTElOTEtGSW5lVk5EbzhYWE1v",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1745488902290&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzdkzW-KKn8UDO_VM9YJxUtFCBUmXZwzA4IdKUqqRp0MDi8fXi&random=2917911236&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1745488902290&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzdkzW-KKn8UDO_VM9YJxUtFCBUmXZwzA4IdKUqqRp0MDi8fXi&random=2917911236&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1498632424&cv=11&fst=1745488902309&bg=ffffff&guid=ON&async=1&gcl_ctr=6&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkonZXZlbnQtc291cmNlLCB0cmlnZ2VyO25hdmlnYXRpb24tc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMI1Ly58LTwjAMV6CcGAB3DFTwIMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9ieHpTTFpBSUFERF9iX29LRnpBNDR1bmwybU1JQkVoQ3VBbnBlYnBlMnZHdjFRMGNreEQ2T3dV",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1745488902300&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzo1d9JPupw71-sqc6LhSNqIqnWEDmLe1qvA6dG58DIfhAQUFc&random=2112545972&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1745488902300&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyzo1d9JPupw71-sqc6LhSNqIqnWEDmLe1qvA6dG58DIfhAQUFc&random=2112545972&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=1966524047&cv=11&fst=1745488902311&bg=ffffff&guid=ON&async=1&gcl_ctr=7&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkondHJpZ2dlciwgZXZlbnQtc291cmNlPW5hdmlnYXRpb24tc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMIr9K58LTwjAMVM31BAh3tvhstMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNWw5ZG43WnFZb0dWWTMtV005ZWRUSWNyLW05bm1VZ3lOZmctYXdfdC1GR2FMYzZrX1lnTGVB",
+          "https://www.google.com/pagead/1p-user-list/1051027031/?random=1745488902306&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyz2enScJaogBOE330GqDw5lQ0eVsoPOhocqnnLfpbP-7Q7SR6P&random=4221641660&rmt_tld=0&ipr=y",
+          "https://www.google.co.il/pagead/1p-user-list/1051027031/?random=1745488902306&cv=11&fst=1745488800000&bg=ffffff&guid=ON&async=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&rfmt=3&fmt=3&is_vtc=1&cid=CAQSKQDZpuyz2enScJaogBOE330GqDw5lQ0eVsoPOhocqnnLfpbP-7Q7SR6P&random=4221641660&rmt_tld=1&ipr=y",
+          "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/1051027031/?random=460572591&cv=11&fst=1745488902313&bg=ffffff&guid=ON&async=1&gcl_ctr=8&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSixub3QtbmF2aWdhdGlvbi1zb3VyY2UsIHRyaWdnZXIsIGV2ZW50LXNvdXJjZVoDCgEBYgQKAgID&pscrd=IhMI8-O58LTwjAMV1j8GAB0ZPxRGMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iOGtmMmlEMUM2bjF2UDEwMi1zanVhOE5iLU8zN1VlX0s3RHA2YjhuaFVFX1Bab0VMWkhKNHpv",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=677500438&cv=11&fst=1745488902258&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVZXZlbnQtc291cmNlLCB0cmlnZ2VyWgMKAQFiBAoCAgM&pscrd=IhMIxL628LTwjAMVJHZBAh0aSSMkMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNVhQYkZtamNXVk1HdDIwbDBHZjQzUFFCRHU4R2l2NTFPN0JxTGFHRVdhdVN4UWpMZjhwckRJ&is_vtc=1&cid=CAQSKQDZpuyzzWPHM4k1mKxlYnhs4yeE-o4Bj0CWa4PVzA7D3clnozfSAh4E&random=3538216864",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=1748867416&cv=11&fst=1745488902272&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMIkKy38LTwjAMVQkNBAh03Tyn6MgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iOWV5bU1MSkdUT3BZX0FsWTdFR0VvbnpXbkQxemptZ3hLOHlYaXViUVRFUWRrTEpXdGsyMzFn&is_vtc=1&cid=CAQSKQDZpuyzZ3M_UJ-UdtC4k5e83rOAbFqiLE4z4YvNKhb77ZFY4CTClY07&random=2802082377",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=195206105&cv=11&fst=1745488902274&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkonZXZlbnQtc291cmNlPW5hdmlnYXRpb24tc291cmNlLCB0cmlnZ2VyWgMKAQFiBAoCAgM&pscrd=IhMI_8W38LTwjAMVgzoGAB21fTjJMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iLVJKdHRLcXJYVFpQdnJONC1ETVF2NGk3OTlpS0hxMWhoYWNJZ1B3RlRJeDNZem1ENFBLeXJn&is_vtc=1&cid=CAQSKQDZpuyzbf1JSbEQQqfueNhofnwwvkTTkMOxCLo34Rcx7SP4Xqfkkgyn&random=4215121810",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=1211267739&cv=11&fst=1745488902298&bg=ffffff&guid=ON&async=1&gcl_ctr=4&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSid0cmlnZ2VyO25hdmlnYXRpb24tc291cmNlLCBldmVudC1zb3VyY2VaAwoBAWIECgICAw&pscrd=IhMI8O248LTwjAMVvSwGAB0bjS-XMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNjduMnFVaHV1X3MyZ1hLdkZLNWh2MjJBeXpjWnNaQ1d4allmOFk2RkhMT2daVjFDSHYycE9N&is_vtc=1&cid=CAQSKQDZpuyzlaJfAUNX6FCvRjJrwZa6HdYYLq0oB-nrSqI9u0946l994cv3&random=2001436911",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=1966524047&cv=11&fst=1745488902311&bg=ffffff&guid=ON&async=1&gcl_ctr=7&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkondHJpZ2dlciwgZXZlbnQtc291cmNlPW5hdmlnYXRpb24tc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMIr9K58LTwjAMVM31BAh3tvhstMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNWw5ZG43WnFZb0dWWTMtV005ZWRUSWNyLW05bm1VZ3lOZmctYXdfdC1GR2FMYzZrX1lnTGVB&is_vtc=1&cid=CAQSKQDZpuyzG97YzncBLVXE7SfbFDnE-BzQZymf0E5U9q2RH5iUr8mpRRda&random=2005645041",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=189558638&cv=11&fst=1745488902303&bg=ffffff&guid=ON&async=1&gcl_ctr=5&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECShV0cmlnZ2VyLCBldmVudC1zb3VyY2VaAwoBAWIECgICAw&pscrd=IhMI3Je58LTwjAMVXAYGAB2tgwInMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9ieU0tdm4zTmJyVW5Fd1FBbTZGcEREWUlGNEhFbzVLTFNxeURUTElOTEtGSW5lVk5EbzhYWE1v&is_vtc=1&cid=CAQSKQDZpuyz-zhUXhXhCGEzHLbrMSlX_6rLZw9PjxOOJvqh9B6xVOJ7cg_a&random=4068532795",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=1498632424&cv=11&fst=1745488902309&bg=ffffff&guid=ON&async=1&gcl_ctr=6&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkonZXZlbnQtc291cmNlLCB0cmlnZ2VyO25hdmlnYXRpb24tc291cmNlWgMKAQFiBAoCAgM&pscrd=IhMI1Ly58LTwjAMV6CcGAB3DFTwIMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9ieHpTTFpBSUFERF9iX29LRnpBNDR1bmwybU1JQkVoQ3VBbnBlYnBlMnZHdjFRMGNreEQ2T3dV&is_vtc=1&cid=CAQSKQDZpuyzeP-hvzrHhwOiCLbvGAgRck4gFkByIaWGxfs24OfW-mpBOZv4&random=1388336244",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=677500438&cv=11&fst=1745488902258&bg=ffffff&guid=ON&async=1&gcl_ctr=1&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVZXZlbnQtc291cmNlLCB0cmlnZ2VyWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzzWPHM4k1mKxlYnhs4yeE-o4Bj0CWa4PVzA7D3clnozfSAh4E&random=3538216864&ipr=y&pscrd=IhMIxL628LTwjAMVJHZBAh0aSSMkMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNVhQYkZtamNXVk1HdDIwbDBHZjQzUFFCRHU4R2l2NTFPN0JxTGFHRVdhdVN4UWpMZjhwckRJ",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=1748867416&cv=11&fst=1745488902272&bg=ffffff&guid=ON&async=1&gcl_ctr=2&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkoVdHJpZ2dlciwgZXZlbnQtc291cmNlWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzZ3M_UJ-UdtC4k5e83rOAbFqiLE4z4YvNKhb77ZFY4CTClY07&random=2802082377&ipr=y&pscrd=IhMIkKy38LTwjAMVQkNBAh03Tyn6MgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iOWV5bU1MSkdUT3BZX0FsWTdFR0VvbnpXbkQxemptZ3hLOHlYaXViUVRFUWRrTEpXdGsyMzFn",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=195206105&cv=11&fst=1745488902274&bg=ffffff&guid=ON&async=1&gcl_ctr=3&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&ref=https%3A%2F%2Fwww.penguinrandomhouse.com%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=1&tiba=Embed%20%7C%20Happy%20Place%20by%20Emily%20Henry&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkonZXZlbnQtc291cmNlPW5hdmlnYXRpb24tc291cmNlLCB0cmlnZ2VyWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzbf1JSbEQQqfueNhofnwwvkTTkMOxCLo34Rcx7SP4Xqfkkgyn&random=4215121810&ipr=y&pscrd=IhMI_8W38LTwjAMVgzoGAB21fTjJMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iLVJKdHRLcXJYVFpQdnJONC1ETVF2NGk3OTlpS0hxMWhoYWNJZ1B3RlRJeDNZem1ENFBLeXJn",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=1211267739&cv=11&fst=1745488902298&bg=ffffff&guid=ON&async=1&gcl_ctr=4&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dgtag.config&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSid0cmlnZ2VyO25hdmlnYXRpb24tc291cmNlLCBldmVudC1zb3VyY2VaAwoBAWIECgICAw&is_vtc=1&cid=CAQSKQDZpuyzlaJfAUNX6FCvRjJrwZa6HdYYLq0oB-nrSqI9u0946l994cv3&random=2001436911&ipr=y&pscrd=IhMI8O248LTwjAMVvSwGAB0bjS-XMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNjduMnFVaHV1X3MyZ1hLdkZLNWh2MjJBeXpjWnNaQ1d4allmOFk2RkhMT2daVjFDSHYycE9N",
+          "https://www.google.com/pagead/1p-conversion/1051027031/?random=460572591&cv=11&fst=1745488902313&bg=ffffff&guid=ON&async=1&gcl_ctr=8&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSixub3QtbmF2aWdhdGlvbi1zb3VyY2UsIHRyaWdnZXIsIGV2ZW50LXNvdXJjZVoDCgEBYgQKAgID&pscrd=IhMI8-O58LTwjAMV1j8GAB0ZPxRGMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iOGtmMmlEMUM2bjF2UDEwMi1zanVhOE5iLU8zN1VlX0s3RHA2YjhuaFVFX1Bab0VMWkhKNHpv&is_vtc=1&cid=CAQSKQDZpuyz95ltOTo6NFFFvCusU3UknshYJIyZBAxRvARIal2z0QN543eE&random=2551848851",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=189558638&cv=11&fst=1745488902303&bg=ffffff&guid=ON&async=1&gcl_ctr=5&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Dcookie_notification&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECShV0cmlnZ2VyLCBldmVudC1zb3VyY2VaAwoBAWIECgICAw&is_vtc=1&cid=CAQSKQDZpuyz-zhUXhXhCGEzHLbrMSlX_6rLZw9PjxOOJvqh9B6xVOJ7cg_a&random=4068532795&ipr=y&pscrd=IhMI3Je58LTwjAMVXAYGAB2tgwInMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9ieU0tdm4zTmJyVW5Fd1FBbTZGcEREWUlGNEhFbzVLTFNxeURUTElOTEtGSW5lVk5EbzhYWE1v",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=1498632424&cv=11&fst=1745488902309&bg=ffffff&guid=ON&async=1&gcl_ctr=6&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&label=S4R6CJbzz-AYENfMlfUD&fledge=1&capi=1&data=event%3Dpage_view%3Bevent_type%3Drecommendation_load&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkonZXZlbnQtc291cmNlLCB0cmlnZ2VyO25hdmlnYXRpb24tc291cmNlWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzeP-hvzrHhwOiCLbvGAgRck4gFkByIaWGxfs24OfW-mpBOZv4&random=1388336244&ipr=y&pscrd=IhMI1Ly58LTwjAMV6CcGAB3DFTwIMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9ieHpTTFpBSUFERF9iX29LRnpBNDR1bmwybU1JQkVoQ3VBbnBlYnBlMnZHdjFRMGNreEQ2T3dV",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=1966524047&cv=11&fst=1745488902311&bg=ffffff&guid=ON&async=1&gcl_ctr=7&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAkondHJpZ2dlciwgZXZlbnQtc291cmNlPW5hdmlnYXRpb24tc291cmNlWgMKAQFiBAoCAgM&is_vtc=1&cid=CAQSKQDZpuyzG97YzncBLVXE7SfbFDnE-BzQZymf0E5U9q2RH5iUr8mpRRda&random=2005645041&ipr=y&pscrd=IhMIr9K58LTwjAMVM31BAh3tvhstMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iNWw5ZG43WnFZb0dWWTMtV005ZWRUSWNyLW05bm1VZ3lOZmctYXdfdC1GR2FMYzZrX1lnTGVB",
+          "https://www.google.co.il/pagead/1p-conversion/1051027031/?random=460572591&cv=11&fst=1745488902313&bg=ffffff&guid=ON&async=1&gcl_ctr=8&gtm=45be54m0v9134321088za200&gcd=13l3l3l3l1l1&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&label=0rOvCLSJq7YBENfMlfUD&hn=www.googleadservices.com&frm=0&tiba=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&did=dYmQxMT&gdid=dYmQxMT&gtm_ee=1&npa=0&pscdl=noapi&auid=668084577.1745488902&fledge=1&capi=1&data=event%3Dconversion&fmt=3&ct_cookie_present=false&crd=CPLOsQIIscGxAgiwwbECCLHDsQIIisWxAgjCybECCJDJsQII08WxAgjrzLECCM_OsQII_s6xAgj_zrECSixub3QtbmF2aWdhdGlvbi1zb3VyY2UsIHRyaWdnZXIsIGV2ZW50LXNvdXJjZVoDCgEBYgQKAgID&is_vtc=1&cid=CAQSKQDZpuyz95ltOTo6NFFFvCusU3UknshYJIyZBAxRvARIal2z0QN543eE&random=2551848851&ipr=y&pscrd=IhMI8-O58LTwjAMV1j8GAB0ZPxRGMgwIA2IICAAQABgAIAAyDAgEYggIABAAGAAgADIMCAdiCAgAEAAYACAAMgwICGIICAAQABgAIAAyDAgJYggIABAAGAAgADIMCApiCAgAEAAYACAAMgwIAmIICAAQABgAIAAyDAgLYggIABAAGAAgADIMCBViCAgAEAAYACAAMgwIH2IICAAQABgAIAAyDAgTYggIABAAGAAgADIMCBJiCAgAEAAYACAAOiNodHRwczovL3d3dy5wZW5ndWlucmFuZG9taG91c2UuY29tL0JXQ2hBSThNS253QVlRbjgyZGlmcXdtSlFhRWkwQV9MRl9iOGtmMmlEMUM2bjF2UDEwMi1zanVhOE5iLU8zN1VlX0s3RHA2YjhuaFVFX1Bab0VMWkhKNHpv"
+        ],
+        "Google DoubleClick": [
+          "https://sync-tm.everesttech.net/upi/pid/5w3jqr4k?redir=https%3A%2F%2Fcm.g.doubleclick.net%2Fpixel%3Fgoogle_nid%3Dg8f47s39e399f3fe%26google_push%26google_sc%26google_hm%3D%24%7BTM_USER_ID_BASE64ENC_URLENC%7D",
+          "https://sync-tm.everesttech.net/ct/upi/pid/5w3jqr4k?redir=https%3A%2F%2Fcm.g.doubleclick.net%2Fpixel%3Fgoogle_nid%3Dg8f47s39e399f3fe%26google_push%26google_sc%26google_hm%3D%24%7BTM_USER_ID_BASE64ENC_URLENC%7D&_test=aAoMBwAMaJsRRgBh",
+          "https://stats.g.doubleclick.net/g/collect?v=2&tid=G-6FH2HCYPE6&cid=959683912.1745488902&gtm=45je54m0h1v867677768za200zb9134321088&aip=1&dma=0&gcd=13l3l3l3l1l1&npa=0&frm=1&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316&ptag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497",
+          "https://cm.g.doubleclick.net/pixel?google_nid=basis&google_hm=ssf2jWcHTEamMKSjnerMNmgKDAc"
+        ]
+      }
+    }
+  },
+  "agentInteractionAnalysis": [
+    {
+      "selector": "html > body > div:nth-of-type(5) > main > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div:nth-of-type(5) > div > div:nth-of-type(2) > div > ul > li > div > form > button.btn.buy2[type=\"submit\"]",
+      "description": "Agent: button (28)",
+      "type": "click",
+      "status": "Success",
+      "tealium_events": [
+        {
+          "type": "utag.link",
+          "timestamp": "2025-04-24T10:02:42.368Z",
+          "data": {
+            "module_type": "D2C Button",
+            "event_type": "cart_add",
+            "module_variation": "add-to-cart",
+            "work_id": [
+              "704944"
+            ],
+            "product_work_id": [
+              "704944"
+            ],
+            "page_type": "Product Detail Page",
+            "product_title": [
+              "Happy Place"
+            ],
+            "product_isbn": [
+              "9780593441190"
+            ],
+            "product_author": [
+              "Emily Henry"
+            ],
+            "product_author_id": [
+              "306512"
+            ],
+            "product_format": [
+              "Paperback"
+            ],
+            "product_category": [
+              "Women's Fiction | Contemporary Romance | Fiction | Romance"
+            ],
+            "product_imprint": [
+              "Berkley"
+            ],
+            "product_division": [
+              "Berkley / NAL"
+            ],
+            "age_segment": [],
+            "product_list_price": [
+              "19.00"
+            ]
+          }
+        }
+      ],
+      "general_events": {
+        "network": [
+          {
+            "url": "https://px.ads.linkedin.com/wa/",
+            "method": "POST",
+            "type": "xhr",
+            "timestamp": "2025-04-24T10:02:42.357Z"
+          },
+          {
+            "url": "https://datacloud.tealiumiq.com/random/main/2/i.gif",
+            "method": "post",
+            "type": "xhr",
+            "timestamp": "2025-04-24T10:02:42.371Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/user/?event=addtocart&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593441190%22%2C%22product_category%22%3A%22Women's%20Fiction%20%7C%20Contemporary%20Romance%20%7C%20Fiction%20%7C%20Romance%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU1tVTVNMlJqTmpVdFlqZzRaQzAwTUdVeUxXSXpNalF0WkRSak1UQXdPVGswWldKaQ%22%7D&cb=1745488962381&dep=4%2CTAGS_RECEIVED&stc=true",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-24T10:02:42.381Z"
+          },
+          {
+            "url": "https://px.ads.linkedin.com/attribution_trigger?pid=497116&time=1745488962382&url=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&conversionId=15021220",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-24T10:02:42.382Z"
+          },
+          {
+            "url": "https://analytics.google.com/g/collect?v=2&tid=G-6FH2HCYPE6&gtm=45je54m0v867677768za200zb9134321088&_p=1745488901852&_gaz=1&gcd=13l3l3l3l1l1&npa=0&dma=0&tag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316&ptag_exp=102803279~102887800~103027016~103051953~103055465~103077950~103106314~103106316~103130495~103130497&gdid=dYmQxMT&cid=959683912.1745488902&ul=en-us&sr=1920x1080&uaa=x64&uab=64&uafvl=Chromium%3B134.0.6998.35%7CNot%253AA-Brand%3B24.0.0.0%7CHeadlessChrome%3B134.0.6998.35&uamb=0&uam=&uap=Windows&uapv=10.0&uaw=0&are=1&pae=1&frm=0&pscdl=noapi&_eu=AAAAAAI&_s=2&sid=1745488902&sct=1&seg=1&dl=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&dt=Happy%20Place%20by%20Emily%20Henry%3A%209780593441190%20%7C%20PenguinRandomHouse.com%3A%20Books&en=add_to_cart&_c=1&_ee=1&pr1=id9780593441190&_et=59823&tfd=62201",
+            "method": "POST",
+            "type": "fetch",
+            "timestamp": "2025-04-24T10:02:42.390Z"
+          },
+          {
+            "url": "https://rp.liadm.com/j?dtstmp=1745488962401&aid=a-00m0&se=eyJuYW1lIjoicHJvZHVjdF9wdXJjaGFzZSIsImV2ZW50IjoiY29udmVyc2lvbiJ9&duid=0316fa6083bc--01jskkxxy3mnqh576rr471jm0c&tv=v3.11.1&pu=https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F&wpn=lc-bundle&wpv=v3.11.1&cd=.penguinrandomhouse.com&pv=11193ce9-f6a7-4116-8f17-c3ba76b0c0e7",
+            "method": "GET",
+            "type": "xhr",
+            "timestamp": "2025-04-24T10:02:42.401Z"
+          },
+          {
+            "url": "https://ct.pinterest.com/v3/?event=addtocart&ed=%7B%22line_items%22%3A%5B%7B%22product_id%22%3A%229780593441190%22%2C%22product_category%22%3A%22Women's%20Fiction%20%7C%20Contemporary%20Romance%20%7C%20Fiction%20%7C%20Romance%22%7D%5D%7D&tid=2612358431345&pd=%7B%22pin_unauth%22%3A%22dWlkPU1tVTVNMlJqTmpVdFlqZzRaQzAwTUdVeUxXSXpNalF0WkRSak1UQXdPVGswWldKaQ%22%7D&cb=1745488962410&dep=4%2CTAGS_RECEIVED&stc=true&ad=%7B%22loc%22%3A%22https%3A%2F%2Fwww.penguinrandomhouse.com%2Fbooks%2F704944%2Fhappy-place-by-emily-henry%2F%22%2C%22ref%22%3A%22%22%2C%22if%22%3Afalse%2C%22sh%22%3A1080%2C%22sw%22%3A1920%2C%22mh%22%3A%228821a9da%22%2C%22is_eu%22%3Afalse%2C%22architecture%22%3A%22x64%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22134%22%7D%2C%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2224%22%7D%2C%7B%22brand%22%3A%22HeadlessChrome%22%2C%22version%22%3A%22134%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2210.0%22%2C%22uaFullVersion%22%3A%22134.0.6998.35%22%2C%22ecm_enabled%22%3Afalse%7D",
+            "method": "GET",
+            "type": "fetch",
+            "timestamp": "2025-04-24T10:02:42.410Z"
+          }
+        ],
+        "analyticsCalls": [],
+        "dataLayer": []
+      },
+      "vendors_in_network": {},
+      "error": null
+    }
+  ]
+}

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Test Agent</title>
+    <title>Agentic Workflow</title>
+    <!-- Restore original CSS links -->
     <link rel="stylesheet" href="/static/base.css">
     <link rel="stylesheet" href="/static/header.css">
     <link rel="stylesheet" href="/static/analyzer-form.css">
@@ -13,15 +14,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for new elements if needed, keeping original CSS */
+        .results-card pre { background-color: #f0f0f0; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; }
+        #analysisStatus .status-message { margin-bottom: 5px; padding: 5px; border-radius: 3px; }
+        #analysisStatus .status-message.error { color: #D8000C; background-color: #FFD2D2; border: 1px solid #D8000C; }
+        #analysisStatus .status-message.info { color: #00529B; background-color: #BDE5F8; border: 1px solid #00529B; }
+        .selector-list { list-style: none; padding: 0; }
+        .selector-item { margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
+        .selector-item:last-child { border-bottom: none; }
+        .selector-item span { display: block; margin-bottom: 3px; }
+        .selector-desc { font-weight: bold; }
+        .selector-url { font-size: 0.9em; color: #555; }
+        .selector-code { font-family: monospace; background-color: #e0e0e0; padding: 2px 4px; border-radius: 3px; }
+        #runAnalysisBtn { margin-top: 15px; /* Add space above analysis button */ }
+    </style>
 </head>
 <body>
-    <div id="agent-loader" class="loading-overlay">
-        <div class="spinner"></div>
-    </div>
     <div class="background-wrapper">
         <img src="/static/images/space-background.webp" alt="" class="background-image">
     </div>
     <div class="main-content">
+        <!-- Standard Header -->
         <header class="app-header">
             <div class="logo-container">
                 <div class="logo-icon"></div>
@@ -29,7 +43,7 @@
             </div>
             <nav class="nav-links">
                 <a href="/" class="nav-link">Home</a>
-                <a href="/agent" class="nav-link active">Agent</a>
+                <a href="/agent" class="nav-link active">Agent</a> <!-- Set agent link as active -->
                 <a href="#" class="nav-link">Docs</a>
                 <a href="#" class="nav-link">About</a>
                 <button class="theme-toggle" aria-label="Toggle dark/light mode">
@@ -38,245 +52,394 @@
             </nav>
         </header>
 
+        <!-- Phase 1: Agent Execution Section -->
         <section class="hero-section">
             <div class="hero-content-left">
-                <h1 class="hero-title">AI Test Agent</h1>
-                <p class="hero-subtitle">Enter a task for the agent and view its action history below.</p>
-                <form id="agent-form" class="url-form">
-                    <textarea id="task" name="task" placeholder="Enter task for agent" class="url-input" rows="3"></textarea>
-                    <button type="button" id="run-agent-btn" class="analyze-button">Run Agent</button>
-                </form>
+                <h1 class="hero-title">Phase 1: Run Agent & Discover Interactions</h1>
+                <p class="hero-subtitle">Enter a task for the AI agent to perform and discover interactive elements.</p>
+                <div class="url-form">
+                    <textarea id="taskPrompt" placeholder="e.g., Go to https://example.com and click 'Submit'" class="url-input" rows="3"></textarea>
+                    <button id="runAgentBtn" class="analyze-button">Run Agent</button>
+                </div>
+                 <div id="agentStatus" style="margin-top: 10px;"></div>
             </div>
         </section>
-        
-        <!-- Live Agent Logs Section -->
-        <section class="results-section" id="agent-logs-section" style="display: none;">
-            <div class="results-card">
+
+        <!-- Agent Results Section -->
+        <section class="results-section" id="agentResultsSection" style="display: none;">
+            <!-- Agent History Card -->
+            <div class="results-card" id="agentHistoryCard" style="display: none;">
                 <div class="card-header">
-                    <h2><i class="fas fa-terminal"></i> Live Agent Logs</h2>
-                    <div class="status-badge" id="agent-status">Running</div>
+                    <h2><i class="fas fa-history"></i> Agent History</h2>
                 </div>
                 <div class="card-body">
-                    <div class="live-log-container">
-                        <ul id="agent-log-list" class="live-log-list"></ul>
-                    </div>
+                    <div id="historyContent"></div> <!-- History will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Discovered Selectors Card -->
+            <div class="results-card" id="extractedSelectorsCard" style="display: none;">
+                <div class="card-header">
+                    <h2><i class="fas fa-search-location"></i> Discovered Selectors</h2>
+                </div>
+                <div class="card-body">
+                    <div id="selectorsContent"></div> <!-- Selectors list will be rendered here -->
                 </div>
             </div>
         </section>
 
-        <section class="results-section">
-            <div class="results-card" id="history-container">
-                <h2>Agent History</h2>
-                <!-- populated via AJAX -->
+        <!-- Phase 2: Agentic Tealium Analysis Section -->
+        <section class="hero-section" id="analysisTriggerSection" style="display: none;">
+             <div class="hero-content-left">
+                <h2 class="hero-title">Phase 2: Analyze Discovered Interactions</h2>
+                <p class="hero-subtitle">Click the button below to analyze the interactions found on the target URL for Tealium tags and events.</p>
+                 <p><strong>Target URL:</strong> <span id="analysisTargetUrl"></span></p>
+                <button id="runAnalysisBtn" class="analyze-button">Analyze Discovered Interactions</button>
+             </div>
+        </section>
+
+        <!-- Analysis Results Section -->
+        <section class="results-section" id="analysisResultsSection" style="display: none;">
+            <!-- Analysis Progress Card -->
+            <div class="results-card" id="analysisStatusCard">
+                <div class="card-header">
+                    <h2><i class="fas fa-tasks"></i> Analysis Progress</h2>
+                </div>
+                <div class="card-body">
+                    <div id="analysisStatus"></div> <!-- Status messages will appear here -->
+                </div>
+            </div>
+            <!-- Analysis Final Results Card -->
+            <div class="results-card" id="analysisResultsCard" style="display: none;">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
+                </div>
+                <div class="card-body">
+                    <pre id="resultsContent"></pre> <!-- Formatted JSON results -->
+                </div>
             </div>
         </section>
 
-        <section class="raw-json-section">
-            <div class="results-card" id="selectors-container">
-                <h2>Extracted Selectors</h2>
-                <!-- populated via AJAX -->
-            </div>
-        </section>
-        
-        <section class="raw-json-section">
-            <div class="results-card" id="raw-json-container">
-                <h2>Raw Output JSON</h2>
-                <!-- populated via AJAX -->
-            </div>
-        </section>
-
+        <!-- Standard Footer -->
         <footer class="app-footer">
-            <p>2025 Webspark Tag Analyzer | All rights reserved</p>
+            <p>&copy; 2025 Webspark Tag Analyzer | All rights reserved</p>
         </footer>
     </div>
-    <!-- Removed default scripts.js to avoid auto-run on load -->
+
     <script>
-    window.addEventListener('DOMContentLoaded', function() {
-        const agentLogList = document.getElementById('agent-log-list');
-        const agentLogsSection = document.getElementById('agent-logs-section');
-        const agentStatus = document.getElementById('agent-status');
-        let eventSource = null;
+        let targetUrl = null; // Variable to store the URL for Phase 2
+        let eventSource = null; // Variable for SSE connection
+
+        // --- Element References ---
+        const taskPromptInput = document.getElementById('taskPrompt');
+        const runAgentBtn = document.getElementById('runAgentBtn');
+        const agentStatusDiv = document.getElementById('agentStatus'); // Status below input
         
-        // Function to add a log message to the UI
-        function addLogMessage(message, type = 'info') {
-            const li = document.createElement('li');
-            li.className = `live-log-item ${type}`;
-            li.textContent = message;
-            agentLogList.appendChild(li);
-            // Auto-scroll to bottom
-            agentLogList.scrollTop = agentLogList.scrollHeight;
-        }
-        
-        // Handle the Run Agent button click
-        document.getElementById('run-agent-btn').addEventListener('click', async function() {
-            const task = document.getElementById('task').value;
-            if (!task.trim()) {
-                alert('Please enter a task for the agent');
+        const agentResultsSection = document.getElementById('agentResultsSection');
+        const agentHistoryCard = document.getElementById('agentHistoryCard');
+        const historyContentDiv = document.getElementById('historyContent');
+        const extractedSelectorsCard = document.getElementById('extractedSelectorsCard');
+        const selectorsContentDiv = document.getElementById('selectorsContent');
+
+        const analysisTriggerSection = document.getElementById('analysisTriggerSection');
+        const analysisTargetUrlSpan = document.getElementById('analysisTargetUrl');
+        const runAnalysisBtn = document.getElementById('runAnalysisBtn');
+
+        const analysisResultsSection = document.getElementById('analysisResultsSection');
+        const analysisStatusCard = document.getElementById('analysisStatusCard');
+        const analysisStatusDiv = document.getElementById('analysisStatus'); // In the progress card
+        const analysisResultsCard = document.getElementById('analysisResultsCard');
+        const resultsContentPre = document.getElementById('resultsContent');
+
+        // --- Phase 1: Agent Execution --- 
+        runAgentBtn.addEventListener('click', runAgent);
+
+        async function runAgent() {
+            const task = taskPromptInput.value.trim();
+            if (!task) {
+                agentStatusDiv.innerHTML = '<p class="error">Please enter an agent task.</p>';
                 return;
             }
-            
-            // Show loader and logs section
-            const loader = document.getElementById('agent-loader');
-            loader.style.display = 'flex';
-            agentLogsSection.style.display = 'block';
-            
-            // Clear previous logs
-            agentLogList.innerHTML = '';
-            agentStatus.textContent = 'Running';
-            agentStatus.className = 'status-badge';
-            
-            // Close any existing event source
+
+            // Reset UI 
+            agentStatusDiv.innerHTML = '<p>Running agent... <i class="fas fa-spinner fa-spin"></i></p>';
+            agentResultsSection.style.display = 'none';
+            agentHistoryCard.style.display = 'none';
+            historyContentDiv.innerHTML = '';
+            extractedSelectorsCard.style.display = 'none';
+            selectorsContentDiv.innerHTML = '';
+            analysisTriggerSection.style.display = 'none';
+            analysisTargetUrlSpan.textContent = '';
+            runAnalysisBtn.disabled = true;
+            analysisResultsSection.style.display = 'none';
+            analysisStatusCard.style.display = 'block'; // Show progress card container
+            analysisStatusDiv.innerHTML = ''; // Clear progress messages
+            analysisResultsCard.style.display = 'none';
+            resultsContentPre.textContent = '';
+            targetUrl = null;
+            if (eventSource) {
+                eventSource.close();
+                eventSource = null;
+            }
+
+            runAgentBtn.disabled = true;
+            taskPromptInput.disabled = true;
+
+            try {
+                const response = await fetch('/api/agent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ task: task })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || `Server error: ${response.status}`);
+                }
+
+                agentStatusDiv.innerHTML = '<p style="color: green;">Agent run complete.</p>';
+                agentResultsSection.style.display = 'block'; // Show the results area
+
+                // Display History
+                if (data.history && data.history.length > 0) {
+                    renderHistory(data.history);
+                    agentHistoryCard.style.display = 'block';
+                } else {
+                     historyContentDiv.innerHTML = '<p>No history data returned.</p>';
+                     agentHistoryCard.style.display = 'block';
+                }
+
+                // Display Extracted Selectors & Prepare for Phase 2
+                if (data.extracted_selectors && data.extracted_selectors.length > 0) {
+                    renderSelectors(data.extracted_selectors);
+                    extractedSelectorsCard.style.display = 'block';
+                    
+                    // Store the first URL found for Phase 2 analysis
+                    targetUrl = data.extracted_selectors[0].url;
+                    if (targetUrl) {
+                        analysisTargetUrlSpan.textContent = targetUrl;
+                        analysisTriggerSection.style.display = 'block'; // Show Phase 2 trigger section
+                        runAnalysisBtn.disabled = false;
+                        agentStatusDiv.innerHTML += `<p>Found interactions for URL: ${targetUrl}. Ready for Phase 2 analysis.</p>`;
+                    } else {
+                         agentStatusDiv.innerHTML += '<p class="error">Could not determine target URL from selectors.</p>';
+                    }
+                } else {
+                    selectorsContentDiv.innerHTML = '<p>No selectors were extracted by the agent.</p>';
+                    extractedSelectorsCard.style.display = 'block';
+                    agentStatusDiv.innerHTML += '<p>No interactions discovered for Phase 2 analysis.</p>';
+                }
+
+            } catch (error) {
+                console.error('Error running agent:', error);
+                agentStatusDiv.innerHTML = `<p class="error">Error during agent run: ${error.message}</p>`;
+            } finally {
+                 runAgentBtn.disabled = false;
+                 taskPromptInput.disabled = false;
+            }
+        }
+
+        function renderHistory(history) {
+             // Renders history into historyContentDiv (using list format)
+             let html = '<ul>';
+             history.forEach((step, index) => {
+                 html += `<li style="list-style-type: none; padding-left: 0; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                            <strong>Step ${index + 1}: ${step.action || 'N/A'}</strong>`;
+                 if (step.args) {
+                      html += `<br>Args: <pre style="margin-top: 5px;">${JSON.stringify(step.args, null, 2)}</pre>`;
+                 }
+                  if (step.result) {
+                      // Avoid excessively long results in history view
+                      let resultStr = JSON.stringify(step.result, null, 2);
+                      if (resultStr.length > 500) { 
+                          resultStr = resultStr.substring(0, 500) + '... (truncated)'; 
+                      }
+                      html += `<br>Result: <pre style="margin-top: 5px;">${resultStr}</pre>`;
+                  }
+                  if (step.state && step.state.screenshot) {
+                     const screenshotFilename = step.state.screenshot.split(/[\/]/).pop(); 
+                     const screenshotUrl = `/screenshots/${screenshotFilename}`;
+                     html += `<br><a href="${screenshotUrl}" target="_blank" style="margin-top: 5px; display: inline-block;">View Screenshot <i class="fas fa-external-link-alt"></i></a>`;
+                  }
+                 html += `</li>`;
+             });
+             html += '</ul>';
+             historyContentDiv.innerHTML = html;
+         }
+
+        function renderSelectors(selectors) {
+            // Renders selectors into selectorsContentDiv
+            let html = '<ul class="selector-list">';
+            selectors.forEach(sel => {
+                html += `<li class="selector-item">
+                            <span class="selector-desc">Description: ${sel.description || 'N/A'}</span>
+                            <span class="selector-code">Selector: <code>${sel.selector}</code></span>
+                            <span class="selector-url">URL: ${sel.url}</span>
+                         </li>`;
+            });
+            html += '</ul>';
+            selectorsContentDiv.innerHTML = html;
+        }
+
+        // --- Phase 2: Agentic Analysis --- 
+        runAnalysisBtn.addEventListener('click', runAnalysis);
+
+        function runAnalysis() {
+            if (!targetUrl) {
+                alert('Error: Target URL not set. Run the agent first.');
+                return;
+            }
+
+            // Close any existing connection
             if (eventSource) {
                 eventSource.close();
             }
-            
-            // Start streaming logs
-            eventSource = new EventSource('/stream-agent');
-            
+
+            runAnalysisBtn.disabled = true;
+            analysisResultsSection.style.display = 'block'; // Show analysis results area
+            analysisStatusCard.style.display = 'block'; // Ensure progress card is visible
+            analysisStatusDiv.innerHTML = '<p class="status-message info">Starting analysis... <i class="fas fa-spinner fa-spin"></i></p>'; // Initial status in progress card
+            analysisResultsCard.style.display = 'none'; // Hide final results card initially
+            resultsContentPre.textContent = '';
+
+            const analysisUrl = `/stream-agent-analysis?url=${encodeURIComponent(targetUrl)}`;
+            eventSource = new EventSource(analysisUrl);
+
             eventSource.onmessage = function(event) {
                 try {
-                    // Handle potential JSON parsing errors
-                    let data;
-                    try {
-                        data = JSON.parse(event.data);
-                    } catch (jsonError) {
-                        console.error('Error parsing JSON:', jsonError, 'Raw data:', event.data);
-                        addLogMessage(`Error parsing server response: ${event.data}`, 'error');
-                        return;
-                    }
-                    
-                    if (data.status === 'log') {
-                        // Determine log type based on content
-                        let logType = 'info';
-                        if (data.message.includes('ERROR') || data.message.includes('Error') || data.message.includes('❌')) {
-                            logType = 'error';
-                        } else if (data.message.includes('WARNING') || data.message.includes('Warning')) {
-                            logType = 'warning';
-                        } else if (data.message.includes('SUCCESS') || data.message.includes('✅')) {
-                            logType = 'success';
-                        }
-                        addLogMessage(data.message, logType);
+                    const data = JSON.parse(event.data);
+                    console.log('SSE Received:', data);
+
+                    if (data.status === 'progress') {
+                        // Append progress messages to the status div
+                        analysisStatusDiv.innerHTML += `<p class="status-message info">${data.message}</p>`;
                     } else if (data.status === 'complete') {
-                        addLogMessage('Agent task completed', 'success');
-                        agentStatus.textContent = 'Completed';
-                        agentStatus.className = 'status-badge success';
-                        eventSource.close();
+                        analysisStatusDiv.innerHTML += '<p class="status-message info" style="color: green; background-color: #e6ffed; border-color: green;">Analysis complete.</p>';
+                        
+                        // Call function to render styled results instead of raw JSON
+                        renderAnalysisResults(data.results);
+                        // resultsContentPre.textContent = JSON.stringify(data.results, null, 2);
+                        analysisResultsCard.style.display = 'block'; // Show final results card
+                        eventSource.close(); 
+                        eventSource = null; 
                     } else if (data.status === 'error') {
-                        addLogMessage(`Error: ${data.message}`, 'error');
-                        agentStatus.textContent = 'Error';
-                        agentStatus.className = 'status-badge error';
-                        eventSource.close();
+                         analysisStatusDiv.innerHTML += `<p class="status-message error">Analysis Error: ${data.message}</p>`;
+                         eventSource.close();
+                         eventSource = null;
+                         runAnalysisBtn.disabled = false; // Re-enable on error
                     }
                 } catch (e) {
-                    console.error('Error handling event:', e);
-                    addLogMessage(`Error processing server message: ${e.message}`, 'error');
+                    console.error("Error parsing SSE data:", e, "Raw data:", event.data);
+                    analysisStatusDiv.innerHTML += `<p class="status-message error">Error processing update: ${e.message}</p>`;
                 }
             };
-            
-            eventSource.onerror = function() {
-                addLogMessage('Connection to server lost', 'error');
+
+            eventSource.onerror = function(error) {
+                console.error('SSE Error:', error);
+                analysisStatusDiv.innerHTML += '<p class="status-message error">Connection error during analysis.</p>';
                 eventSource.close();
+                eventSource = null;
+                runAnalysisBtn.disabled = false; // Re-enable on connection error
             };
-            
-            // Submit the task to the agent API
-            try {
-                addLogMessage(`Starting agent with task: ${task}`, 'section');
-                
-                const res = await fetch('/api/agent', {
-                    method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({task})
-                });
-                const data = await res.json();
-                
-                // Render history
-                const historyContainer = document.getElementById('history-container');
-                historyContainer.innerHTML = '<h2>Agent History</h2>';
-                if (data.history && data.history.length) {
-                    data.history.forEach(entry => {
-                        const div = document.createElement('div');
-                        div.className = 'result-entry';
-                        div.innerHTML = `
-                            <h3>Step ${entry.metadata.step_number}</h3>
-                            <p><strong>Action:</strong> <code>${JSON.stringify(entry.model_output.action[0])}</code></p>
-                            <p><strong>Result:</strong> ${entry.result[0].extracted_content}</p>
-                            ${entry.screenshot_filename ? `<p><strong>Screenshot:</strong> <a href="/screenshots/${entry.screenshot_filename}" target="_blank">${entry.screenshot_filename}</a></p>` : ''}
-                            
-                            <!-- Add selector information if available -->
-                            ${entry.selector_info ? `
-                            <div class="selector-info">
-                                <p><strong>Selector Information:</strong></p>
-                                <pre class="raw-json">${JSON.stringify(entry.selector_info, null, 2)}</pre>
-                            </div>` : ''}
-                            
-                            <!-- Tealium events before interaction -->
-                            ${entry.tealium_events ? `
-                            <div class="tealium-events">
-                                <p><strong>Tealium Events (Page Load):</strong></p>
-                                <pre class="raw-json">${JSON.stringify(entry.tealium_events, null, 2)}</pre>
-                            </div>` : ''}
-                            
-                            <!-- Tealium events during click action (if available) -->
-                            ${entry.click_tealium_events ? `
-                            <div class="tealium-events">
-                                <p><strong>Tealium Events (During Click Action):</strong></p>
-                                <pre class="raw-json">${JSON.stringify(entry.click_tealium_events, null, 2)}</pre>
-                            </div>` : ''}
-                            
-                            <!-- Tealium events after interaction (if available) -->
-                            ${entry.post_click_tealium_events ? `
-                            <div class="tealium-events">
-                                <p><strong>Tealium Events (After Navigation):</strong></p>
-                                <pre class="raw-json">${JSON.stringify(entry.post_click_tealium_events, null, 2)}</pre>
-                            </div>` : ''}
-                        `;
-                        historyContainer.appendChild(div);
-                    });
-                } else {
-                    historyContainer.innerHTML += '<p>No history available. Submit a task to run the agent.</p>';
-                }
-                
-                // Render selectors section
-                const selectorsContainer = document.getElementById('selectors-container');
-                if (data.extracted_selectors && data.extracted_selectors.length > 0) {
-                    let selectorsHTML = '<h2>Extracted Selectors</h2>';
-                    selectorsHTML += '<div class="selector-controls">';
-                    selectorsHTML += '<button id="use-selectors-btn" class="analyze-button">Use These Selectors in Future Analyses</button>';
-                    selectorsHTML += '<p class="selector-note">This will enable the agent-discovered selectors for use in the home page analyzer.</p>';
-                    selectorsHTML += '</div>';
-                    selectorsHTML += '<pre class="raw-json"><code>' + JSON.stringify(data.extracted_selectors, null, 2) + '</code></pre>';
-                    selectorsContainer.innerHTML = selectorsHTML;
-                    
-                    // Add event listener for the use selectors button
-                    document.getElementById('use-selectors-btn').addEventListener('click', function() {
-                        localStorage.setItem('useAgentSelectors', 'true');
-                        alert('Agent selectors will be used in future analyses. Refresh the page to see the changes.');
-                    });
-                } else {
-                    selectorsContainer.innerHTML = '<h2>Extracted Selectors</h2><p>No selectors were extracted from this agent run.</p>';
-                }
-                
-                // Render raw JSON
-                const rawContainer = document.getElementById('raw-json-container');
-                rawContainer.innerHTML = '<h2>Raw Output JSON</h2><pre class="raw-json"><code>' + JSON.stringify(data.full_data, null, 2) + '</code></pre>';
-                
-                // Update status
-                agentStatus.textContent = 'Completed';
-                agentStatus.className = 'status-badge success';
-                
-            } catch(err) {
-                console.error(err);
-                addLogMessage(`Error running agent: ${err.message}`, 'error');
-                agentStatus.textContent = 'Error';
-                agentStatus.className = 'status-badge error';
-            } finally {
-                loader.style.display = 'none';
-                if (eventSource) {
-                    eventSource.close();
-                }
+        }
+        
+        // --- Helper Function to Render Styled Analysis Results (Phase 2) ---
+        function renderAnalysisResults(results) {
+            if (!results) {
+                resultsContentPre.innerHTML = '<p class="error">No analysis results received.</p>';
+                return;
             }
-        });
-    });
+
+            let html = '';
+
+            // Basic Info
+            html += `<h4>Analysis Summary for: ${results.url || 'N/A'}</h4>`;
+            if (results.page_title) {
+                 html += `<p><strong>Page Title:</strong> ${results.page_title}</p>`;
+            }
+            if (results.error) {
+                 html += `<p class="error"><strong>Error during analysis:</strong> ${results.error}</p>`;
+            }
+
+            // Page Load Analysis
+            if (results.pageLoadAnalysis) {
+                html += `<div class="results-card" style="margin-top:15px; background-color: #f8f9fa;">`; // Nested card styling
+                html += `<div class="card-header"><h5><i class="fas fa-truck-loading"></i> Page Load Analysis</h5></div>`;
+                html += `<div class="card-body">`;
+                const pl = results.pageLoadAnalysis;
+                if (pl.vendorsDetected && pl.vendorsDetected.length > 0) {
+                    html += `<h6>Vendors Detected (${pl.vendorsDetected.length}):</h6><ul>`;
+                    pl.vendorsDetected.forEach(v => { html += `<li>${v}</li>`; });
+                    html += `</ul>`;
+                }
+                 if (pl.initialTealiumEvents && pl.initialTealiumEvents.length > 0) {
+                     html += `<h6>Initial Tealium Events (${pl.initialTealiumEvents.length}):</h6><pre>${JSON.stringify(pl.initialTealiumEvents, null, 2)}</pre>`;
+                 }
+                 if (pl.networkSummary) {
+                     html += `<h6>Network Summary:</h6>`;
+                     html += `<ul>
+                                <li>Total Requests: ${pl.networkSummary.totalRequests || 0}</li>
+                                <li>Failed Requests: ${pl.networkSummary.failedRequests || 0}</li>
+                                <li>Tealium Requests: ${pl.networkSummary.tealiumRequests || 0}</li>
+                              </ul>`;
+                 }
+                 if (pl.errors && pl.errors.length > 0) {
+                     html += `<h6>Page Load Errors:</h6><ul>`;
+                     pl.errors.forEach(e => { html += `<li class="error">${e}</li>`; });
+                     html += `</ul>`;
+                 }
+                html += `</div></div>`;
+            }
+
+            // Agent Interaction Analysis
+            if (results.agentInteractionAnalysis && results.agentInteractionAnalysis.length > 0) {
+                html += `<h4><i class="fas fa-mouse-pointer"></i> Agent Interaction Analysis (${results.agentInteractionAnalysis.length})</h4>`;
+                results.agentInteractionAnalysis.forEach((interaction, index) => {
+                    html += `<div class="results-card" style="margin-top: 15px; background-color: #f8f9fa;">`; // Nested card styling
+                    html += `<div class="card-header"><h5>Interaction ${index + 1}: ${interaction.description || 'N/A'}</h5></div>`;
+                    html += `<div class="card-body">`;
+                    html += `<p><strong>Selector:</strong> <code>${interaction.selector || 'N/A'}</code></p>`;
+                    html += `<p><strong>Status:</strong> ${interaction.success ? '<span style="color: green;">Success</span>' : '<span class="error">Failed</span>'}</p>`;
+                    if (interaction.error) {
+                        html += `<p class="error"><strong>Error:</strong> ${interaction.error}</p>`;
+                    }
+                    if (interaction.triggeredTealiumEvents && interaction.triggeredTealiumEvents.length > 0) {
+                         html += `<h6>Triggered Tealium Events (${interaction.triggeredTealiumEvents.length}):</h6><pre>${JSON.stringify(interaction.triggeredTealiumEvents, null, 2)}</pre>`;
+                    }
+                     if (interaction.vendorsCalledAfter && interaction.vendorsCalledAfter.length > 0) {
+                         html += `<h6>Vendors Called After Interaction (${interaction.vendorsCalledAfter.length}):</h6><ul>`;
+                         interaction.vendorsCalledAfter.forEach(v => { html += `<li>${v}</li>`; });
+                         html += `</ul>`;
+                     }
+                    html += `</div></div>`;
+                });
+            }
+
+            // Replace content of the <pre> tag with formatted HTML
+            resultsContentPre.innerHTML = html;
+        }
+
+        // Add theme toggle functionality (assuming it exists in base.css/scripts)
+        const themeToggle = document.querySelector('.theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                // Optional: Save theme preference to localStorage
+                if (document.body.classList.contains('dark-theme')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+        // Optional: Load theme preference on page load
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+
     </script>
 </body>
 </html>

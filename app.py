@@ -111,10 +111,68 @@ async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: 
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+@app.get("/stream-agent-analysis")
+async def stream_agent_analysis(request: Request, url: str = DEFAULT_URL):
+    """
+    Async streaming endpoint for agent-based analysis using agent-discovered selectors.
+    This endpoint uses agent_gemini_analyzer.py instead of the regular gemini_analyzer.py.
+    """
+    url = unquote(url)
+    if not re.match(r'^https?://', url):
+        print(f"Warning: Stream URL doesn't start with http/https. Prepending https://")
+        url = "https://" + url
+
+    async def event_generator():
+        final_results = None # Variable to store the final results
+        try:
+            print(f"Streaming agent-based analysis for: {url}")
+            # Import here to avoid circular imports
+            import agent_gemini_analyzer
+            async for update in agent_gemini_analyzer.analyze_page_tags_and_events(url):
+                yield f"data: {json.dumps(update)}\n\n"
+                # Store the results if the update indicates completion
+                if update.get("status") == "complete" and "results" in update:
+                    final_results = update["results"]
+
+            print(f"Finished agent-based streaming for: {url}")
+
+            # Save the final results to a file if analysis completed successfully
+            if final_results and not final_results.get("error"):
+                # Create filename (similar to terminal version)
+                sanitized_url_part = re.sub(r'^https?://', '', final_results.get('url','unknown_url'))
+                sanitized_url_part = re.sub(r'[/:*?"<>|\\\\.]', '_', sanitized_url_part)[:50]
+                filename = f"agent_tealium_analysis_{sanitized_url_part}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+                try:
+                    with open(filename, 'w', encoding='utf-8') as f:
+                        json.dump(final_results, f, indent=2, default=str)
+                    print(f"Agent analysis results saved locally to: {filename}")
+                except Exception as save_e:
+                    print(f"Error saving agent analysis results locally: {save_e}")
+            elif final_results and final_results.get("error"):
+                 print("Agent analysis completed with error, results not saved locally.")
+            else:
+                 print("Agent analysis did not yield final results, nothing saved locally.")
+
+        except Exception as e:
+            print(f"Error during agent-based streaming analysis for {url}: {e}")
+            traceback.print_exc()
+            error_payload = {
+                "status": "error",
+                "message": f"An error occurred on the server during agent analysis: {str(e)}"
+            }
+            try:
+                yield f"data: {json.dumps(error_payload)}\n\n"
+            except Exception as yield_e:
+                print(f"Error yielding final error message: {yield_e}")
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
 # Agent page endpoints
 @app.get("/agent", response_class=HTMLResponse)
 async def show_agent_form(request: Request):
     return templates.TemplateResponse("agent.html", {"request": request})
+
+# We'll use the existing agent.html page for agent analysis
 
 # Streaming endpoint for agent logs
 @app.get("/stream-agent")
