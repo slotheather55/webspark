@@ -1,12 +1,12 @@
 import importlib.resources
 from datetime import datetime
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, Optional
 
 from langchain_core.messages import HumanMessage, SystemMessage
 
 if TYPE_CHECKING:
 	from browser_use.agent.views import ActionResult, AgentStepInfo
-	from browser_use.browser.views import BrowserState
+	from browser_use.browser.views import BrowserStateSummary
 
 
 class SystemPrompt:
@@ -14,8 +14,8 @@ class SystemPrompt:
 		self,
 		action_description: str,
 		max_actions_per_step: int = 10,
-		override_system_message: Optional[str] = None,
-		extend_system_message: Optional[str] = None,
+		override_system_message: str | None = None,
+		extend_system_message: str | None = None,
 	):
 		self.default_action_description = action_description
 		self.max_actions_per_step = max_actions_per_step
@@ -62,15 +62,16 @@ class SystemPrompt:
 class AgentMessagePrompt:
 	def __init__(
 		self,
-		state: 'BrowserState',
-		result: Optional[List['ActionResult']] = None,
+		browser_state_summary: 'BrowserStateSummary',
+		result: list['ActionResult'] | None = None,
 		include_attributes: list[str] | None = None,
 		step_info: Optional['AgentStepInfo'] = None,
 	):
-		self.state = state
+		self.state: 'BrowserStateSummary' = browser_state_summary
 		self.result = result
 		self.include_attributes = include_attributes or []
 		self.step_info = step_info
+		assert self.state
 
 	def get_user_message(self, use_vision: bool = True) -> HumanMessage:
 		elements_text = self.state.element_tree.clickable_elements_to_string(include_attributes=self.include_attributes)
@@ -142,8 +143,8 @@ class PlannerPrompt(SystemPrompt):
 		self.available_actions = available_actions
 
 	def get_system_message(
-		self, is_planner_reasoning: bool, extended_planner_system_prompt: Optional[str] = None
-	) -> Union[SystemMessage, HumanMessage]:
+		self, is_planner_reasoning: bool, extended_planner_system_prompt: str | None = None
+	) -> SystemMessage | HumanMessage:
 		"""Get the system message for the planner.
 
 		Args:

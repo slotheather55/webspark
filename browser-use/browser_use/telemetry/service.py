@@ -1,10 +1,10 @@
 import logging
 import os
-import uuid
 from pathlib import Path
 
 from dotenv import load_dotenv
 from posthog import Posthog
+from uuid_extensions import uuid7str
 
 from browser_use.telemetry.views import BaseTelemetryEvent
 from browser_use.utils import singleton
@@ -57,6 +57,7 @@ class ProductTelemetry:
 				project_api_key=self.PROJECT_API_KEY,
 				host=self.HOST,
 				disable_geoip=False,
+				enable_exception_autocapture=True,
 			)
 
 			# Silence posthog's logging
@@ -91,6 +92,16 @@ class ProductTelemetry:
 		except Exception as e:
 			logger.error(f'Failed to send telemetry event {event.name}: {e}')
 
+	def flush(self) -> None:
+		if self._posthog_client:
+			try:
+				self._posthog_client.flush()
+				logger.debug('PostHog client telemetry queue flushed.')
+			except Exception as e:
+				logger.error(f'Failed to flush PostHog client: {e}')
+		else:
+			logger.debug('PostHog client not available, skipping flush.')
+
 	@property
 	def user_id(self) -> str:
 		if self._curr_user_id:
@@ -102,11 +113,11 @@ class ProductTelemetry:
 			if not os.path.exists(self.USER_ID_PATH):
 				os.makedirs(os.path.dirname(self.USER_ID_PATH), exist_ok=True)
 				with open(self.USER_ID_PATH, 'w') as f:
-					new_user_id = str(uuid.uuid4())
+					new_user_id = uuid7str()
 					f.write(new_user_id)
 				self._curr_user_id = new_user_id
 			else:
-				with open(self.USER_ID_PATH, 'r') as f:
+				with open(self.USER_ID_PATH) as f:
 					self._curr_user_id = f.read()
 		except Exception:
 			self._curr_user_id = 'UNKNOWN_USER_ID'

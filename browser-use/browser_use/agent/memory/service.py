@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from typing import List, Optional
+import os
 
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import (
@@ -57,11 +57,14 @@ class Memory:
 				self.config.embedder_dims = 512
 		else:
 			# Ensure LLM instance is set in the config
-			self.config = MemoryConfig(config)  # re-validate user-provided config
+			self.config = MemoryConfig.model_validate(config)  # revalidate using Pydantic
 			self.config.llm_instance = llm
 
 		# Check for required packages
 		try:
+			# also disable mem0's telemetry when ANONYMIZED_TELEMETRY=False
+			if os.getenv('ANONYMIZED_TELEMETRY', 'true').lower()[0] in 'fn0':
+				os.environ['MEM0_TELEMETRY'] = 'False'
 			from mem0 import Memory as Mem0Memory
 		except ImportError:
 			raise ImportError('mem0 is required when enable_memory=True. Please install it with `pip install mem0`.')
@@ -86,7 +89,7 @@ class Memory:
 		Args:
 		    current_step: The current step number of the agent
 		"""
-		logger.info(f'Creating procedural memory at step {current_step}')
+		logger.debug(f'Creating procedural memory at step {current_step}')
 
 		# Get all messages
 		all_messages = self.message_manager.state.history.messages
@@ -105,7 +108,7 @@ class Memory:
 
 		# Need at least 2 messages to create a meaningful summary
 		if len(messages_to_process) <= 1:
-			logger.info('Not enough non-memory messages to summarize')
+			logger.debug('Not enough non-memory messages to summarize')
 			return
 		# Create a procedural memory
 		memory_content = self._create([m.message for m in messages_to_process], current_step)
@@ -131,7 +134,7 @@ class Memory:
 		self.message_manager.state.history.current_tokens += memory_tokens
 		logger.info(f'Messages consolidated: {len(messages_to_process)} messages converted to procedural memory')
 
-	def _create(self, messages: List[BaseMessage], current_step: int) -> Optional[str]:
+	def _create(self, messages: list[BaseMessage], current_step: int) -> str | None:
 		parsed_messages = convert_to_openai_messages(messages)
 		try:
 			results = self.mem0.add(
