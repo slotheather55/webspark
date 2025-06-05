@@ -10,6 +10,11 @@ from datetime import datetime
 from pathlib import Path
 from urllib.parse import unquote
 import uvicorn
+import glob
+import shutil
+
+# Add browser-use directory to Python path before importing
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'browser-use'))
 
 # Configure basic logging
 logging.basicConfig(
@@ -26,11 +31,67 @@ from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-import gemini_analyzer
-import test_agent
+from analyzers import tealium_manual_analyzer
+from analyzers import browser_automation_agent
 
 # Default URL
 DEFAULT_URL = "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/"
+
+def cleanup_old_data():
+    """
+    Clean up old screenshots and temporary data files before starting new analysis.
+    """
+    try:
+        # Clean up screenshots from browser-use
+        screenshot_dir = "browser-use/dom_state_data/"
+        if os.path.exists(screenshot_dir):
+            screenshot_files = glob.glob(os.path.join(screenshot_dir, "*.png"))
+            for file_path in screenshot_files:
+                try:
+                    os.remove(file_path)
+                    logging.info(f"Removed old screenshot: {os.path.basename(file_path)}")
+                except Exception as e:
+                    logging.warning(f"Could not remove screenshot {file_path}: {e}")
+            
+            if screenshot_files:
+                logging.info(f"Cleaned up {len(screenshot_files)} old screenshot(s)")
+        
+        # Clean up old log files if they exist
+        old_log_paths = [
+            "data/browser_automation_logs.txt"
+        ]
+        
+        for log_path in old_log_paths:
+            if os.path.exists(log_path):
+                try:
+                    # Just truncate the file instead of deleting it
+                    with open(log_path, 'w', encoding='utf-8') as f:
+                        f.write("# Log file cleared for new analysis session\n")
+                    logging.info(f"Cleared log file: {log_path}")
+                except Exception as e:
+                    logging.warning(f"Could not clear log file {log_path}: {e}")
+        
+        # Clean up old timestamped analysis files
+        try:
+            data_dir = "data/"
+            if os.path.exists(data_dir):
+                # Remove old timestamped files
+                old_pattern_files = glob.glob(os.path.join(data_dir, "*_analysis_*_202*.json"))
+                for file_path in old_pattern_files:
+                    try:
+                        os.remove(file_path)
+                        logging.info(f"Removed old analysis file: {os.path.basename(file_path)}")
+                    except Exception as e:
+                        logging.warning(f"Could not remove old analysis file {file_path}: {e}")
+                
+                if old_pattern_files:
+                    logging.info(f"Cleaned up {len(old_pattern_files)} old analysis file(s)")
+        except Exception as e:
+            logging.warning(f"Error cleaning up old analysis files: {e}")
+                    
+    except Exception as e:
+        logging.error(f"Error during cleanup: {e}")
+        # Don't fail the analysis if cleanup fails
 
 # Create FastAPI instance
 app = FastAPI()
@@ -40,11 +101,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/screenshots", StaticFiles(directory="browser-use/dom_state_data"), name="screenshots")
 
 # Serve specific JSON files directly
-@app.get("/agent_discovered_selectors.json")
-async def get_agent_discovered_selectors():
-    """Serve the agent discovered selectors JSON file."""
+@app.get("/ai_discovered_selectors.json")
+async def get_ai_discovered_selectors():
+    """Serve the AI discovered selectors JSON file."""
     try:
-        file_path = Path(__file__).parent / "agent_discovered_selectors.json"
+        file_path = Path(__file__).parent / "data" / "ai_discovered_selectors.json"
         if file_path.exists():
             with open(file_path, "r") as f:
                 return json.load(f)
@@ -86,8 +147,10 @@ async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: 
     async def event_generator():
         final_results = None # Variable to store the final results
         try:
+            # Clean up old data before starting new analysis
+            cleanup_old_data()
             print(f"Streaming analysis for: {url}")
-            async for update in gemini_analyzer.analyze_page_tags_and_events(url):
+            async for update in tealium_manual_analyzer.analyze_page_tags_and_events(url):
                 yield f"data: {json.dumps(update)}\n\n"
                 # Store the results if the update indicates completion
                 if update.get("status") == "complete" and "results" in update:
@@ -97,10 +160,8 @@ async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: 
 
             # Save the final results to a file if analysis completed successfully
             if final_results and not final_results.get("error"):
-                # Create filename (similar to terminal version)
-                sanitized_url_part = re.sub(r'^https?://', '', final_results.get('url','unknown_url'))
-                sanitized_url_part = re.sub(r'[/:*?"<>|\\\\.]', '_', sanitized_url_part)[:50]
-                filename = f"tealium_analysis_{sanitized_url_part}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+                # Create filename without timestamp to overwrite previous analysis
+                filename = f"data/tealium_manual_analysis.json"
                 try:
                     with open(filename, 'w', encoding='utf-8') as f:
                         json.dump(final_results, f, indent=2, default=str)
@@ -129,8 +190,8 @@ async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: 
 @app.get("/stream-agent-analysis")
 async def stream_agent_analysis(request: Request, url: str = DEFAULT_URL):
     """
-    Async streaming endpoint for agent-based analysis using agent-discovered selectors.
-    This endpoint uses agent_gemini_analyzer.py instead of the regular gemini_analyzer.py.
+    Async streaming endpoint for AI-enhanced analysis using AI-discovered selectors.
+    This endpoint uses tealium_ai_enhanced_analyzer.py instead of the regular tealium_manual_analyzer.py.
     """
     url = unquote(url)
     if not re.match(r'^https?://', url):
@@ -140,10 +201,12 @@ async def stream_agent_analysis(request: Request, url: str = DEFAULT_URL):
     async def event_generator():
         final_results = None # Variable to store the final results
         try:
+            # Clean up old data before starting new analysis
+            cleanup_old_data()
             print(f"Streaming agent-based analysis for: {url}")
             # Import here to avoid circular imports
-            import agent_gemini_analyzer
-            async for update in agent_gemini_analyzer.analyze_page_tags_and_events(url):
+            from analyzers import tealium_ai_enhanced_analyzer
+            async for update in tealium_ai_enhanced_analyzer.analyze_page_tags_and_events(url):
                 yield f"data: {json.dumps(update)}\n\n"
                 # Store the results if the update indicates completion
                 if update.get("status") == "complete" and "results" in update:
@@ -153,10 +216,8 @@ async def stream_agent_analysis(request: Request, url: str = DEFAULT_URL):
 
             # Save the final results to a file if analysis completed successfully
             if final_results and not final_results.get("error"):
-                # Create filename (similar to terminal version)
-                sanitized_url_part = re.sub(r'^https?://', '', final_results.get('url','unknown_url'))
-                sanitized_url_part = re.sub(r'[/:*?"<>|\\\\.]', '_', sanitized_url_part)[:50]
-                filename = f"agent_tealium_analysis_{sanitized_url_part}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+                # Create filename without timestamp to overwrite previous analysis
+                filename = f"data/tealium_ai_enhanced_analysis.json"
                 try:
                     with open(filename, 'w', encoding='utf-8') as f:
                         json.dump(final_results, f, indent=2, default=str)
@@ -197,7 +258,7 @@ async def stream_agent_logs(request: Request):
     async def agent_log_generator():
         try:
             # Create a log file to monitor
-            log_file_path = "agent_logs.txt"
+            log_file_path = "data/browser_automation_logs.txt"
             
             # Create an empty log file if it doesn't exist
             if not os.path.exists(log_file_path):
@@ -280,12 +341,15 @@ async def api_run_agent(request: Request):
                 # This is just a URL, so add a default instruction
                 task = f"Navigate to {task} and analyze the page"
         
+        # Clean up old data before starting browser automation
+        cleanup_old_data()
+        
         # Configure logging to file for streaming
-        log_file_path = "agent_logs.txt"
+        log_file_path = "data/browser_automation_logs.txt"
         
         # Make sure the log file is created and empty
         with open(log_file_path, 'w', encoding='utf-8') as f:
-            f.write("--- Agent Log Start ---\n")
+            f.write("--- Browser Automation Log Start ---\n")
         
         # Configure logging with UTF-8 encoding
         file_handler = logging.FileHandler(log_file_path, mode="a", encoding="utf-8")
@@ -307,7 +371,7 @@ async def api_run_agent(request: Request):
         agent_logger.addHandler(file_handler)
     
         # Run the agent with the configured logging
-        result = await test_agent.main(task)
+        result = await browser_automation_agent.main(task)
         
         # Remove the file handler to avoid duplicate logs
         browser_use_logger.removeHandler(file_handler)
@@ -315,11 +379,11 @@ async def api_run_agent(request: Request):
         
         # Check if the agent run was successful
         if result == []:
-            # Agent run failed, load the error data from out.json
+            # Agent run failed, load the error data from browser_automation_history.json
             with open(log_file_path, 'a', encoding='utf-8') as f:
-                f.write("ERROR: Agent run failed. Check out.json for details\n")
+                f.write("ERROR: Agent run failed. Check browser_automation_history.json for details\n")
             
-            data = json.load(open("out.json", "r", encoding="utf-8"))
+            data = json.load(open("data/browser_automation_history.json", "r", encoding="utf-8"))
             return {
                 "error": data.get("error", "Unknown error"),
                 "history": [], 
@@ -331,8 +395,8 @@ async def api_run_agent(request: Request):
         with open(log_file_path, 'a', encoding='utf-8') as f:
             f.write("INFO: ✅ Task completed\n")
         
-        # Load the results from out.json
-        data = json.load(open("out.json", "r", encoding="utf-8"))
+        # Load the results from browser_automation_history.json
+        data = json.load(open("data/browser_automation_history.json", "r", encoding="utf-8"))
         
         # --- Extract and Save Selectors --- #
         successful_selectors = []
@@ -349,7 +413,7 @@ async def api_run_agent(request: Request):
             if successful_selectors:
                 print(f"Found {len(successful_selectors)} potential selectors to process.")
                 # Pass the extracted list, not the full data dict
-                test_agent.extract_and_save_selectors(successful_selectors)
+                browser_automation_agent.extract_and_save_selectors(successful_selectors)
             else:
                 print("No actionable selectors found in agent history to save.")
         except Exception as selector_ex:
@@ -378,7 +442,7 @@ async def api_run_agent(request: Request):
         print(error_msg)
         
         # Write error to log file for streaming
-        with open("agent_logs.txt", "a", encoding='utf-8') as f:
+        with open("data/browser_automation_logs.txt", "a", encoding='utf-8') as f:
             f.write(error_msg)
             
         # Return error response
@@ -397,7 +461,7 @@ async def stream_agent_run(request: Request):
     async def generate():
         try:
             # Use 'async for' to iterate through the async generator
-            async for message_json in test_agent.main_generator(task):
+            async for message_json in browser_automation_agent.main_generator(task):
                 # message_json is already a JSON string from the generator
                 yield f"data: {message_json}\n\n" # Format as SSE
                 await asyncio.sleep(0.01) # Small sleep to allow event loop switching if needed

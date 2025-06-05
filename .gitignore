@@ -69,3 +69,6 @@ coverage.xml
 
 # Added from local
 .qodo
+
+# Archive directory for legacy files
+archive/

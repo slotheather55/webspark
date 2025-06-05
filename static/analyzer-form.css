@@ -52,7 +52,7 @@
   .url-form {
     display: flex; /* Lay out input and button side-by-side */
     /* Removed width: 100% */
-    max-width: 500px; /* Constrain form width */
+    max-width: 800px; /* Increased width for longer task descriptions */
     /* Removed margin: 0 auto; -> Align left by default now */
     border-radius: var(--border-radius-lg);
     background: rgba(15, 30, 60, 0.6);

@@ -343,7 +343,7 @@
         // --- renderSelectors function remains the same ---
         function renderSelectors(selectors) {
             if (!selectors || selectors.length === 0) {
-                 fetch('/agent_discovered_selectors.json')
+                 fetch('/ai_discovered_selectors.json')
                     .then(response => response.ok ? response.json() : Promise.reject('Failed to load selectors'))
                     .then(data => {
                         if (data && data.length > 0) {

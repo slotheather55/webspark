@@ -1,68 +1,157 @@
-# WebSpark: AI-Powered Product Enhancement Tool
+# WebSpark: AI-Powered Web Analytics & Automation Tool
 
-WebSpark is an intelligent web application that helps product managers analyze websites and generate improvement recommendations using AI analysis.
+WebSpark is a sophisticated web analytics platform that combines AI-powered browser automation with comprehensive Tealium tracking analysis. It features dual workflows for both automated element discovery and detailed analytics monitoring.
 
-## Features
+## 🚀 Features
 
-- **Comprehensive Website Analysis**: Analyze websites through a headless browser to gather insights
-- **Multi-Device Screenshots**: Capture and display screenshots across desktop, tablet, and mobile devices
-- **Content Analysis**: AI-powered analysis of page content and visual elements
-- **Tealium Implementation Analysis**: Deep inspection of data layer variables, event triggers, and tag configurations
-- **Enhancement Recommendations**: AI-generated product improvement suggestions across multiple categories:
-  - Value Proposition Enhancements
-  - Content Strategy Improvements
-  - Product Feature Opportunities
-  - Conversion Optimization
+### **AI Agent Workflow (Phase 1)**
+- **GPT-4 Browser Control**: Autonomous navigation with natural language instructions
+- **Automatic GDPR Handling**: Intelligent cookie banner dismissal  
+- **Element Discovery**: AI finds and captures interactive selectors automatically
+- **Large Viewport**: 1920x1080 for optimal element visibility
+- **Real-time Streaming**: Live logs and progress updates
 
-## Technology Stack
+### **Enhanced Analytics (Phase 2)**  
+- **Tealium Event Capture**: Deep analysis of tag manager implementations
+- **Vendor Detection**: Identify analytics providers and tracking scripts
+- **Data Layer Analysis**: Inspect utag_data variables and configurations
+- **Interaction Monitoring**: Track events triggered by user interactions
+- **Multi-Provider Support**: OpenAI, Azure OpenAI, Anthropic, Google
 
-- React
-- TailwindCSS
-- Lucide Icons
-- PostCSS
+## 🛠 Technology Stack
 
-## Getting Started
+- **Backend**: Python 3.11+, FastAPI, uvicorn
+- **Browser Automation**: Playwright + browser-use framework  
+- **AI/LLM**: OpenAI GPT-4, Azure OpenAI, langchain
+- **Frontend**: HTML5, CSS3, JavaScript ES6+
+- **Real-time**: Server-Sent Events (SSE)
+- **Dependencies**: 198+ Python packages for comprehensive functionality
+
+## ⚡ Quick Start
 
 ### Prerequisites
+- **Python 3.11+** (required for modern syntax support)
+- **Git** for repository cloning
+- **4GB+ RAM** for browser automation
+- **API Keys**: OpenAI or Azure OpenAI account
 
-- Node.js (v14 or newer)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
+### 1-Minute Setup
 ```bash
-git clone https://github.com/slotheather55/webspark.git
+# Clone and setup
+git clone <your-repo-url> webspark
 cd webspark
+
+# Install dependencies (exact order matters)
+cd browser-use && pip install -e . && cd ..
+pip install -r requirements.txt
+playwright install chromium
+
+# Configure environment
+echo "OPENAI_API_KEY=your_key_here" > .env
+echo "MODEL_PROVIDER=openai" >> .env
+
+# Launch
+python app.py
 ```
 
-2. Install dependencies:
-```bash
-npm install
+**🌐 Access the application:**
+- Main analyzer: `http://localhost:5000`
+- AI agent workflow: `http://localhost:5000/agent`
+
+## 📋 Complete Installation Guide
+
+For production deployment, see our comprehensive guide:
+**[📖 INSTALLATION.md](docs/INSTALLATION.md)**
+
+Includes:
+- ✅ Production-ready setup steps
+- ✅ Troubleshooting common issues  
+- ✅ Azure OpenAI configuration
+- ✅ Docker deployment options
+- ✅ Comprehensive test suite
+
+## 🎯 How It Works
+
+### **Phase 1: AI Discovery**
+1. **Input**: Natural language task (e.g., "Go to example.com and add product to cart")
+2. **Processing**: GPT-4 controls browser, dismisses banners, performs actions
+3. **Output**: Discovered selectors saved to `data/ai_discovered_selectors.json`
+
+### **Phase 2: Analytics Analysis**  
+1. **Input**: Target URL + discovered selectors
+2. **Processing**: Monitor interactions, capture Tealium events, analyze vendors
+3. **Output**: Comprehensive analytics report with event data
+
+## 📁 Project Structure
+```
+webspark/
+├── 📁 analyzers/              # Core analysis engines
+│   ├── browser_automation_agent.py    # AI browser automation  
+│   ├── tealium_manual_analyzer.py     # Regular flow analyzer
+│   └── tealium_ai_enhanced_analyzer.py # Agent-enhanced analyzer
+├── 📁 data/                   # Generated data & results
+├── 📁 static/                 # Frontend assets
+├── 📁 templates/              # HTML interfaces  
+├── 📁 browser-use/            # AI automation framework
+├── 📁 docs/                   # Documentation
+├── app.py                     # FastAPI main application
+├── requirements.txt           # Python dependencies
+└── .env                       # Environment configuration
 ```
 
-3. Start the development server:
-```bash
-npm start
+## 🔧 Configuration
+
+### **OpenAI Setup** (Default)
+```env
+MODEL_PROVIDER=openai
+OPENAI_API_KEY=your_openai_api_key
 ```
 
-The application will be available at http://localhost:3000
+### **Azure OpenAI Setup**
+```env
+MODEL_PROVIDER=azure
+AZURE_TENANT_ID=your_tenant_id
+AZURE_CLIENT_ID=your_client_id  
+AZURE_CLIENT_SECRET=your_client_secret
+AZURE_DEPLOYMENT_MODEL=your_model_deployment
+AZURE_API_BASE=https://your-resource.openai.azure.com/
+```
 
-## Usage
+## 📊 Usage Examples
 
-1. Enter a website URL in the analysis input field
-2. Click "Analyze" to start the AI-powered analysis
-3. Review the results in the different tabs:
-   - Enhancement Ideas: Product improvement suggestions
-   - Screenshots: Device-responsive views
-   - Content Analysis: Content structure and user journey analysis
-   - Tealium Analysis: Data layer and tag implementation details
+### **Agent Workflow**
+```
+Task: "Navigate to https://penguinrandomhouse.com and click the 'Add to cart' button"
+Result: AI discovers button selector, captures interaction flow
+```
 
-## License
+### **Analytics Analysis**  
+```
+URL: https://ecommerce-site.com
+Result: Tealium events, vendor analysis, data layer inspection
+```
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 🌟 Key Benefits
 
-## Acknowledgments
+1. **No Manual Selector Writing**: AI discovers elements automatically
+2. **Comprehensive Coverage**: Captures both intended and incidental interactions  
+3. **Real-time Monitoring**: Live progress tracking and logging
+4. **Multi-Provider Support**: Works with various AI providers
+5. **Production Ready**: Robust error handling and recovery
 
-- Built with React and TailwindCSS
-- Uses Lucide icons for UI elements 
+## 📞 Support & Documentation
+
+- **Installation Issues**: See [INSTALLATION.md](docs/INSTALLATION.md)
+- **Project Context**: See [CLAUDE.md](docs/CLAUDE.md)  
+- **Architecture**: See [PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+
+## 🏷 License
+
+MIT License - see LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **browser-use**: AI browser automation framework
+- **Playwright**: Browser automation infrastructure
+- **OpenAI**: GPT-4 model for visual AI
+- **FastAPI**: Modern Python web framework

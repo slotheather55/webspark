@@ -1,20 +1,30 @@
-fastapi>=0.115.0
-uvicorn>=0.34.0
-sqlalchemy>=2.0.38
-alembic>=1.14.1
-pydantic>=2.10.0
-pydantic-settings>=2.8.0
-python-jose[cryptography]>=3.4.0
-passlib[bcrypt]>=1.7.4
-python-multipart>=0.0.20
-email-validator>=2.2.0
-asyncpg>=0.30.0
-boto3>=1.37.3
-Pillow>=11.1.0
-openai>=1.65.0
-celery>=5.4.0
-redis>=5.2.0
-python-dotenv>=1.0.0
-playwright>=1.50.0
-beautifulsoup4>=4.13.0
-nest_asyncio>=1.5.4
+# WebSpark Core Requirements - Python 3.11+ Required
+# Minimal dependencies for production deployment
+
+# Core Web Framework
+fastapi==0.115.12
+uvicorn==0.34.2
+aiofiles==24.1.0
+python-multipart==0.0.20
+Jinja2==3.1.6
+
+# Browser Automation (our analyzers use playwright directly)
+playwright==1.51.0
+nest-asyncio==1.6.0
+
+# HTTP & Networking
+httpx==0.28.1
+requests==2.32.3
+websockets==15.0.1
+
+# Utilities & Core
+python-dotenv==1.1.0
+beautifulsoup4==4.13.4
+psutil==7.0.0
+
+# Data Processing (minimal)
+orjson==3.10.16
+markdownify==1.1.0
+
+# Note: browser-use framework installed separately (uses patchright internally)
+# Note: AI providers (OpenAI, Anthropic) included in browser-use langchain dependencies
