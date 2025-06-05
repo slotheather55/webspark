@@ -50,8 +50,8 @@ class MockChatModel(BaseChatModel):
     def _llm_type(self) -> str:
         return "mock_chat_model"
 
-from browser_use import Agent, Browser, BrowserConfig
-from browser_use.browser.context import BrowserContextConfig, BrowserContextWindowSize
+from browser_use import Agent, Browser, BrowserConfig, BrowserProfile
+from playwright._impl._api_structures import ViewportSize
 
 async def main(task_prompt: str = None):
     load_dotenv()
@@ -115,19 +115,16 @@ async def main(task_prompt: str = None):
             llm = ChatOpenAI(model="gpt-4o", openai_api_key=openai_api_key)
     
     # Configure browser with larger viewport
-    context_config = BrowserContextConfig(
-        browser_window_size=BrowserContextWindowSize(width=1920, height=1080)
-    )
-    browser_config = BrowserConfig(
+    browser_profile = BrowserProfile(
         headless=True,  # Run in headless mode with larger viewport
-        new_context_config=context_config
+        window_size=ViewportSize(width=1920, height=1080)
     )
-    browser = Browser(config=browser_config)
     
     # Run the agent
     try:
         print(f"Starting agent with task: {task_prompt}")
-        agent = Agent(task=task_prompt, llm=llm, browser=browser)
+        # Pass browser_profile instead of browser instance
+        agent = Agent(task=task_prompt, llm=llm, browser_profile=browser_profile)
         history = await agent.run(max_steps=50)
         print("Agent run completed successfully")
     except Exception as e:

@@ -38,13 +38,7 @@ echo "6. Installing browsers (this may take a few minutes - downloading ~233MB).
 playwright install --with-deps chromium
 
 echo "7. Testing installation..."
-python -c "
-from browser_use import Agent
-import playwright, fastapi
-from langchain_openai import ChatOpenAI
-from app import app
-print('✅ All components imported successfully')
-"
+python test_imports.py
 
 echo ""
 echo "🎉 WebSpark installation completed successfully!"

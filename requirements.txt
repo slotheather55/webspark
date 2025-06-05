@@ -9,7 +9,7 @@ python-multipart==0.0.20
 Jinja2==3.1.6
 
 # Browser Automation (our analyzers use playwright directly)
-playwright==1.51.0
+playwright>=1.52.0
 nest-asyncio==1.6.0
 
 # HTTP & Networking
@@ -26,5 +26,9 @@ psutil==7.0.0
 orjson==3.10.16
 markdownify==1.1.0
 
-# Note: browser-use framework installed separately (uses patchright internally)
+# Browser-use dependencies
+patchright>=1.52.0
+pyee>=13.0.0
+
+# Note: browser-use framework included locally in project
 # Note: AI providers (OpenAI, Anthropic) included in browser-use langchain dependencies
