@@ -8,7 +8,7 @@ aiofiles==24.1.0
 python-multipart==0.0.20
 Jinja2==3.1.6
 
-# Browser Automation (our analyzers use playwright directly)
+# Browser Automation 
 playwright>=1.52.0
 nest-asyncio==1.6.0
 
@@ -25,6 +25,3 @@ psutil==7.0.0
 # Data Processing (minimal)
 orjson==3.10.16
 markdownify==1.1.0
-
-# Note: Browser automation has been removed from this project
-# The application now focuses on manual webpage analysis only

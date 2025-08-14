@@ -71,19 +71,6 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 # Screenshot mounting removed - no longer using browser-use
 
-# Serve specific JSON files directly
-@app.get("/ai_discovered_selectors.json")
-async def get_ai_discovered_selectors():
-    """Serve the AI discovered selectors JSON file."""
-    try:
-        file_path = Path(__file__).parent / "data" / "ai_discovered_selectors.json"
-        if file_path.exists():
-            with open(file_path, "r") as f:
-                return json.load(f)
-        return []  # Return empty array if file doesn't exist
-    except Exception as e:
-        logging.error(f"Error reading selector file: {e}")
-        return []
 
 # Configure templates
 templates = Jinja2Templates(directory="templates")
@@ -96,7 +83,7 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "default_url": DEFAULT_URL})
 
 @app.get("/stream")
-async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: bool = False):
+async def stream(request: Request, url: str = DEFAULT_URL):
     """
     Async streaming endpoint for server-sent events.
     """
@@ -104,16 +91,6 @@ async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: 
     if not re.match(r'^https?://', url):
         print(f"Warning: Stream URL doesn't start with http/https. Prepending https://")
         url = "https://" + url
-        
-    # Set environment variable for agent selectors if requested
-    # This keeps the two flows separate - regular analysis vs agent-enhanced analysis
-    if use_agent_selectors:
-        print(f"Using agent-discovered selectors for analysis of: {url}")
-        os.environ['USE_AGENT_SELECTORS'] = 'true'
-    else:
-        # Ensure it's unset for regular analysis
-        if 'USE_AGENT_SELECTORS' in os.environ:
-            del os.environ['USE_AGENT_SELECTORS']
 
     async def event_generator():
         final_results = None # Variable to store the final results
@@ -158,243 +135,16 @@ async def stream(request: Request, url: str = DEFAULT_URL, use_agent_selectors: 
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
-@app.get("/stream-agent-analysis")
-async def stream_agent_analysis(request: Request, url: str = DEFAULT_URL):
-    """
-    Async streaming endpoint for AI-enhanced analysis using AI-discovered selectors.
-    This endpoint uses tealium_ai_enhanced_analyzer.py instead of the regular tealium_manual_analyzer.py.
-    """
-    url = unquote(url)
-    if not re.match(r'^https?://', url):
-        print(f"Warning: Stream URL doesn't start with http/https. Prepending https://")
-        url = "https://" + url
-
-    async def event_generator():
-        final_results = None # Variable to store the final results
-        try:
-            # Clean up old data before starting new analysis
-            cleanup_old_data()
-            print(f"Streaming agent-based analysis for: {url}")
-            # Import here to avoid circular imports
-            from analyzers import tealium_ai_enhanced_analyzer
-            async for update in tealium_ai_enhanced_analyzer.analyze_page_tags_and_events(url):
-                yield f"data: {json.dumps(update)}\n\n"
-                # Store the results if the update indicates completion
-                if update.get("status") == "complete" and "results" in update:
-                    final_results = update["results"]
-
-            print(f"Finished agent-based streaming for: {url}")
-
-            # Save the final results to a file if analysis completed successfully
-            if final_results and not final_results.get("error"):
-                # Create filename without timestamp to overwrite previous analysis
-                filename = f"data/tealium_ai_enhanced_analysis.json"
-                try:
-                    with open(filename, 'w', encoding='utf-8') as f:
-                        json.dump(final_results, f, indent=2, default=str)
-                    print(f"Agent analysis results saved locally to: {filename}")
-                except Exception as save_e:
-                    print(f"Error saving agent analysis results locally: {save_e}")
-            elif final_results and final_results.get("error"):
-                 print("Agent analysis completed with error, results not saved locally.")
-            else:
-                 print("Agent analysis did not yield final results, nothing saved locally.")
-
-        except Exception as e:
-            print(f"Error during agent-based streaming analysis for {url}: {e}")
-            traceback.print_exc()
-            error_payload = {
-                "status": "error",
-                "message": f"An error occurred on the server during agent analysis: {str(e)}"
-            }
-            try:
-                yield f"data: {json.dumps(error_payload)}\n\n"
-            except Exception as yield_e:
-                print(f"Error yielding final error message: {yield_e}")
-
-    return StreamingResponse(event_generator(), media_type="text/event-stream")
-
-# Agent page endpoints
-# Agent page removed - no longer using browser automation
-
-# Discover page route
-@app.get("/discover", response_class=HTMLResponse)
-async def show_discover_page(request: Request):
-    return templates.TemplateResponse("discover.html", {"request": request})
 
 # Record page route  
 @app.get("/record", response_class=HTMLResponse)
 async def show_record_page(request: Request):
     return templates.TemplateResponse("record.html", {"request": request, "default_url": DEFAULT_URL})
 
-# API endpoint for selector discovery
-@app.post("/api/discover")
-async def api_discover_selectors(request: Request):
-    """Discover CSS selectors on a given URL"""
-    try:
-        body = await request.json()
-        url = body.get("url")
-        
-        if not url:
-            return {"error": "URL is required"}
-        
-        # Import discovery functionality
-        from discover_selectors import SelectorDiscovery
-        
-        # Run discovery
-        discovery = SelectorDiscovery()
-        output_file = f"data/discovered_selectors_{int(time.time())}.json"
-        results = await discovery.discover_selectors(url, output_file)
-        
-        return {
-            "success": True,
-            "results": results,
-            "output_file": output_file,
-            "stats": results.get("stats", {}),
-            "element_count": len(results.get("elements", []))
-        }
-        
-    except Exception as e:
-        return {"error": str(e), "success": False}
 
-# API endpoint for selector analysis
-@app.post("/api/analyze")
-async def api_analyze_selectors(request: Request):
-    """Analyze discovered selectors with dynamic selector recommendations"""
-    try:
-        body = await request.json()
-        data_file = body.get("data_file", "data/discovered_selectors.json")
-        
-        # Import dynamic selector configuration
-        from dynamic_selectors_config import DynamicSelectors
-        import json
-        from pathlib import Path
-        
-        file_path = Path(data_file)
-        if not file_path.exists():
-            return {"error": f"Data file not found: {data_file}"}
-        
-        with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        elements = data['elements']
-        
-        # Categorize elements
-        categories = {
-            "Shopping/Commerce": [],
-            "Book Preview/Content": [], 
-            "Navigation/Search": [],
-            "User Account": [],
-            "Forms/Input": [],
-            "Media/Visual": [],
-            "Other Links": []
-        }
-        
-        for element in elements:
-            text = element.get('text', '').lower()
-            element_type = element.get('type', '')
-            
-            # Categorize based on text content and selector
-            if any(word in text for word in ['cart', 'buy', 'purchase', 'shop', 'retailer']):
-                categories["Shopping/Commerce"].append(element)
-            elif any(word in text for word in ['look inside', 'preview', 'sample', 'read', 'excerpt']):
-                categories["Book Preview/Content"].append(element)
-            elif any(word in text for word in ['search', 'find', 'nav', 'menu']):
-                categories["Navigation/Search"].append(element)
-            elif any(word in text for word in ['account', 'login', 'sign']):
-                categories["User Account"].append(element)
-            elif element_type in ['forms', 'inputs']:
-                categories["Forms/Input"].append(element)
-            elif element_type in ['images', 'videos', 'audio']:
-                categories["Media/Visual"].append(element)
-            elif element_type == 'links':
-                categories["Other Links"].append(element)
-            else:
-                # Find the most appropriate category
-                if 'bookshelf' in text or 'enlarge' in text or 'cover' in text:
-                    categories["Book Preview/Content"].append(element)
-                elif element_type == 'buttons':
-                    categories["Shopping/Commerce"].append(element)
-                else:
-                    categories["Other Links"].append(element)
-        
-        # Generate dynamic selector recommendations
-        recommendations = []
-        dynamic_recommendations = []
-        
-        # Match elements to dynamic selector configurations
-        for element in elements:
-            text = element.get('text', '').lower()
-            selector = element.get('selector', '')
-            
-            # Check against dynamic selector configurations
-            for selector_name, config in DynamicSelectors.SELECTORS.items():
-                text_contains = config.get('text_contains', '').lower()
-                config_selector = config.get('selector', '')
-                
-                # Match by text content or selector pattern
-                if (text_contains and text_contains in text) or \
-                   (config_selector and config_selector in selector):
-                    
-                    # Create dynamic recommendation
-                    dynamic_rec = {
-                        'priority': config.get('priority', 'MEDIUM'),
-                        'element': element,
-                        'reason': f"Dynamic selector: {config.get('description', 'Core interaction')}",
-                        'dynamic_config': {
-                            'name': selector_name,
-                            'primary_selector': config.get('selector'),
-                            'fallback_selectors': config.get('fallback_selectors', []),
-                            'stable': config.get('stable', True),
-                            'original_selector': selector
-                        }
-                    }
-                    dynamic_recommendations.append(dynamic_rec)
-                    break  # Don't match the same element to multiple configs
-                    
-            # Legacy recommendation logic for non-dynamic matches
-            else:
-                # High-priority elements
-                if any(keyword in text for keyword in [
-                    'add to cart', 'look inside', 'read sample', 'bookshelf',
-                    'amazon', 'barnes', 'enlarge'
-                ]):
-                    recommendations.append({
-                        'priority': 'HIGH',
-                        'element': element,
-                        'reason': 'Key shopping/content interaction'
-                    })
-                # Medium-priority elements  
-                elif any(keyword in text for keyword in [
-                    'search', 'account', 'newsletter', 'audio'
-                ]):
-                    recommendations.append({
-                        'priority': 'MEDIUM', 
-                        'element': element,
-                        'reason': 'Important user interaction'
-                    })
-        
-        # Combine and sort by priority
-        all_recommendations = dynamic_recommendations + recommendations
-        priority_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3}
-        all_recommendations.sort(key=lambda x: priority_order.get(x['priority'], 4))
-        
-        return {
-            "success": True,
-            "categories": categories,
-            "recommendations": all_recommendations[:20],  # Top 20 recommendations
-            "dynamic_selectors_found": len(dynamic_recommendations),
-            "legacy_selectors_found": len(recommendations),
-            "stats": data.get("stats", {}),
-            "url": data.get("url", ""),
-            "timestamp": data.get("timestamp", "")
-        }
-        
-    except Exception as e:
-        return {"error": str(e), "success": False}
 
 # Import macro recording functionality
-from macro_recorder import recorder_manager
+from core.macro_recorder import recorder_manager
 
 # API endpoints for macro recording
 @app.get("/api/record/check-browser")
@@ -619,7 +369,7 @@ async def import_macro(request: Request):
             return {"success": False, "error": "No macro data provided"}
         
         # Import the macro
-        from macro_recorder import Macro
+        from core.macro_recorder import Macro
         import uuid
         
         # Generate new ID for imported macro
@@ -1036,134 +786,6 @@ async def stream_macro_tealium_analysis(macro_id: str):
     
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
-def calculate_selector_specificity(selector):
-    """Calculate CSS selector specificity score"""
-    if not selector:
-        return 0
-    
-    score = 0
-    # ID selectors
-    score += selector.count('#') * 100
-    # Class selectors
-    score += selector.count('.') * 10
-    # Attribute selectors
-    score += selector.count('[') * 10
-    # Element selectors
-    score += len([part for part in selector.split() if part and not part.startswith(('#', '.', '[', ':'))])
-    # Pseudo-selectors
-    score += selector.count(':') * 10
-    
-    return score
-
-def classify_selector_type(selector):
-    """Classify the type of CSS selector"""
-    if not selector:
-        return "unknown"
-    
-    if selector.startswith('#'):
-        return "id"
-    elif '.format-info' in selector or '.buy' in selector:
-        return "commerce"
-    elif 'button' in selector.lower():
-        return "button"
-    elif selector.startswith('a') and 'text' in selector:
-        return "link_with_text"
-    elif '>' in selector:
-        return "descendant"
-    elif ':nth-child' in selector:
-        return "positional"
-    else:
-        return "generic"
-
-def find_tealium_matches(action, page_selectors):
-    """Find matches between recorded action and Tealium selectors - completely dynamic from config"""
-    matches = []
-    
-    # Get text from action description for matching
-    action_text = action.description.lower() if action.description else ""
-    action_selector = action.selector.lower() if action.selector else ""
-    
-    # Check all page types dynamically
-    for page_type, selectors in page_selectors.items():
-        for selector_config in selectors:
-            config_description = selector_config.get("description", "").lower()
-            config_selector = selector_config.get("selector", "").lower()
-            
-            # Dynamic text matching - extract keywords from both descriptions
-            action_keywords = set(action_text.replace('"', '').split())
-            config_keywords = set(config_description.split())
-            
-            # Find common keywords
-            common_keywords = action_keywords.intersection(config_keywords)
-            
-            # Calculate match strength based on keyword overlap
-            if common_keywords:
-                match_strength = len(common_keywords) / max(len(action_keywords), len(config_keywords))
-                
-                if match_strength > 0.3:  # 30% keyword overlap threshold
-                    matches.append({
-                        "tealium_selector": selector_config.get("selector"),
-                        "tealium_description": selector_config.get("description"),
-                        "priority": selector_config.get("priority", "MEDIUM"),
-                        "match_reason": f"Keyword match: {', '.join(common_keywords)} (strength: {match_strength:.1%})",
-                        "recorded_selector": action.selector,
-                        "stability": selector_config.get("stability", "UNKNOWN"),
-                        "page_type": page_type,
-                        "match_strength": match_strength
-                    })
-    
-    # Sort by match strength and priority
-    priority_weights = {"CRITICAL": 3, "HIGH": 2, "MEDIUM": 1, "LOW": 0}
-    matches.sort(key=lambda x: (x["match_strength"], priority_weights.get(x["priority"], 0)), reverse=True)
-    return matches
-
-def generate_selector_optimizations(action):
-    """Generate optimization suggestions for recorded selectors"""
-    suggestions = []
-    selector = action.selector
-    
-    if not selector:
-        return suggestions
-    
-    # Suggest more specific selectors based on action type
-    if "cart" in action.description.lower():
-        suggestions.append({
-            "type": "specificity_improvement", 
-            "current": selector,
-            "suggested": 'form[action*="prhcart.php"] button:has-text("Add to cart")',
-            "reason": "Use form action attribute for more reliable cart button targeting",
-            "priority": "HIGH"
-        })
-    
-    elif "amazon" in action.description.lower():
-        suggestions.append({
-            "type": "specificity_improvement",
-            "current": selector, 
-            "suggested": '.affiliate-buttons a:has-text("Amazon")',
-            "reason": "Target affiliate button container for more stable Amazon link selection",
-            "priority": "MEDIUM"
-        })
-    
-    # General suggestions for nth-child selectors
-    if ":nth-child" in selector:
-        suggestions.append({
-            "type": "stability_warning",
-            "current": selector,
-            "reason": "nth-child selectors can break if page structure changes",
-            "recommendation": "Consider using class names or data attributes instead",
-            "priority": "MEDIUM"
-        })
-    
-    # Suggest data attribute usage
-    if not any(attr in selector for attr in ["data-", "[role=", "[aria-"]):
-        suggestions.append({
-            "type": "accessibility_improvement", 
-            "current": selector,
-            "reason": "Consider using data attributes or ARIA roles for more semantic selection",
-            "priority": "LOW"
-        })
-    
-    return suggestions
 
 # Browser automation has been removed
 # The application now focuses on manual analysis and macro recording
@@ -1185,3 +807,4 @@ if __name__ == "__main__":
                     sys.exit(1)
             else:
                 raise
+

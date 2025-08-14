@@ -10,7 +10,7 @@ import traceback
 import nest_asyncio
 
 # Import the selector configuration
-from selectors_config import PAGE_TYPE_SELECTORS
+from core.selectors_config import PAGE_TYPE_SELECTORS
 
 nest_asyncio.apply()
 

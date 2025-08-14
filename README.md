@@ -1,133 +1,240 @@
-# WebSpark: Web Analytics Tool
+# Webspark - Macro Recorder & Tealium Analysis Tool
 
-WebSpark is a web analytics platform focused on comprehensive Tealium tracking analysis. It provides detailed analytics monitoring and tracking vendor detection.
+Webspark is a powerful web automation tool that records user interactions on websites and analyzes Tealium tag implementations. It features a modern, intuitive interface for recording macros and performing comprehensive tag analysis.
 
 ## 🚀 Features
 
-### **Analytics Features**  
-- **Tealium Event Capture**: Deep analysis of tag manager implementations
-- **Vendor Detection**: Identify analytics providers and tracking scripts
-- **Data Layer Analysis**: Inspect utag_data variables and configurations
-- **Interaction Monitoring**: Track events triggered by user interactions
-- **Multi-Provider Support**: OpenAI, Azure OpenAI, Anthropic, Google
+- 🎯 **Macro Recording**: Record user interactions on any website
+- 📊 **Tealium Analysis**: Analyze tag implementations and track events  
+- 🎨 **Modern UI**: Clean, responsive interface with dark theme
+- 🔄 **Real-time Streaming**: Live analysis with progress tracking
+- 💾 **Data Export**: Export analysis results and macro data
+- 🚀 **Fast Performance**: Built with FastAPI and modern web technologies
 
 ## 🛠 Technology Stack
 
-- **Backend**: Python 3.11+, FastAPI, uvicorn
+- **Backend**: Python 3.8+, FastAPI, uvicorn
 - **Browser Automation**: Playwright for webpage analysis  
-- **AI/LLM**: OpenAI GPT-4, Azure OpenAI, langchain
 - **Frontend**: HTML5, CSS3, JavaScript ES6+
 - **Real-time**: Server-Sent Events (SSE)
-- **Dependencies**: 198+ Python packages for comprehensive functionality
+- **UI Framework**: Custom CSS with Font Awesome icons
 
-## ⚡ Quick Start
+## ⚡ Environment Setup
 
 ### Prerequisites
-- **Python 3.11+** (required for modern syntax support)
+- **Python 3.8+** (required)
 - **Git** for repository cloning
 - **4GB+ RAM** for browser automation
-- **API Keys**: OpenAI or Azure OpenAI account
+- **Modern web browser** (Chrome/Chromium recommended)
 
-### 1-Minute Setup
+### 1. Create Virtual Environment
+
+**Important**: Use the `webspark` environment name for consistency:
+
 ```bash
-# Clone and setup
-git clone <your-repo-url> webspark
-cd webspark
+# Create virtual environment (DO NOT use conda)
+python -m venv webspark
 
-# Install dependencies
+# Activate environment
+# Windows:
+webspark\Scripts\activate
+
+# macOS/Linux:
+source webspark/bin/activate
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install Python dependencies
 pip install -r requirements.txt
-playwright install chromium
 
-# Configure environment
-echo "OPENAI_API_KEY=your_key_here" > .env
-echo "MODEL_PROVIDER=openai" >> .env
+# Install Playwright browsers
+python -m playwright install chromium
 
-# Launch
+# Verify installation
+python -c "from playwright.sync_api import sync_playwright; print('✅ Playwright ready')"
+```
+
+### 3. Launch Application
+
+```bash
+# Start the server
 python app.py
 ```
 
 **🌐 Access the application:**
-- Main analyzer: `http://localhost:5000`
-
-## 📋 Complete Installation Guide
-
-For production deployment, see our comprehensive guide:
-**[📖 INSTALLATION.md](docs/INSTALLATION.md)**
-
-Includes:
-- ✅ Production-ready setup steps
-- ✅ Troubleshooting common issues  
-- ✅ Azure OpenAI configuration
-- ✅ Docker deployment options
-- ✅ Comprehensive test suite
-
-## 🎯 How It Works
-
-### **Analytics Analysis**  
-1. **Input**: Target URL + discovered selectors
-2. **Processing**: Monitor interactions, capture Tealium events, analyze vendors
-3. **Output**: Comprehensive analytics report with event data
+- Homepage: `http://localhost:5000`
+- Macro Recorder: `http://localhost:5000/record`
 
 ## 📁 Project Structure
+
 ```
 webspark/
-├── 📁 analyzers/              # Core analysis engines
-│   ├── tealium_manual_analyzer.py     # Regular flow analyzer
-│   └── tealium_ai_enhanced_analyzer.py # Enhanced analyzer
-├── 📁 data/                   # Generated data & results
-├── 📁 static/                 # Frontend assets
-├── 📁 templates/              # HTML interfaces  
-├── 📁 docs/                   # Documentation
-├── app.py                     # FastAPI main application
-├── requirements.txt           # Python dependencies
-└── .env                       # Environment configuration
+├── app.py                     # Main FastAPI application
+├── analyzers/                 # Analysis modules
+│   ├── tealium_manual_analyzer.py
+│   └── macro_tealium_analyzer.py
+├── core/                      # Core functionality
+│   └── macro_recorder.py
+├── static/                    # Frontend assets
+│   ├── *.css                 # Stylesheets
+│   ├── recorder.js           # Main JavaScript
+│   ├── macros.css           # Macro cards styling
+│   └── images/              # Static images
+├── templates/                 # HTML templates
+│   ├── index.html           # Homepage
+│   └── record.html          # Recording page
+├── data/                     # Generated data (gitignored)
+│   ├── macros/              # Saved macro files
+│   └── *_analysis.json      # Analysis results
+├── requirements.txt          # Python dependencies
+├── selectors_config.py      # Element selector configuration
+└── .gitignore              # Git ignore rules
 ```
+
+## 🎯 How to Use
+
+### Recording Macros
+
+1. **Navigate to recorder**: `http://localhost:5000/record`
+2. **Enter target URL**: Input the website you want to record
+3. **Start recording**: Click "Start Recording" button
+4. **Interact with website**: Click links, buttons, forms, etc.
+5. **Stop recording**: Click "Stop Recording" to save the macro
+
+### Analyzing Macros
+
+1. **Find saved macro**: Check the "Saved Macros" section
+2. **Click analyze**: Press the green "Analyze" button
+3. **Watch progress**: Real-time analysis with progress tracking
+4. **Review results**: Detailed Tealium event analysis and vendor detection
+
+### Data Export
+
+- Analysis results are automatically saved to `data/` directory
+- Download buttons available in the UI for specific reports
+- Macro data stored as JSON files in `data/macros/`
 
 ## 🔧 Configuration
 
-### **OpenAI Setup** (Default)
+### Environment Variables (Optional)
+
+Create a `.env` file for custom settings:
+
 ```env
-MODEL_PROVIDER=openai
-OPENAI_API_KEY=your_openai_api_key
+# Application settings
+DEBUG=False
+HOST=0.0.0.0
+PORT=5000
+
+# Browser settings
+BROWSER_HEADLESS=True
+ANALYSIS_TIMEOUT=300
+
+# Logging
+LOG_LEVEL=INFO
 ```
 
-### **Azure OpenAI Setup**
-```env
-MODEL_PROVIDER=azure
-AZURE_TENANT_ID=your_tenant_id
-AZURE_CLIENT_ID=your_client_id  
-AZURE_CLIENT_SECRET=your_client_secret
-AZURE_DEPLOYMENT_MODEL=your_model_deployment
-AZURE_API_BASE=https://your-resource.openai.azure.com/
+### Selector Configuration
+
+Modify `selectors_config.py` to customize analysis targets:
+
+```python
+SELECTORS_CONFIG = {
+    "affiliate_links": ".affiliate-buttons a",
+    "add_to_cart": "[data-testid='add-to-cart'], .add-to-cart",
+    "checkout": ".checkout-button, [href*='checkout']"
+}
 ```
 
-## 📊 Usage Examples
+## 🐛 Troubleshooting
 
-### **Analytics Analysis**  
+### Common Issues
+
+**🔧 Browser not found:**
+```bash
+python -m playwright install chromium
 ```
-URL: https://ecommerce-site.com
-Result: Tealium events, vendor analysis, data layer inspection
+
+**🔧 Port already in use:**
+The app automatically tries ports 5000, 5001, 5002.
+
+**🔧 Permission errors (Windows):**
+Run command prompt as Administrator for Playwright installation.
+
+**🔧 Virtual environment issues:**
+```bash
+# Deactivate and recreate
+deactivate
+rmdir /s webspark  # Windows
+# rm -rf webspark    # macOS/Linux
+python -m venv webspark
+webspark\Scripts\activate
+pip install -r requirements.txt
 ```
 
-## 🌟 Key Benefits
+### Debug Mode
 
-1. **Comprehensive Coverage**: Captures analytics events and tracking  
-2. **Real-time Monitoring**: Live progress tracking and logging
-3. **Multi-Provider Support**: Works with various analytics providers
-4. **Production Ready**: Robust error handling and recovery
+Enable detailed logging:
+```bash
+# Windows
+set LOG_LEVEL=DEBUG
+python app.py
 
-## 📞 Support & Documentation
+# macOS/Linux  
+LOG_LEVEL=DEBUG python app.py
+```
 
-- **Installation Issues**: See [INSTALLATION.md](docs/INSTALLATION.md)
-- **Project Context**: See [CLAUDE.md](docs/CLAUDE.md)  
-- **Architecture**: See [PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)
+## 🚀 Production Deployment
 
-## 🏷 License
+### Using Uvicorn
+
+```bash
+# Install production server
+pip install uvicorn[standard]
+
+# Run production server
+uvicorn app:app --host 0.0.0.0 --port 5000 --workers 4
+```
+
+### Using Gunicorn (Linux/macOS)
+
+```bash
+pip install gunicorn
+gunicorn app:app --bind 0.0.0.0:5000 --workers 4
+```
+
+## 💡 Development
+
+### Code Style
+- **Python**: Follow PEP 8 guidelines
+- **JavaScript**: ES6+ features, async/await preferred  
+- **CSS**: CSS custom properties for theming
+
+### Adding Features
+1. Backend changes: Modify `app.py` and `analyzers/`
+2. Frontend changes: Update `static/` and `templates/`
+3. Test thoroughly with different websites
+4. Update documentation
+
+## 📄 License
 
 MIT License - see LICENSE file for details.
 
-## 🙏 Acknowledgments
+## 🤝 Contributing
 
-- **Playwright**: Browser automation infrastructure
-- **OpenAI**: GPT-4 model for visual AI
-- **FastAPI**: Modern Python web framework
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature-name`
+3. Make changes and test
+4. Commit: `git commit -m 'Add feature'`
+5. Push: `git push origin feature-name`
+6. Submit pull request
+
+---
+
+**⚠️ Important Notes:**
+- Use `webspark` virtual environment name for consistency
+- DO NOT use conda - use standard Python venv
+- Respect website terms of service when recording macros
+- Screenshots and macro data are excluded from git commits

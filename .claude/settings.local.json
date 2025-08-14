@@ -18,6 +18,9 @@
       "WebFetch(domain:www.penguinrandomhouse.com)",
       "Bash(wmic process where \"name like '%python%'\" get processid,commandline:*)"
     ],
-    "deny": []
+    "deny": [],
+    "additionalDirectories": [
+      "C:\\mnt\\c\\Users\\Rafi"
+    ]
   }
 }

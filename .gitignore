@@ -72,3 +72,34 @@ coverage.xml
 
 # Archive directory for legacy files
 archive/
+
+# Webspark specific - exclude user data and generated files
+# Screenshots and images
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+!static/images/
+!static/images/*.webp
+!static/images/*.png
+
+# Macro data and analysis results
+data/macros/
+data/*_analysis*.json
+data/macro_tealium_analysis.json
+data/tealium_manual_analysis*.json
+
+# Index and temporary files
+index.html
+temp/
+tmp/
+nul
+
+# Environment specific
+webspark/
+.webspark
+
+# Documentation that shouldn't be committed
+CLAUDE.md

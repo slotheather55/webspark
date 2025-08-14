@@ -16,6 +16,20 @@ class MacroRecorder {
         this.bindEventListeners();
         this.loadSavedMacros();
 
+        // Initialize message tracking for rate limiting
+        this.lastMessage = null;
+        this.lastMessageTime = null;
+
+        // Message Type Patterns for better log categorization
+        this.macroMessagePatterns = {
+            section: [/^---.+---.?$/, /^===.+===$/, /Testing:/, /▶️/, /Analyzing.*selectors?/i],
+            starting: [/Starting.*analysis/i, /Starting Tealium/i, /Launching/, /Starting/, /Initializing/],
+            success: [/✓/, /✅/, /successfully/i, /Success/i, /Completed/i, /finished/i, /launched successfully/i, /loaded successfully/i, /complete:/i],
+            error: [/❌/, /Error/, /Failed/, /failed/, /error/],
+            warning: [/Warning/, /⚠️/, /Warning:/i, /timeout/i, /not found/i, /trying/i],
+            progress: [/^\s{2,}/, /Loading page:/, /Testing:/, /Attempting/, /Retrieving/, /Collecting/, /Post-click:/]
+        };
+
         // Inject styles for improved Analyze button and spinner if not present
         if (!document.getElementById('macro-analyze-styles')) {
             const styles = document.createElement('style');
@@ -51,6 +65,39 @@ class MacroRecorder {
         }
     }
 
+    // ===== Helper methods for enhanced logging =====
+    escapeHtml(unsafe) {
+        if (typeof unsafe !== 'string') {
+            try {
+                unsafe = JSON.stringify(unsafe); // Try to stringify non-strings
+            } catch (e) {
+                return '[Invalid Data]';
+            }
+        }
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // Determine the message type based on content
+    determineMacroMessageType(message) {
+        if (!message) return 'info';
+        
+        // Check patterns for each type
+        for (const [type, patterns] of Object.entries(this.macroMessagePatterns)) {
+            for (const pattern of patterns) {
+                if (pattern.test(message)) {
+                    return type;
+                }
+            }
+        }
+        
+        return 'info'; // Default type
+    }
+
     // ===== Analysis Engine helpers (Record page) =====
     initMacroAnalysisUI() {
         this.resetMacroStreamUI();
@@ -76,9 +123,21 @@ class MacroRecorder {
                 this.analysisInProgress = true;
                 this.analysisStatus.textContent = 'Analysis in progress';
                 this.analysisStatus.className = 'status-badge running';
-                if (this.loadingDiv) this.loadingDiv.style.display = 'flex';
-                if (this.liveLogPanel) this.liveLogPanel.style.opacity = '0.9';
-                if (this.analyzingLabel) this.analyzingLabel.style.opacity = '0.7';
+                if (this.loadingDiv) {
+                    this.loadingDiv.style.display = 'flex';
+                    // Update loading text for macro analysis
+                    const loadingText = this.loadingDiv.querySelector('.loading-text');
+                    if (loadingText) loadingText.textContent = 'Analyzing Macro Selectors...';
+                }
+                if (this.liveLogPanel) { 
+                    this.liveLogPanel.style.display = 'flex';
+                    this.liveLogPanel.style.opacity = '1';
+                    this.liveLogPanel.style.visibility = 'visible';
+                }
+                if (this.analyzingLabel) {
+                    this.analyzingLabel.textContent = 'ANALYZING MACRO SELECTORS';
+                    this.analyzingLabel.style.opacity = '0.7';
+                }
                 if (this.aiAgentElement) {
                     this.aiAgentElement.style.opacity = '1';
                     const circle = this.aiAgentElement.querySelector('.ai-agent-circle');
@@ -90,8 +149,17 @@ class MacroRecorder {
                 this.analysisInProgress = false;
                 this.analysisStatus.textContent = 'Analysis completed';
                 this.analysisStatus.className = 'status-badge completed';
-                if (this.loadingDiv) this.loadingDiv.style.display = 'none';
+                if (this.loadingDiv) {
+                    this.loadingDiv.style.display = 'none';
+                    // Reset loading text
+                    const loadingText = this.loadingDiv.querySelector('.loading-text');
+                    if (loadingText) loadingText.textContent = 'Processing';
+                }
                 if (this.resultsContainer) this.resultsContainer.style.display = 'block';
+                if (this.liveLogPanel) { 
+                    this.liveLogPanel.style.display = 'flex';
+                    this.liveLogPanel.style.opacity = '0.9';
+                }
                 if (this.aiAgentElement) {
                     this.aiAgentElement.style.opacity = '0.6';
                     const circle = this.aiAgentElement.querySelector('.ai-agent-circle');
@@ -125,29 +193,63 @@ class MacroRecorder {
     }
 
     addMacroStatusMessage(message, statusClass = 'info') {
-        if (!this.liveLogList || !message) return;
+        if (!this.liveLogList || !message) {
+            console.warn('Live log list element not found or message is empty.');
+            return;
+        }
+
+        // Simple rate limiting: Ignore identical consecutive messages within 100ms
+        const now = Date.now();
+        if (message === this.lastMessage && (now - this.lastMessageTime < 100)) {
+            return;
+        }
+        this.lastMessage = message;
+        this.lastMessageTime = now;
+
+        // Sanitize message slightly (prevent basic HTML injection)
+        const sanitizedMessage = this.escapeHtml(message);
+
         const li = document.createElement('li');
         li.classList.add('live-log-item');
-        li.classList.add(statusClass || 'info');
+
+        // Determine class based on content if not provided explicitly
+        if (statusClass === 'info') {
+            statusClass = this.determineMacroMessageType(sanitizedMessage);
+        }
+        li.classList.add(statusClass);
+
+        // Set textContent directly with the original message (textContent automatically escapes)
         li.textContent = message;
+
         this.liveLogList.appendChild(li);
-        const max = 500;
-        while (this.liveLogList.children.length > max) this.liveLogList.removeChild(this.liveLogList.firstChild);
+
+        // Optional: Limit log length to prevent memory issues
+        const maxLogItems = 500;
+        while (this.liveLogList.children.length > maxLogItems) {
+            this.liveLogList.removeChild(this.liveLogList.firstChild);
+        }
+
+        // Auto-scroll to the bottom
         this.liveLogList.scrollTop = this.liveLogList.scrollHeight;
-        this.determineMacroStageFromMessage(message);
+
+        // Determine stage based on message content
+        this.determineMacroStageFromMessage(sanitizedMessage);
     }
 
     determineMacroStageFromMessage(message) {
         if (!message) return;
-        if (message.includes('Launching browser') || message.includes('Starting') || message.includes('Initializing')) {
+        
+        // Check in order of expected occurrence for macro analysis
+        if (message.includes('Browser launched') || message.includes('Starting Tealium') || message.includes('Connected to analysis server')) {
             this.updateMacroStage('setup');
-        } else if (message.includes('Loading page') || message.includes('Navigating')) {
+        } else if (message.includes('Loading page:') || message.includes('Page loaded successfully') || message.includes('navigating')) {
             this.updateMacroStage('loading');
-        } else if (message.includes('Baseline') || message.includes('Testing') || message.includes('Analyzing')) {
+        } else if (message.includes('Baseline captured') || message.includes('Testing:') || message.includes('Trying') || message.includes('Post-click:') || message.includes('selectors triggered')) {
             this.updateMacroStage('data');
-        } else if (message.includes('Analysis complete')) {
+        } else if (message.includes('Analysis complete:') || message.includes('✅') || message.includes('Cleanup finished')) {
             this.updateMacroStage('complete');
         }
+        // Note: If a message doesn't trigger a stage change, the current stage remains active.
     }
 
     updateMacroStage(stageName) {
@@ -307,15 +409,10 @@ class MacroRecorder {
         this.recordForm = document.getElementById('record-form');
         this.urlInput = document.getElementById('record-url');
         
-        // Control buttons
+        // Control buttons (simplified)
         this.startBtn = document.getElementById('start-recording');
-        this.pauseBtn = document.getElementById('pause-recording');
-        this.resumeBtn = document.getElementById('resume-recording');
-        this.stopBtn = document.getElementById('stop-recording');
-        this.forceStopBtn = document.getElementById('force-stop-recording');
-        this.clearBtn = document.getElementById('clear-recording');
         
-        // Status and info elements
+        // Status and info elements (hidden but needed for functionality)
         this.recordingStatus = document.getElementById('recording-status');
         this.actionCount = document.getElementById('action-count');
         this.recordingTime = document.getElementById('recording-time');
@@ -347,6 +444,8 @@ class MacroRecorder {
 		this.aiAgentElement = document.querySelector('.ai-agent-element');
 		this.analyzingLabel = document.querySelector('.analyzing-label');
 		this.liveLogPanel = document.getElementById('live-log-panel');
+		this.liveLogList = document.getElementById('live-log-list');
+		
 		this.stageEls = {
 			setup: document.getElementById('stage-setup'),
 			loading: document.getElementById('stage-loading'),
@@ -363,13 +462,14 @@ class MacroRecorder {
     }
 
     bindEventListeners() {
-        // Control button events
-        this.startBtn.addEventListener('click', () => this.startRecording());
-        this.pauseBtn.addEventListener('click', () => this.pauseRecording());
-        this.resumeBtn.addEventListener('click', () => this.resumeRecording());
-        this.stopBtn.addEventListener('click', () => this.stopRecording());
-        this.forceStopBtn.addEventListener('click', () => this.forceStopRecording());
-        this.clearBtn.addEventListener('click', () => this.clearRecording());
+        // Simplified recording button - toggles between start and stop
+        this.startBtn.addEventListener('click', () => {
+            if (this.isRecording) {
+                this.stopRecording();
+            } else {
+                this.startRecording();
+            }
+        });
         
         // Load macros on page load only
         this.loadSavedMacros();
@@ -570,7 +670,7 @@ class MacroRecorder {
         const action = {
             id: this.recordedActions.length + 1,
             timestamp: Date.now() - this.startTime,
-            type: actionData.type,
+            action_type: actionData.type,  // Use action_type to match backend
             selector: actionData.selector,
             text: actionData.text || '',
             coordinates: actionData.coordinates || null,
@@ -696,8 +796,10 @@ class MacroRecorder {
     }
 
     async saveMacro() {
+        console.log('Saving macro with', this.recordedActions.length, 'actions');
+        
         const macroData = {
-            name: this.macroName.value || 'Untitled Macro',
+            name: this.macroName.value || `Macro for ${new URL(this.currentUrl).hostname} - ${new Date().toLocaleString()}`,
             url: this.currentUrl,
             actions: this.recordedActions,
             created_at: new Date().toISOString(),
@@ -705,23 +807,28 @@ class MacroRecorder {
                 this.recordedActions[this.recordedActions.length - 1].timestamp : 0
         };
         
-        const response = await fetch('/api/record/save', {
+        // Use direct import for consistent, reliable saving
+        const response = await fetch('/api/macros/import', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                session_id: this.sessionId,
                 macro_data: macroData
             })
         });
         
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Save failed:', errorText);
             throw new Error(`Failed to save macro: ${response.statusText}`);
         }
         
         const result = await response.json();
+        
         if (!result.success) {
             throw new Error(result.error || 'Failed to save macro');
         }
+        
+        console.log('Macro saved successfully:', result.macro_id);
         
         // Refresh the macros list
         await this.loadSavedMacros();
@@ -744,11 +851,13 @@ class MacroRecorder {
     }
 
     updateControlButtons() {
-        this.startBtn.disabled = this.isRecording;
-        this.pauseBtn.disabled = !this.isRecording || this.isPaused;
-        this.resumeBtn.disabled = !this.isRecording || !this.isPaused;
-        this.stopBtn.disabled = !this.isRecording;
-        this.forceStopBtn.disabled = !this.isRecording;
+        if (this.isRecording) {
+            this.startBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
+            this.startBtn.classList.add('recording');
+        } else {
+            this.startBtn.innerHTML = '<i class="fas fa-play"></i> Start Recording';
+            this.startBtn.classList.remove('recording');
+        }
     }
     
     async autoSaveRecordingOnDisconnect() {
@@ -994,12 +1103,18 @@ class MacroRecorder {
     // Macro Management Methods
     async loadSavedMacros() {
         try {
+            console.log('Loading saved macros...');
             const response = await fetch('/api/macros/list');
+            console.log('Macros API response status:', response.status);
+            
             const data = await response.json();
+            console.log('Macros API data:', data);
             
             if (data.success && data.macros.length > 0) {
+                console.log('Displaying', data.macros.length, 'macros');
                 this.displayMacros(data.macros);
             } else {
+                console.log('No macros found, displaying empty state');
                 this.displayEmptyMacrosState();
             }
         } catch (error) {
@@ -1009,32 +1124,75 @@ class MacroRecorder {
     }
 
     displayMacros(macros) {
-        const macrosHtml = macros.map(macro => `
-            <div class="macro-item" data-macro-id="${macro.id}">
+        console.log('displayMacros called with', macros.length, 'macros');
+        console.log('macrosList element:', this.macrosList);
+        
+        const macrosHtml = macros.map((macro, index) => {
+            const hostname = new URL(macro.url).hostname;
+            const actionsCount = macro.actions ? macro.actions.length : 0;
+            const duration = this.formatTime(macro.duration || 0);
+            const createdDate = new Date(macro.created_at).toLocaleDateString();
+            const macroId = macro.id;
+            
+            return `
+            <div class="macro-item ${index < 3 ? 'new' : ''}" data-macro-id="${macroId}">
                 <div class="macro-header">
-                    <h4 class="macro-name" contenteditable="true" onblur="recorder.renameMacro('${macro.id}', this.textContent)">${macro.name}</h4>
+                    <h4 class="macro-name" contenteditable="true" onblur="recorder.renameMacro('${macroId}', this.textContent.trim())" title="Click to edit macro name">${this.escapeHtml(macro.name)}</h4>
                     <div class="macro-actions">
-                        <button class="analyze-btn" data-macro-id="${macro.id}" onclick="recorder.analyzeMacroSelectors('${macro.id}')" title="Analyze">
-                            <i class="fas fa-chart-line"></i> <span class="label">Analyze</span>
+                        <button class="analyze-btn" data-macro-id="${macroId}" onclick="recorder.analyzeMacroSelectors('${macroId}')" title="Analyze Tealium events for this macro">
+                            <i class="fas fa-chart-line"></i> 
+                            <span class="label">Analyze</span>
                             <span class="spinner" aria-hidden="true"></span>
                         </button>
-                        <button class="btn-icon" onclick="recorder.deleteMacro('${macro.id}')" title="Delete macro">
+                        <button class="btn-icon" onclick="recorder.deleteMacro('${macroId}')" title="Delete this macro">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
                 </div>
                 <div class="macro-details">
                     <div class="macro-meta">
-                        <span><i class="fas fa-globe"></i> ${new URL(macro.url).hostname}</span>
-                        <span><i class="fas fa-mouse-pointer"></i> ${macro.actions.length} actions</span>
-                        <span><i class="fas fa-clock"></i> ${this.formatTime(macro.duration)}</span>
-                        <span><i class="fas fa-calendar"></i> ${new Date(macro.created_at).toLocaleDateString()}</span>
+                        <span title="${macro.url}">
+                            <i class="fas fa-globe"></i> 
+                            ${this.escapeHtml(hostname)}
+                        </span>
+                        <span title="Number of recorded actions">
+                            <i class="fas fa-mouse-pointer"></i> 
+                            ${actionsCount} actions
+                        </span>
+                        <span title="Recording duration">
+                            <i class="fas fa-clock"></i> 
+                            ${duration}
+                        </span>
+                        <span title="Date created">
+                            <i class="fas fa-calendar"></i> 
+                            ${createdDate}
+                        </span>
+                    </div>
+                    <div class="macro-status">
+                        <div class="status-badge" title="Macro is ready to use">
+                            <i class="fas fa-check-circle"></i>
+                            Ready
+                        </div>
+                    </div>
+                    <div class="analysis-progress" id="progress-${macroId}">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill-${macroId}"></div>
+                        </div>
+                        <div class="progress-text" id="progress-text-${macroId}">Starting analysis...</div>
                     </div>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
         
         this.macrosList.innerHTML = macrosHtml;
+        
+        // Add entrance animation to new items
+        setTimeout(() => {
+            document.querySelectorAll('.macro-item.new').forEach(item => {
+                item.classList.remove('new');
+            });
+        }, 100);
     }
 
     displayEmptyMacrosState() {
@@ -2370,6 +2528,35 @@ class MacroRecorder {
         }
         
         document.body.appendChild(modal);
+    }
+
+    // Progress Management Methods
+    showMacroProgress(macroId, show, progressText = 'Starting analysis...') {
+        const progressEl = document.getElementById(`progress-${macroId}`);
+        const progressFill = document.getElementById(`progress-fill-${macroId}`);
+        const progressTextEl = document.getElementById(`progress-text-${macroId}`);
+        
+        if (!progressEl) return;
+        
+        if (show) {
+            progressEl.classList.add('active');
+            if (progressTextEl) progressTextEl.textContent = progressText;
+            if (progressFill) progressFill.style.width = '0%';
+        } else {
+            progressEl.classList.remove('active');
+        }
+    }
+    
+    updateMacroProgress(macroId, percentage, text) {
+        const progressFill = document.getElementById(`progress-fill-${macroId}`);
+        const progressTextEl = document.getElementById(`progress-text-${macroId}`);
+        
+        if (progressFill) {
+            progressFill.style.width = `${Math.min(100, Math.max(0, percentage))}%`;
+        }
+        if (progressTextEl && text) {
+            progressTextEl.textContent = text;
+        }
     }
 
     // Utility Methods

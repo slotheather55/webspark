@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/static/stream.css">
     <link rel="stylesheet" href="/static/results.css">
     <link rel="stylesheet" href="/static/footer.css">
+    <link rel="stylesheet" href="/static/macros.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -41,7 +42,6 @@
 
             <nav class="nav-links">
                 <a href="/" class="nav-link">Home</a>
-                <a href="/discover" class="nav-link">Discover</a>
                 <a href="/record" class="nav-link active">Record</a>
                 <a href="#" class="nav-link">Docs</a>
                 <a href="#" class="nav-link">About</a>
@@ -71,65 +71,12 @@
             </div>
         </section>
 
-        <!-- Recording Controls Section -->
-        <section class="analysis-section">
-            <div class="analysis-card">
-                <div class="card-header">
-                    <h2><i class="fas fa-video"></i> Recording Controls</h2>
-                    <div class="status-badge" id="recording-status">Ready to record</div>
-                </div>
-                <div class="card-body">
-                    <div class="recording-controls">
-                        <button id="pause-recording" class="control-button" disabled>
-                            <i class="fas fa-pause"></i> Pause
-                        </button>
-                        <button id="resume-recording" class="control-button" disabled>
-                            <i class="fas fa-play"></i> Resume
-                        </button>
-                        <button id="stop-recording" class="control-button" disabled>
-                            <i class="fas fa-stop"></i> Stop & Save
-                        </button>
-                        <button id="force-stop-recording" class="control-button control-button-danger" disabled>
-                            <i class="fas fa-times"></i> Force Stop
-                        </button>
-                        <button id="clear-recording" class="control-button">
-                            <i class="fas fa-trash"></i> Clear
-                        </button>
-                    </div>
-
-                    <!-- Macro Information Panel -->
-                    <div class="macro-info-panel">
-                        <div class="macro-details">
-                            <div class="detail-item">
-                                <label for="macro-name">Macro Name:</label>
-                                <input type="text" id="macro-name" placeholder="e.g., Shopping Cart Flow" class="macro-input">
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Actions Recorded:</span>
-                                <span id="action-count">0</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Recording Time:</span>
-                                <span id="recording-time">00:00</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Live Action Log -->
-                    <div class="live-action-panel">
-                        <div class="panel-header">
-                            <h3><i class="fas fa-list"></i> Recorded Actions</h3>
-                        </div>
-                        <div class="action-list" id="action-list">
-                            <div class="empty-state">
-                                <i class="fas fa-mouse-pointer"></i>
-                                <p>Start recording to see captured interactions</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Hidden fields for recording state -->
+        <input type="hidden" id="macro-name" value="">
+        <div id="action-count" style="display: none;">0</div>
+        <div id="recording-time" style="display: none;">00:00</div>
+        <div id="action-list" style="display: none;"></div>
+        <div id="recording-status" style="display: none;">Ready to record</div>
 
         <!-- Browser Preview Section -->
         <section class="browser-section" id="browser-section" style="display: none;">
@@ -438,6 +385,23 @@
                 border-color: #1e7e34 !important;
                 transform: translateY(-1px) !important;
                 box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3) !important;
+            }
+            
+            /* Recording button states */
+            .analyze-button.recording {
+                background: linear-gradient(135deg, #dc3545, #e74c3c) !important;
+                border-color: #dc3545 !important;
+                animation: pulse-recording 2s infinite;
+            }
+            
+            .analyze-button.recording:hover {
+                background: linear-gradient(135deg, #c82333, #dc3545) !important;
+                border-color: #bd2130 !important;
+            }
+            
+            @keyframes pulse-recording {
+                0%, 100% { box-shadow: 0 0 5px rgba(220, 53, 69, 0.3); }
+                50% { box-shadow: 0 0 20px rgba(220, 53, 69, 0.7); }
             }
         </style>
 
