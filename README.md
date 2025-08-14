@@ -1,17 +1,10 @@
-# WebSpark: AI-Powered Web Analytics & Automation Tool
+# WebSpark: Web Analytics Tool
 
-WebSpark is a sophisticated web analytics platform that combines AI-powered browser automation with comprehensive Tealium tracking analysis. It features dual workflows for both automated element discovery and detailed analytics monitoring.
+WebSpark is a web analytics platform focused on comprehensive Tealium tracking analysis. It provides detailed analytics monitoring and tracking vendor detection.
 
 ## 🚀 Features
 
-### **AI Agent Workflow (Phase 1)**
-- **GPT-4 Browser Control**: Autonomous navigation with natural language instructions
-- **Automatic GDPR Handling**: Intelligent cookie banner dismissal  
-- **Element Discovery**: AI finds and captures interactive selectors automatically
-- **Large Viewport**: 1920x1080 for optimal element visibility
-- **Real-time Streaming**: Live logs and progress updates
-
-### **Enhanced Analytics (Phase 2)**  
+### **Analytics Features**  
 - **Tealium Event Capture**: Deep analysis of tag manager implementations
 - **Vendor Detection**: Identify analytics providers and tracking scripts
 - **Data Layer Analysis**: Inspect utag_data variables and configurations
@@ -21,7 +14,7 @@ WebSpark is a sophisticated web analytics platform that combines AI-powered brow
 ## 🛠 Technology Stack
 
 - **Backend**: Python 3.11+, FastAPI, uvicorn
-- **Browser Automation**: Playwright + browser-use framework  
+- **Browser Automation**: Playwright for webpage analysis  
 - **AI/LLM**: OpenAI GPT-4, Azure OpenAI, langchain
 - **Frontend**: HTML5, CSS3, JavaScript ES6+
 - **Real-time**: Server-Sent Events (SSE)
@@ -41,8 +34,7 @@ WebSpark is a sophisticated web analytics platform that combines AI-powered brow
 git clone <your-repo-url> webspark
 cd webspark
 
-# Install dependencies (exact order matters)
-cd browser-use && pip install -e . && cd ..
+# Install dependencies
 pip install -r requirements.txt
 playwright install chromium
 
@@ -56,7 +48,6 @@ python app.py
 
 **🌐 Access the application:**
 - Main analyzer: `http://localhost:5000`
-- AI agent workflow: `http://localhost:5000/agent`
 
 ## 📋 Complete Installation Guide
 
@@ -72,12 +63,7 @@ Includes:
 
 ## 🎯 How It Works
 
-### **Phase 1: AI Discovery**
-1. **Input**: Natural language task (e.g., "Go to example.com and add product to cart")
-2. **Processing**: GPT-4 controls browser, dismisses banners, performs actions
-3. **Output**: Discovered selectors saved to `data/ai_discovered_selectors.json`
-
-### **Phase 2: Analytics Analysis**  
+### **Analytics Analysis**  
 1. **Input**: Target URL + discovered selectors
 2. **Processing**: Monitor interactions, capture Tealium events, analyze vendors
 3. **Output**: Comprehensive analytics report with event data
@@ -86,13 +72,11 @@ Includes:
 ```
 webspark/
 ├── 📁 analyzers/              # Core analysis engines
-│   ├── browser_automation_agent.py    # AI browser automation  
 │   ├── tealium_manual_analyzer.py     # Regular flow analyzer
-│   └── tealium_ai_enhanced_analyzer.py # Agent-enhanced analyzer
+│   └── tealium_ai_enhanced_analyzer.py # Enhanced analyzer
 ├── 📁 data/                   # Generated data & results
 ├── 📁 static/                 # Frontend assets
 ├── 📁 templates/              # HTML interfaces  
-├── 📁 browser-use/            # AI automation framework
 ├── 📁 docs/                   # Documentation
 ├── app.py                     # FastAPI main application
 ├── requirements.txt           # Python dependencies
@@ -119,12 +103,6 @@ AZURE_API_BASE=https://your-resource.openai.azure.com/
 
 ## 📊 Usage Examples
 
-### **Agent Workflow**
-```
-Task: "Navigate to https://penguinrandomhouse.com and click the 'Add to cart' button"
-Result: AI discovers button selector, captures interaction flow
-```
-
 ### **Analytics Analysis**  
 ```
 URL: https://ecommerce-site.com
@@ -133,11 +111,10 @@ Result: Tealium events, vendor analysis, data layer inspection
 
 ## 🌟 Key Benefits
 
-1. **No Manual Selector Writing**: AI discovers elements automatically
-2. **Comprehensive Coverage**: Captures both intended and incidental interactions  
-3. **Real-time Monitoring**: Live progress tracking and logging
-4. **Multi-Provider Support**: Works with various AI providers
-5. **Production Ready**: Robust error handling and recovery
+1. **Comprehensive Coverage**: Captures analytics events and tracking  
+2. **Real-time Monitoring**: Live progress tracking and logging
+3. **Multi-Provider Support**: Works with various analytics providers
+4. **Production Ready**: Robust error handling and recovery
 
 ## 📞 Support & Documentation
 
@@ -151,7 +128,6 @@ MIT License - see LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-- **browser-use**: AI browser automation framework
 - **Playwright**: Browser automation infrastructure
 - **OpenAI**: GPT-4 model for visual AI
 - **FastAPI**: Modern Python web framework

@@ -26,25 +26,20 @@ fi
 echo "3. Upgrading pip..."
 python -m pip install --upgrade pip
 
-echo "4. Installing browser-use framework..."
-cd browser-use
-pip install -e .
-cd ..
-
-echo "5. Installing requirements..."
+echo "4. Installing requirements..."
 pip install -r requirements.txt
 
-echo "6. Installing browsers (this may take a few minutes - downloading ~233MB)..."
+echo "5. Installing browsers (this may take a few minutes - downloading ~233MB)..."
 playwright install --with-deps chromium
 
-echo "7. Testing installation..."
-python test_imports.py
+echo "6. Testing installation..."
+python -c "import playwright, fastapi; from app import app; print('✅ All components imported successfully')"
 
 echo ""
 echo "🎉 WebSpark installation completed successfully!"
 echo ""
 echo "Next steps:"
-echo "1. Set environment variables (MODEL_PROVIDER, OPENAI_API_KEY, etc.)"
+echo "1. Configure any needed environment variables"
 echo ""
 echo "2. Activate environment and run:"
 echo "   source $ENV_NAME/bin/activate"

@@ -39,7 +39,7 @@ PAGE_TYPE_SELECTORS = {
         },
         {
             "description": "Look Inside Link (PDP)",
-            "selector": 'a.insight:has-text("Look Inside")'
+            "selector": 'a:has-text("Look Inside"), button:has-text("Look Inside"), .insight:has-text("Look Inside")'
         },
         {
             "description": "Add to Bookshelf (PDP)",

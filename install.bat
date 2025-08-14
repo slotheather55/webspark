@@ -21,31 +21,22 @@ pip --version
 echo 4. Upgrading pip...
 python -m pip install --upgrade pip
 
-echo 5. Installing browser-use framework...
-cd browser-use
-pip install -e .
-if errorlevel 1 (
-    echo ❌ Failed to install browser-use
-    exit /b 1
-)
-cd ..
-
-echo 6. Installing requirements...
+echo 5. Installing requirements...
 pip install -r requirements.txt
 if errorlevel 1 (
     echo ❌ Failed to install requirements
     exit /b 1
 )
 
-echo 7. Installing browsers (this may take a few minutes - downloading ~233MB)...
+echo 6. Installing browsers (this may take a few minutes - downloading ~233MB)...
 playwright install --with-deps chromium
 if errorlevel 1 (
     echo ❌ Failed to install browsers
     exit /b 1
 )
 
-echo 8. Testing installation...
-python -c "from browser_use import Agent; import playwright, fastapi; from langchain_openai import ChatOpenAI; from app import app; print('✅ All components imported successfully')"
+echo 7. Testing installation...
+python -c "import playwright, fastapi; from app import app; print('✅ All components imported successfully')"
 if errorlevel 1 (
     echo ❌ Installation test failed
     exit /b 1
@@ -55,7 +46,7 @@ echo.
 echo 🎉 WebSpark installation completed successfully!
 echo.
 echo Next steps:
-echo 1. Set environment variables ^(MODEL_PROVIDER, OPENAI_API_KEY, etc.^)
+echo 1. Configure any needed environment variables
 echo.
 echo 2. Activate environment and run:
 echo    %ENV_NAME%\Scripts\activate.bat

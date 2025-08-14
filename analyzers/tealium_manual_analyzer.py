@@ -197,34 +197,20 @@ async def clear_tracking_data(page: Page):
 
 async def dismiss_overlays(page: Page):
     """Attempts to find and click common overlay/prompt accept buttons."""
-    print("        Attempting to dismiss overlays...")
-    overlay_dismissed, minicart_dismissed = False, False
-    # Privacy Prompt
+    overlay_dismissed = False
+    # Privacy Prompt - check quickly
     try:
         privacy_button = page.locator(PRIVACY_PROMPT_ACCEPT_SELECTOR).first
-        if await privacy_button.is_visible(timeout=2000):
+        if await privacy_button.is_visible(timeout=500):  # Reduced timeout
             await privacy_button.click(timeout=5000, force=True)
             await page.wait_for_timeout(500)
-            print("        Clicked privacy prompt.")
+            print("        Dismissed privacy overlay.")
             overlay_dismissed = True
     except Exception:
         pass # Ignore errors
 
-    # Minicart Overlay (Example - uncomment and adjust selector if needed)
-    # try:
-    #     minicart_overlay = page.locator(MINICART_OVERLAY_SELECTOR).first
-    #     if await minicart_overlay.is_visible(timeout=2000):
-    #         await minicart_overlay.click(timeout=5000, force=True)
-    #         await page.wait_for_timeout(500)
-    #         print("        Clicked minicart overlay.")
-    #         minicart_dismissed = True
-    # except Exception:
-    #     pass
-
-    if not overlay_dismissed and not minicart_dismissed:
-        print("        No overlays found/dismissed.")
-    # else: # Only print if something was dismissed? Optional.
-    #     print("        Finished overlay dismissal attempts.")
+    # Only log when we actually dismissed something
+    # Remove the "No overlays found" message to reduce noise
 
 
 def analyze_vendors_on_page(tag_detection_results: Dict[str, Any]) -> Dict[str, List[str]]:
@@ -587,7 +573,7 @@ async def analyze_page_tags_and_events(url: str) -> AsyncGenerator[Dict[str, Any
                                     await dismiss_overlays(page)
 
                                     yield {"status": "progress", "message": f"        Waiting for element ('{selector}') to be visible..."}
-                                    await element.wait_for(state='visible', timeout=15000)
+                                    await element.wait_for(state='visible', timeout=10000)  # Reduced timeout
                                     yield {"status": "progress", "message": "        Element is visible."}
                                     try:
                                         await element.scroll_into_view_if_needed(timeout=7000)
