@@ -569,11 +569,51 @@ async def analyze_page_tags_and_events(url: str) -> AsyncGenerator[Dict[str, Any
                                 click_result["selector"] = selector # Store selector for click type
                                 try:
                                     element = page.locator(selector).first
+                                    # Always dismiss overlays first
                                     yield {"status": "progress", "message": "        Attempting to dismiss overlays before interaction..."}
                                     await dismiss_overlays(page)
+                                    
+                                    # Optional preAction support (e.g., reveal_prev for slick carousel)
+                                    pre_action = element_config.get("preAction") if isinstance(element_config, dict) else None
+                                    if pre_action is not None:
+                                        pre_name = getattr(pre_action, "__name__", "")
+                                        if pre_name == "reveal_prev" or "slick-prev" in selector:
+                                            try:
+                                                yield {"status": "progress", "message": "        Executing preAction: reveal_prev (clicking next to enable prev)..."}
+                                                next_btn = page.locator("#recommendationCarousel button.slick-next.slick-arrow").first
+                                                # Ensure next is visible/enabled; dismiss any transient overlays
+                                                await next_btn.wait_for(state='visible', timeout=5000)
+                                                await dismiss_overlays(page)
+                                                try:
+                                                    await next_btn.click(timeout=5000)
+                                                except PlaywrightError:
+                                                    # Retry with force if needed
+                                                    await next_btn.click(timeout=5000, force=True)
+                                                # Wait until prev is enabled (aria-disabled=false) or not slick-disabled
+                                                prev_enabled = page.locator("#recommendationCarousel button.slick-prev.slick-arrow:not(.slick-disabled)[aria-disabled='false']").first
+                                                # Try a few steps forward if still disabled
+                                                attempts = 0
+                                                while attempts < 3:
+                                                    try:
+                                                        await prev_enabled.wait_for(state='visible', timeout=1500)
+                                                        break
+                                                    except Exception:
+                                                        attempts += 1
+                                                        await dismiss_overlays(page)
+                                                        try:
+                                                            await next_btn.click(timeout=2000)
+                                                        except Exception:
+                                                            await next_btn.click(timeout=2000, force=True)
+                                                # Final wait for visibility of the target prev element
+                                                await page.locator("#recommendationCarousel button.slick-prev.slick-arrow").first.wait_for(state='visible', timeout=5000)
+                                            except Exception as pre_e:
+                                                yield {"status": "warning", "message": f"        Warning: preAction failed ({pre_e}). Continuing..."}
+                                        else:
+                                            # Placeholder for future preActions
+                                            yield {"status": "progress", "message": f"        Executing preAction: {pre_name or 'custom'}"}
 
                                     yield {"status": "progress", "message": f"        Waiting for element ('{selector}') to be visible..."}
-                                    await element.wait_for(state='visible', timeout=10000)  # Reduced timeout
+                                    await element.wait_for(state='visible', timeout=5000)  # Reduced timeout further
                                     yield {"status": "progress", "message": "        Element is visible."}
                                     try:
                                         await element.scroll_into_view_if_needed(timeout=7000)

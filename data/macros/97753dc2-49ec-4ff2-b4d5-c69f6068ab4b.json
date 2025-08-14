@@ -1,0 +1,264 @@
+{
+  "id": "97753dc2-49ec-4ff2-b4d5-c69f6068ab4b",
+  "name": "Macro for www.penguinrandomhouse.com - 8/14/2025, 3:30:27 PM",
+  "url": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/",
+  "actions": [
+    {
+      "id": 1,
+      "timestamp": 4528.5087890625,
+      "action_type": "click",
+      "selector": ".affiliate-buttons a:has-text(\"Amazon\")",
+      "text": "Amazon",
+      "coordinates": {
+        "x": 1068,
+        "y": 720,
+        "pageX": 1068,
+        "pageY": 720
+      },
+      "description": "Click on 'Amazon' (.affiliate-buttons a:has-text(\"Amazon\"))",
+      "locator_bundle": {
+        "role": "link",
+        "name": "buy on Amazon",
+        "href": "https://www.amazon.com/gp/product/0593750179?tag=randohouseinc7986-20",
+        "tag": "a",
+        "id": null,
+        "classes": [
+          "isbn-related",
+          "9780593750179",
+          "show"
+        ],
+        "text": "buy on Amazon",
+        "xpath": "//html[1]/body[1]/div[5]/main[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/div[2]/div[2]/div[1]/ul[1]/li[1]/div[2]/div[1]/a[1]",
+        "ancestors": [
+          {
+            "tag": "div",
+            "id": null,
+            "classes": []
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "affiliate-buttons"
+            ]
+          },
+          {
+            "tag": "li",
+            "id": null,
+            "classes": [
+              "active"
+            ]
+          },
+          {
+            "tag": "ul",
+            "id": null,
+            "classes": [
+              "ttl-data"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "panel-body"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "timestamp": 6996.5087890625,
+      "action_type": "click",
+      "selector": "form[action*=\"cart\"] button:has-text(\"Add to Cart\")",
+      "text": "Add to Cart",
+      "coordinates": {
+        "x": 1438,
+        "y": 627,
+        "pageX": 1438,
+        "pageY": 627
+      },
+      "description": "Click on 'Add to Cart' (form[action*=\"cart\"] button:has-text(\"Add to Cart\"))",
+      "locator_bundle": {
+        "role": "button",
+        "name": "Add to Cart",
+        "href": null,
+        "tag": "button",
+        "id": null,
+        "classes": [
+          "btn",
+          "buy2"
+        ],
+        "text": "Add to Cart",
+        "xpath": "//html[1]/body[1]/div[5]/main[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/div[2]/div[2]/div[1]/ul[1]/li[1]/div[1]/form[1]/button[1]",
+        "ancestors": [
+          {
+            "tag": "form",
+            "id": null,
+            "classes": []
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "format-info"
+            ]
+          },
+          {
+            "tag": "li",
+            "id": null,
+            "classes": [
+              "active"
+            ]
+          },
+          {
+            "tag": "ul",
+            "id": null,
+            "classes": [
+              "ttl-data"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "panel-body"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "timestamp": 17173.5087890625,
+      "action_type": "click",
+      "selector": "div:nth-child(1) > div.product-canvas-outer:nth-child(1)",
+      "text": "Best Seller",
+      "coordinates": {
+        "x": 873,
+        "y": 442,
+        "pageX": 873,
+        "pageY": 443
+      },
+      "description": "Click on 'Best Seller' (div:nth-child(1) > div.product-canvas-outer:nth-child(1))",
+      "locator_bundle": {
+        "role": null,
+        "name": "Best Seller",
+        "href": null,
+        "tag": "div",
+        "id": null,
+        "classes": [
+          "product-canvas-outer"
+        ],
+        "text": "Best Seller",
+        "xpath": "//html[1]/body[1]/div[5]/main[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]",
+        "ancestors": [
+          {
+            "tag": "div",
+            "id": "product-canvas",
+            "classes": []
+          },
+          {
+            "tag": "div",
+            "id": "product_jacket",
+            "classes": [
+              "slot",
+              "product-jacket"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "product-header"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "main-content"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "container"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "timestamp": 19776.5087890625,
+      "action_type": "click",
+      "selector": ".product-look-inside.insight",
+      "text": "Look Inside",
+      "coordinates": {
+        "x": 603,
+        "y": 130,
+        "pageX": 603,
+        "pageY": 890
+      },
+      "description": "Click on 'Look Inside' (.product-look-inside.insight)",
+      "locator_bundle": {
+        "role": "button",
+        "name": "Look Inside",
+        "href": null,
+        "tag": "button",
+        "id": null,
+        "classes": [
+          "product-look-inside",
+          "insight",
+          "9780593750179"
+        ],
+        "text": "Look Inside",
+        "xpath": "//html[1]/body[1]/div[5]/main[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/button[1]",
+        "ancestors": [
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "preview-look-inside"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "product-preview-inner"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "product-preview-outer"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": "product-preview",
+            "classes": [
+              "no-mbl-preview"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": "product_jacket",
+            "classes": [
+              "slot",
+              "product-jacket"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "created_at": "2025-08-14T15:30:52.410705",
+  "duration": 19776.5087890625,
+  "description": "Recorded macro with 4 actions",
+  "tags": []
+}

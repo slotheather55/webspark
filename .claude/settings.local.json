@@ -14,7 +14,9 @@
       "Bash(/home/rafi/.nvm/versions/node/v18.20.8/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \"BrowserContextWindowSize\" /mnt/c/Users/Rafi/webspark/analyzers/browser_automation_agent.py)",
       "Bash(/home/rafi/.nvm/versions/node/v18.20.8/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \"BrowserContextConfig\" -A 5 -B 5 /mnt/c/Users/Rafi/webspark/browser-use)",
       "Bash(cp:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "WebFetch(domain:www.penguinrandomhouse.com)",
+      "Bash(wmic process where \"name like '%python%'\" get processid,commandline:*)"
     ],
     "deny": []
   }

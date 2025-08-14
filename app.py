@@ -217,8 +217,956 @@ async def stream_agent_analysis(request: Request, url: str = DEFAULT_URL):
 # Agent page endpoints
 # Agent page removed - no longer using browser automation
 
+# Discover page route
+@app.get("/discover", response_class=HTMLResponse)
+async def show_discover_page(request: Request):
+    return templates.TemplateResponse("discover.html", {"request": request})
+
+# Record page route  
+@app.get("/record", response_class=HTMLResponse)
+async def show_record_page(request: Request):
+    return templates.TemplateResponse("record.html", {"request": request, "default_url": DEFAULT_URL})
+
+# API endpoint for selector discovery
+@app.post("/api/discover")
+async def api_discover_selectors(request: Request):
+    """Discover CSS selectors on a given URL"""
+    try:
+        body = await request.json()
+        url = body.get("url")
+        
+        if not url:
+            return {"error": "URL is required"}
+        
+        # Import discovery functionality
+        from discover_selectors import SelectorDiscovery
+        
+        # Run discovery
+        discovery = SelectorDiscovery()
+        output_file = f"data/discovered_selectors_{int(time.time())}.json"
+        results = await discovery.discover_selectors(url, output_file)
+        
+        return {
+            "success": True,
+            "results": results,
+            "output_file": output_file,
+            "stats": results.get("stats", {}),
+            "element_count": len(results.get("elements", []))
+        }
+        
+    except Exception as e:
+        return {"error": str(e), "success": False}
+
+# API endpoint for selector analysis
+@app.post("/api/analyze")
+async def api_analyze_selectors(request: Request):
+    """Analyze discovered selectors with dynamic selector recommendations"""
+    try:
+        body = await request.json()
+        data_file = body.get("data_file", "data/discovered_selectors.json")
+        
+        # Import dynamic selector configuration
+        from dynamic_selectors_config import DynamicSelectors
+        import json
+        from pathlib import Path
+        
+        file_path = Path(data_file)
+        if not file_path.exists():
+            return {"error": f"Data file not found: {data_file}"}
+        
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        elements = data['elements']
+        
+        # Categorize elements
+        categories = {
+            "Shopping/Commerce": [],
+            "Book Preview/Content": [], 
+            "Navigation/Search": [],
+            "User Account": [],
+            "Forms/Input": [],
+            "Media/Visual": [],
+            "Other Links": []
+        }
+        
+        for element in elements:
+            text = element.get('text', '').lower()
+            element_type = element.get('type', '')
+            
+            # Categorize based on text content and selector
+            if any(word in text for word in ['cart', 'buy', 'purchase', 'shop', 'retailer']):
+                categories["Shopping/Commerce"].append(element)
+            elif any(word in text for word in ['look inside', 'preview', 'sample', 'read', 'excerpt']):
+                categories["Book Preview/Content"].append(element)
+            elif any(word in text for word in ['search', 'find', 'nav', 'menu']):
+                categories["Navigation/Search"].append(element)
+            elif any(word in text for word in ['account', 'login', 'sign']):
+                categories["User Account"].append(element)
+            elif element_type in ['forms', 'inputs']:
+                categories["Forms/Input"].append(element)
+            elif element_type in ['images', 'videos', 'audio']:
+                categories["Media/Visual"].append(element)
+            elif element_type == 'links':
+                categories["Other Links"].append(element)
+            else:
+                # Find the most appropriate category
+                if 'bookshelf' in text or 'enlarge' in text or 'cover' in text:
+                    categories["Book Preview/Content"].append(element)
+                elif element_type == 'buttons':
+                    categories["Shopping/Commerce"].append(element)
+                else:
+                    categories["Other Links"].append(element)
+        
+        # Generate dynamic selector recommendations
+        recommendations = []
+        dynamic_recommendations = []
+        
+        # Match elements to dynamic selector configurations
+        for element in elements:
+            text = element.get('text', '').lower()
+            selector = element.get('selector', '')
+            
+            # Check against dynamic selector configurations
+            for selector_name, config in DynamicSelectors.SELECTORS.items():
+                text_contains = config.get('text_contains', '').lower()
+                config_selector = config.get('selector', '')
+                
+                # Match by text content or selector pattern
+                if (text_contains and text_contains in text) or \
+                   (config_selector and config_selector in selector):
+                    
+                    # Create dynamic recommendation
+                    dynamic_rec = {
+                        'priority': config.get('priority', 'MEDIUM'),
+                        'element': element,
+                        'reason': f"Dynamic selector: {config.get('description', 'Core interaction')}",
+                        'dynamic_config': {
+                            'name': selector_name,
+                            'primary_selector': config.get('selector'),
+                            'fallback_selectors': config.get('fallback_selectors', []),
+                            'stable': config.get('stable', True),
+                            'original_selector': selector
+                        }
+                    }
+                    dynamic_recommendations.append(dynamic_rec)
+                    break  # Don't match the same element to multiple configs
+                    
+            # Legacy recommendation logic for non-dynamic matches
+            else:
+                # High-priority elements
+                if any(keyword in text for keyword in [
+                    'add to cart', 'look inside', 'read sample', 'bookshelf',
+                    'amazon', 'barnes', 'enlarge'
+                ]):
+                    recommendations.append({
+                        'priority': 'HIGH',
+                        'element': element,
+                        'reason': 'Key shopping/content interaction'
+                    })
+                # Medium-priority elements  
+                elif any(keyword in text for keyword in [
+                    'search', 'account', 'newsletter', 'audio'
+                ]):
+                    recommendations.append({
+                        'priority': 'MEDIUM', 
+                        'element': element,
+                        'reason': 'Important user interaction'
+                    })
+        
+        # Combine and sort by priority
+        all_recommendations = dynamic_recommendations + recommendations
+        priority_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3}
+        all_recommendations.sort(key=lambda x: priority_order.get(x['priority'], 4))
+        
+        return {
+            "success": True,
+            "categories": categories,
+            "recommendations": all_recommendations[:20],  # Top 20 recommendations
+            "dynamic_selectors_found": len(dynamic_recommendations),
+            "legacy_selectors_found": len(recommendations),
+            "stats": data.get("stats", {}),
+            "url": data.get("url", ""),
+            "timestamp": data.get("timestamp", "")
+        }
+        
+    except Exception as e:
+        return {"error": str(e), "success": False}
+
+# Import macro recording functionality
+from macro_recorder import recorder_manager
+
+# API endpoints for macro recording
+@app.get("/api/record/check-browser")
+async def check_browser_availability():
+    """Check if Playwright browser is available"""
+    try:
+        from playwright.async_api import async_playwright
+        
+        playwright = await async_playwright().start()
+        browser = await playwright.chromium.launch(headless=True)
+        await browser.close()
+        
+        return {
+            "success": True,
+            "message": "Browser is available and working"
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"Browser check failed: {str(e)}",
+            "suggestion": "You may need to install Playwright browsers. Run: python -m playwright install chromium"
+        }
+
+@app.post("/api/record/start")
+async def start_recording_session(request: Request):
+    """Start a new macro recording session"""
+    try:
+        body = await request.json()
+        url = body.get("url")
+        macro_name = body.get("macro_name", "")
+        
+        if not url:
+            return {"success": False, "error": "URL is required"}
+        
+        # Check browser availability first
+        browser_check = await check_browser_availability()
+        if not browser_check["success"]:
+            return {
+                "success": False, 
+                "error": f"Browser not available: {browser_check['error']}",
+                "suggestion": browser_check.get("suggestion", "")
+            }
+        
+        success, session_id, message = await recorder_manager.start_recording_session(url, macro_name)
+        
+        if success:
+            return {
+                "success": True,
+                "session_id": session_id,
+                "message": message
+            }
+        else:
+            return {
+                "success": False,
+                "error": message
+            }
+            
+    except Exception as e:
+        import traceback
+        return {"success": False, "error": str(e), "traceback": traceback.format_exc()}
+
+@app.get("/api/record/stream/{session_id}")
+async def stream_recorded_actions(session_id: str):
+    """Stream recorded actions via Server-Sent Events"""
+    async def event_generator():
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            yield f"data: {json.dumps({'error': 'Session not found'})}\n\n"
+            return
+        
+        # Create a queue to collect actions
+        action_queue = asyncio.Queue()
+        
+        async def action_listener(action):
+            await action_queue.put(action)
+        
+        # Add listener to session
+        session.add_action_listener(action_listener)
+        
+        try:
+            # Keep connection alive and stream actions
+            while session.is_active:
+                try:
+                    # Wait for an action with timeout
+                    action = await asyncio.wait_for(action_queue.get(), timeout=1.0)
+                    action_data = {
+                        "type": action.action_type,
+                        "selector": action.selector,
+                        "text": action.text,
+                        "coordinates": action.coordinates,
+                        "timestamp": action.timestamp,
+                        "description": action.description
+                    }
+                    yield f"data: {json.dumps(action_data)}\n\n"
+                except asyncio.TimeoutError:
+                    # Send heartbeat to keep connection alive
+                    yield f"data: {json.dumps({'type': 'heartbeat'})}\n\n"
+                    
+        finally:
+            # Remove listener when connection closes
+            session.remove_action_listener(action_listener)
+    
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+@app.post("/api/record/save")
+async def save_recorded_macro(request: Request):
+    """Save a completed recording session as a macro"""
+    try:
+        body = await request.json()
+        session_id = body.get("session_id")
+        macro_data = body.get("macro_data", {})
+        
+        if not session_id:
+            return {"success": False, "error": "Session ID is required"}
+        
+        success, macro_id, message = await recorder_manager.stop_recording_session(
+            session_id, save_macro=True
+        )
+        
+        if success:
+            return {
+                "success": True,
+                "macro_id": macro_id,
+                "message": message
+            }
+        else:
+            return {
+                "success": False,
+                "error": message
+            }
+            
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.post("/api/record/stop/{session_id}")
+async def force_stop_recording(session_id: str):
+    """Force stop a recording session"""
+    try:
+        success, macro_id, message = await recorder_manager.stop_recording_session(
+            session_id, save_macro=False
+        )
+        
+        return {
+            "success": success,
+            "message": message
+        }
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.get("/api/macros/list")
+async def list_saved_macros():
+    """Get a list of all saved macros"""
+    try:
+        macros = recorder_manager.storage.list_macros()
+        return {
+            "success": True,
+            "macros": [macro.to_dict() for macro in macros]
+        }
+    except Exception as e:
+        return {"success": False, "error": str(e), "macros": []}
+
+@app.delete("/api/macros/{macro_id}")
+async def delete_macro(macro_id: str):
+    """Delete a saved macro"""
+    try:
+        success = recorder_manager.storage.delete_macro(macro_id)
+        if success:
+            return {"success": True, "message": "Macro deleted successfully"}
+        else:
+            return {"success": False, "error": "Failed to delete macro"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.get("/api/macros/{macro_id}")
+async def get_macro(macro_id: str):
+    """Get a specific macro by ID"""
+    try:
+        macro = recorder_manager.storage.load_macro(macro_id)
+        if macro:
+            return {"success": True, "macro": macro.to_dict()}
+        else:
+            return {"success": False, "error": "Macro not found"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.put("/api/macros/{macro_id}")
+async def update_macro(macro_id: str, request: Request):
+    """Update macro metadata"""
+    try:
+        body = await request.json()
+        macro = recorder_manager.storage.load_macro(macro_id)
+        
+        if not macro:
+            return {"success": False, "error": "Macro not found"}
+        
+        # Update the fields
+        if "name" in body:
+            macro.name = body["name"]
+        if "description" in body:
+            macro.description = body["description"]
+        
+        # Save the updated macro
+        success = recorder_manager.storage.save_macro(macro)
+        
+        if success:
+            return {"success": True, "message": "Macro updated successfully"}
+        else:
+            return {"success": False, "error": "Failed to update macro"}
+            
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.post("/api/macros/import")
+async def import_macro(request: Request):
+    """Import a macro from JSON data"""
+    try:
+        body = await request.json()
+        macro_data = body.get("macro_data")
+        
+        if not macro_data:
+            return {"success": False, "error": "No macro data provided"}
+        
+        # Import the macro
+        from macro_recorder import Macro
+        import uuid
+        
+        # Generate new ID for imported macro
+        macro_data["id"] = str(uuid.uuid4())
+        macro_data["created_at"] = datetime.now().isoformat()
+        
+        # Add imported suffix to name to avoid conflicts
+        if not macro_data.get("name", "").endswith("(imported)"):
+            macro_data["name"] = macro_data.get("name", "Imported Macro") + " (imported)"
+        
+        macro = Macro.from_dict(macro_data)
+        success = recorder_manager.storage.save_macro(macro)
+        
+        if success:
+            return {"success": True, "macro_id": macro.id, "message": "Macro imported successfully"}
+        else:
+            return {"success": False, "error": "Failed to save imported macro"}
+            
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.post("/api/macros/play/{macro_id}")
+async def play_macro(macro_id: str):
+    """Start playback of a saved macro"""
+    try:
+        success, playback_id, message = await recorder_manager.start_playback_session(macro_id)
+        
+        if success:
+            return {
+                "success": True,
+                "playback_id": playback_id,
+                "message": message
+            }
+        else:
+            return {
+                "success": False,
+                "error": message
+            }
+            
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.get("/api/macros/playback/stream/{playback_id}")
+async def stream_macro_playback(playback_id: str):
+    """Stream macro playback progress via Server-Sent Events"""
+    async def event_generator():
+        playback = recorder_manager.get_playback(playback_id)
+        if not playback:
+            yield f"data: {json.dumps({'type': 'error', 'message': 'Playback session not found'})}\n\n"
+            return
+        
+        # Create a queue to collect playback events
+        event_queue = asyncio.Queue()
+        
+        async def playback_listener(data):
+            await event_queue.put(data)
+        
+        # Add listener to playback session
+        playback.add_playback_listener(playback_listener)
+        
+        try:
+            # Keep connection alive and stream playback events
+            while playback.is_active:
+                try:
+                    # Wait for an event with timeout
+                    event = await asyncio.wait_for(event_queue.get(), timeout=1.0)
+                    yield f"data: {json.dumps(event)}\n\n"
+                    
+                    # Check if playback completed
+                    if event.get('type') in ['complete', 'error']:
+                        break
+                        
+                except asyncio.TimeoutError:
+                    # Send heartbeat to keep connection alive
+                    yield f"data: {json.dumps({'type': 'heartbeat'})}\n\n"
+                    
+        finally:
+            # Remove listener when connection closes
+            playback.remove_playback_listener(playback_listener)
+    
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+@app.post("/api/macros/playback/{playback_id}/stop")
+async def stop_macro_playback(playback_id: str):
+    """Stop an active macro playback"""
+    try:
+        playback = recorder_manager.get_playback(playback_id)
+        if not playback:
+            return {"success": False, "error": "Playback session not found"}
+        
+        playback.stop_playback()
+        return {"success": True, "message": "Playback stopped"}
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.post("/api/macros/play-with-analysis/{macro_id}")
+async def play_macro_with_analysis(macro_id: str):
+    """Start macro playback with integrated tag analysis"""
+    try:
+        # Start the playback session
+        success, playback_id, message = await recorder_manager.start_playback_session(macro_id)
+        
+        if not success:
+            return {"success": False, "error": message}
+        
+        # Get the playback session and macro details
+        playback = recorder_manager.get_playback(playback_id)
+        if not playback:
+            return {"success": False, "error": "Failed to get playback session"}
+        
+        # Set up analysis integration
+        # This will monitor the playback page for tag events during macro execution
+        await setup_playback_analysis_integration(playback)
+        
+        return {
+            "success": True,
+            "playback_id": playback_id,
+            "macro_name": playback.macro.name,
+            "message": "Macro playback with analysis started successfully"
+        }
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+async def setup_playback_analysis_integration(playback_session):
+    """Set up analysis integration for macro playback"""
+    try:
+        if not playback_session.page:
+            return
+        
+        # Inject the same analysis scripts used by the regular analyzer
+        await playback_session.page.evaluate("""
+            // Enhanced analysis integration for macro playback
+            window.macroAnalysis = {
+                events: [],
+                tags: {},
+                
+                // Capture tealium events during playback
+                captureEvents: function() {
+                    // Monitor utag events
+                    if (window.utag && window.utag.track) {
+                        const originalTrack = window.utag.track;
+                        window.utag.track = function(event_type, data) {
+                            console.log('MACRO_ANALYSIS_EVENT:' + JSON.stringify({
+                                type: 'utag_track',
+                                event_type: event_type,
+                                data: data,
+                                timestamp: Date.now(),
+                                url: window.location.href
+                            }));
+                            
+                            return originalTrack.apply(this, arguments);
+                        };
+                    }
+                    
+                    // Monitor gtag events
+                    if (window.gtag) {
+                        const originalGtag = window.gtag;
+                        window.gtag = function(command, target_id, parameters) {
+                            console.log('MACRO_ANALYSIS_EVENT:' + JSON.stringify({
+                                type: 'gtag',
+                                command: command,
+                                target_id: target_id,
+                                parameters: parameters,
+                                timestamp: Date.now(),
+                                url: window.location.href
+                            }));
+                            
+                            return originalGtag.apply(this, arguments);
+                        };
+                    }
+                    
+                    // Monitor Facebook Pixel events
+                    if (window.fbq) {
+                        const originalFbq = window.fbq;
+                        window.fbq = function(event_type, event_name, parameters) {
+                            console.log('MACRO_ANALYSIS_EVENT:' + JSON.stringify({
+                                type: 'facebook_pixel',
+                                event_type: event_type,
+                                event_name: event_name,
+                                parameters: parameters,
+                                timestamp: Date.now(),
+                                url: window.location.href
+                            }));
+                            
+                            return originalFbq.apply(this, arguments);
+                        };
+                    }
+                    
+                    // Monitor network requests for tracking calls
+                    const originalFetch = window.fetch;
+                    window.fetch = function(url, options) {
+                        if (typeof url === 'string' && 
+                            (url.includes('google-analytics') || 
+                             url.includes('facebook.com') || 
+                             url.includes('tealium') ||
+                             url.includes('collect'))) {
+                            
+                            console.log('MACRO_ANALYSIS_EVENT:' + JSON.stringify({
+                                type: 'network_request',
+                                url: url,
+                                method: options?.method || 'GET',
+                                timestamp: Date.now(),
+                                source_url: window.location.href
+                            }));
+                        }
+                        
+                        return originalFetch.apply(this, arguments);
+                    };
+                    
+                    console.log('✅ Macro analysis integration initialized');
+                }
+            };
+            
+            // Start capturing immediately
+            window.macroAnalysis.captureEvents();
+        """)
+        
+        # Add console listener to capture analysis events
+        analysis_events = []
+        
+        def handle_analysis_console(msg):
+            if "MACRO_ANALYSIS_EVENT:" in msg.text:
+                try:
+                    event_data = json.loads(msg.text.replace("MACRO_ANALYSIS_EVENT:", ""))
+                    analysis_events.append(event_data)
+                    logging.info(f"Captured analysis event during macro playback: {event_data['type']}")
+                except Exception as e:
+                    logging.error(f"Error parsing analysis event: {e}")
+        
+        playback_session.page.on("console", handle_analysis_console)
+        
+        # Store analysis events in the playback session for later retrieval
+        playback_session.analysis_events = analysis_events
+        
+        logging.info("Analysis integration set up for macro playback")
+        
+    except Exception as e:
+        logging.error(f"Failed to set up playback analysis integration: {e}")
+
+@app.get("/api/macros/playback/{playback_id}/analysis")
+async def get_playback_analysis_results(playback_id: str):
+    """Get analysis results from macro playback"""
+    try:
+        playback = recorder_manager.get_playback(playback_id)
+        if not playback:
+            return {"success": False, "error": "Playback session not found"}
+        
+        # Get collected analysis events
+        analysis_events = getattr(playback, 'analysis_events', [])
+        
+        # Process and categorize the events
+        results = {
+            "macro_name": playback.macro.name,
+            "macro_url": playback.macro.url,
+            "total_events": len(analysis_events),
+            "events_by_type": {},
+            "timeline": [],
+            "summary": {
+                "tracking_calls": 0,
+                "user_interactions": len(playback.macro.actions),
+                "network_requests": 0
+            }
+        }
+        
+        # Categorize events
+        for event in analysis_events:
+            event_type = event.get('type', 'unknown')
+            if event_type not in results["events_by_type"]:
+                results["events_by_type"][event_type] = []
+            results["events_by_type"][event_type].append(event)
+            
+            # Add to timeline
+            results["timeline"].append({
+                "timestamp": event.get('timestamp', 0),
+                "type": event_type,
+                "description": f"{event_type} event",
+                "details": event
+            })
+            
+            # Update summary
+            if event_type in ['utag_track', 'gtag', 'facebook_pixel']:
+                results["summary"]["tracking_calls"] += 1
+            elif event_type == 'network_request':
+                results["summary"]["network_requests"] += 1
+        
+        # Sort timeline by timestamp
+        results["timeline"].sort(key=lambda x: x.get('timestamp', 0))
+        
+        return {
+            "success": True,
+            "analysis_results": results
+        }
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.post("/api/macros/{macro_id}/analyze-tealium-events")
+async def analyze_macro_tealium_events(macro_id: str):
+    """Analyze actual Tealium events triggered by macro click selectors"""
+    try:
+        macro = recorder_manager.storage.load_macro(macro_id)
+        if not macro:
+            return {"success": False, "error": "Macro not found"}
+        
+        # Extract click selectors from macro actions
+        macro_selectors = []
+        for action in macro.actions:
+            if action.action_type == 'click' and action.selector:
+                macro_selectors.append({
+                    'selector': action.selector,
+                    'description': action.description or f"Click: {action.selector}",
+                    'action_type': action.action_type
+                })
+        
+        if not macro_selectors:
+            return {"success": False, "error": "No click actions found in macro"}
+        
+        # Start the analysis using streaming
+        return {
+            "success": True,
+            "message": f"Starting Tealium analysis for {len(macro_selectors)} click actions",
+            "macro_name": macro.name,
+            "macro_url": macro.url,
+            "click_actions": len(macro_selectors)
+        }
+        
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.get("/api/macros/{macro_id}/analyze-tealium-events/stream")
+async def stream_macro_tealium_analysis(macro_id: str):
+    """Stream Tealium analysis results for macro click selectors"""
+    async def event_generator():
+        final_results = None
+        try:
+            macro = recorder_manager.storage.load_macro(macro_id)
+            if not macro:
+                yield f"data: {json.dumps({'error': 'Macro not found'})}\n\n"
+                return
+            
+            # Extract click selectors from macro actions  
+            macro_selectors = []
+            for action in macro.actions:
+                if action.action_type == 'click' and action.selector:
+                    macro_selectors.append({
+                        'selector': action.selector,
+                        'description': action.description or f"Click: {action.selector}",
+                        'action_type': action.action_type,
+                        'locator_bundle': getattr(action, 'locator_bundle', None)
+                    })
+            
+            if not macro_selectors:
+                yield f"data: {json.dumps({'error': 'No click actions found in macro'})}\n\n"
+                return
+
+            # Server-side debug logging so progress is visible in terminal
+            logging.info(f"[MacroAnalysis] Starting stream for macro '{macro.name}' ({macro.id}) on URL: {macro.url}")
+            logging.info(f"[MacroAnalysis] Click actions to test: {len(macro_selectors)}")
+            
+            # Import the macro analyzer
+            from analyzers.macro_tealium_analyzer import analyze_macro_tealium_events
+            
+            # Stream the analysis
+            async for update in analyze_macro_tealium_events(macro.url, macro_selectors, macro.name):
+                try:
+                    status = update.get('status')
+                    message = update.get('message') or ''
+                    if status == 'complete' and 'results' in update:
+                        final_results = update['results']
+                    if status == 'selector_completed':
+                        result = (update.get('result') or {})
+                        sel_desc = result.get('description') or (update.get('selector_description') or '')
+                        strategy = result.get('strategy_used') or 'unknown'
+                        clicked_el = result.get('clicked_element') or {}
+                        href = clicked_el.get('href')
+                        text = (clicked_el.get('text') or '').strip() if isinstance(clicked_el.get('text'), str) else ''
+                        logging.info(
+                            f"[MacroAnalysis] Selector completed: {sel_desc} | strategy={strategy}"
+                            + (f" | href={href}" if href else "")
+                            + (f" | text='{text[:120]}'" if text else "")
+                        )
+                    elif status == 'testing_selector':
+                        sel_desc = update.get('selector_description') or ''
+                        logging.info(f"[MacroAnalysis] Testing selector: {sel_desc}")
+                    elif status == 'error':
+                        logging.error(f"[MacroAnalysis] Error: {message}")
+                    elif status == 'complete':
+                        logging.info("[MacroAnalysis] Analysis complete")
+                    elif status:
+                        logging.info(f"[MacroAnalysis] {status}: {message}")
+                except Exception:
+                    # Never break streaming on logging failure
+                    pass
+                yield f"data: {json.dumps(update)}\n\n"
+                
+        except Exception as e:
+            error_payload = {
+                "status": "error",
+                "message": f"Analysis failed: {str(e)}",
+                "error": str(e)
+            }
+            yield f"data: {json.dumps(error_payload)}\n\n"
+        finally:
+            try:
+                if final_results and not final_results.get('error'):
+                    out_path = Path('data') / 'macro_tealium_analysis.json'
+                    with open(out_path, 'w', encoding='utf-8') as f:
+                        json.dump(final_results, f, indent=2, default=str)
+                    logging.info(f"Saved macro analysis results to {out_path}")
+            except Exception as save_e:
+                logging.warning(f"Failed to save macro analysis results: {save_e}")
+    
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+
+def calculate_selector_specificity(selector):
+    """Calculate CSS selector specificity score"""
+    if not selector:
+        return 0
+    
+    score = 0
+    # ID selectors
+    score += selector.count('#') * 100
+    # Class selectors
+    score += selector.count('.') * 10
+    # Attribute selectors
+    score += selector.count('[') * 10
+    # Element selectors
+    score += len([part for part in selector.split() if part and not part.startswith(('#', '.', '[', ':'))])
+    # Pseudo-selectors
+    score += selector.count(':') * 10
+    
+    return score
+
+def classify_selector_type(selector):
+    """Classify the type of CSS selector"""
+    if not selector:
+        return "unknown"
+    
+    if selector.startswith('#'):
+        return "id"
+    elif '.format-info' in selector or '.buy' in selector:
+        return "commerce"
+    elif 'button' in selector.lower():
+        return "button"
+    elif selector.startswith('a') and 'text' in selector:
+        return "link_with_text"
+    elif '>' in selector:
+        return "descendant"
+    elif ':nth-child' in selector:
+        return "positional"
+    else:
+        return "generic"
+
+def find_tealium_matches(action, page_selectors):
+    """Find matches between recorded action and Tealium selectors - completely dynamic from config"""
+    matches = []
+    
+    # Get text from action description for matching
+    action_text = action.description.lower() if action.description else ""
+    action_selector = action.selector.lower() if action.selector else ""
+    
+    # Check all page types dynamically
+    for page_type, selectors in page_selectors.items():
+        for selector_config in selectors:
+            config_description = selector_config.get("description", "").lower()
+            config_selector = selector_config.get("selector", "").lower()
+            
+            # Dynamic text matching - extract keywords from both descriptions
+            action_keywords = set(action_text.replace('"', '').split())
+            config_keywords = set(config_description.split())
+            
+            # Find common keywords
+            common_keywords = action_keywords.intersection(config_keywords)
+            
+            # Calculate match strength based on keyword overlap
+            if common_keywords:
+                match_strength = len(common_keywords) / max(len(action_keywords), len(config_keywords))
+                
+                if match_strength > 0.3:  # 30% keyword overlap threshold
+                    matches.append({
+                        "tealium_selector": selector_config.get("selector"),
+                        "tealium_description": selector_config.get("description"),
+                        "priority": selector_config.get("priority", "MEDIUM"),
+                        "match_reason": f"Keyword match: {', '.join(common_keywords)} (strength: {match_strength:.1%})",
+                        "recorded_selector": action.selector,
+                        "stability": selector_config.get("stability", "UNKNOWN"),
+                        "page_type": page_type,
+                        "match_strength": match_strength
+                    })
+    
+    # Sort by match strength and priority
+    priority_weights = {"CRITICAL": 3, "HIGH": 2, "MEDIUM": 1, "LOW": 0}
+    matches.sort(key=lambda x: (x["match_strength"], priority_weights.get(x["priority"], 0)), reverse=True)
+    return matches
+
+def generate_selector_optimizations(action):
+    """Generate optimization suggestions for recorded selectors"""
+    suggestions = []
+    selector = action.selector
+    
+    if not selector:
+        return suggestions
+    
+    # Suggest more specific selectors based on action type
+    if "cart" in action.description.lower():
+        suggestions.append({
+            "type": "specificity_improvement", 
+            "current": selector,
+            "suggested": 'form[action*="prhcart.php"] button:has-text("Add to cart")',
+            "reason": "Use form action attribute for more reliable cart button targeting",
+            "priority": "HIGH"
+        })
+    
+    elif "amazon" in action.description.lower():
+        suggestions.append({
+            "type": "specificity_improvement",
+            "current": selector, 
+            "suggested": '.affiliate-buttons a:has-text("Amazon")',
+            "reason": "Target affiliate button container for more stable Amazon link selection",
+            "priority": "MEDIUM"
+        })
+    
+    # General suggestions for nth-child selectors
+    if ":nth-child" in selector:
+        suggestions.append({
+            "type": "stability_warning",
+            "current": selector,
+            "reason": "nth-child selectors can break if page structure changes",
+            "recommendation": "Consider using class names or data attributes instead",
+            "priority": "MEDIUM"
+        })
+    
+    # Suggest data attribute usage
+    if not any(attr in selector for attr in ["data-", "[role=", "[aria-"]):
+        suggestions.append({
+            "type": "accessibility_improvement", 
+            "current": selector,
+            "reason": "Consider using data attributes or ARIA roles for more semantic selection",
+            "priority": "LOW"
+        })
+    
+    return suggestions
+
 # Browser automation has been removed
-# The application now focuses on manual analysis only
+# The application now focuses on manual analysis and macro recording
 
 if __name__ == "__main__":
     # Try different ports if the default one is in use

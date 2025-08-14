@@ -1,0 +1,74 @@
+{
+  "id": "2429a354-8f22-4a94-bb93-56e89dbd6cc9",
+  "name": "Macro for www.penguinrandomhouse.com - 8/14/2025, 3:05:37 PM",
+  "url": "https://www.penguinrandomhouse.com/books/734292/the-very-hungry-caterpillars-peekaboo-easter-by-eric-carle-illustrated-by-eric-carle/9780593750179/",
+  "actions": [
+    {
+      "id": 1,
+      "timestamp": 5364.6904296875,
+      "action_type": "click",
+      "selector": ".affiliate-buttons a:has-text(\"Amazon\")",
+      "text": "Amazon",
+      "coordinates": {
+        "x": 1041,
+        "y": 721,
+        "pageX": 1041,
+        "pageY": 721
+      },
+      "description": "Click on 'Amazon' (.affiliate-buttons a:has-text(\"Amazon\"))",
+      "locator_bundle": {
+        "role": "link",
+        "name": "buy on Amazon",
+        "href": "https://www.amazon.com/gp/product/0593750179?tag=randohouseinc7986-20",
+        "tag": "a",
+        "id": null,
+        "classes": [
+          "isbn-related",
+          "9780593750179",
+          "show"
+        ],
+        "text": "buy on Amazon",
+        "xpath": "//html[1]/body[1]/div[5]/main[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/div[2]/div[2]/div[1]/ul[1]/li[1]/div[2]/div[1]/a[1]",
+        "ancestors": [
+          {
+            "tag": "div",
+            "id": null,
+            "classes": []
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "affiliate-buttons"
+            ]
+          },
+          {
+            "tag": "li",
+            "id": null,
+            "classes": [
+              "active"
+            ]
+          },
+          {
+            "tag": "ul",
+            "id": null,
+            "classes": [
+              "ttl-data"
+            ]
+          },
+          {
+            "tag": "div",
+            "id": null,
+            "classes": [
+              "panel-body"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "created_at": "2025-08-14T15:05:52.168333",
+  "duration": 5364.6904296875,
+  "description": "Recorded macro with 1 actions",
+  "tags": []
+}

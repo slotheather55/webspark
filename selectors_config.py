@@ -15,37 +15,59 @@ def open_quickview(page: Page):
 
 PAGE_TYPE_SELECTORS = {
     # --- Selectors for Product Detail Pages ---
+    # 
+    # IMPORTANT: Only include selectors that actually exist on the target page
+    # Test new selectors manually before adding to avoid timeouts
+    # Use browser dev tools to verify CSS selectors work
+    #
     "Product Detail Page": [
+        # === CORE SELECTORS - Only elements that generate valid Tealium events ===
+
+        
+        # CRITICAL PRIORITY - Core Commerce Actions
         {
-            "description": "Add to Cart Button (Main Format)",
-            "selector": 'div[id^="collapse"].in form[action*="prhcart.php"] button:has-text("Add to cart")'
+            "description": "Add to Cart Button",
+            "selector": 'div[id^="collapse"].in form[action*="prhcart.php"] button:has-text("Add to cart")',
+            "priority": "CRITICAL",
+            "stability": "STABLE"
         },
         {
-            "description": "Amazon Retailer Link (Main Format)",
-            "selector": 'div[id^="collapse"].in .affiliate-buttons a:has-text("Amazon")'
+            "description": "Look Inside Button", 
+            "selector": '.product-look-inside.insight',
+            "priority": "CRITICAL",
+            "stability": "STABLE"
         },
+        {
+            "description": "Read Sample Button",
+            "selector": '.product-read-sample.excerpt-button',
+            "priority": "HIGH",
+            "stability": "STABLE"
+        },
+        # HIGH PRIORITY - Retail & Engagement
+
+
+
+
         {
             "description": "Recommendations Carousel Next Arrow",
             "selector": "#recommendationCarousel button.slick-next.slick-arrow"
         },
+
+        
         {
             "description": "Recommendations Carousel Prev Arrow",
             "preAction": reveal_prev,
             "selector": "#recommendationCarousel button.slick-prev.slick-arrow"
         },
-        {
-            "description": "Barnes & Noble Retailer Link (Main Format)",
-            "selector": 'div[id^="collapse"].in .affiliate-buttons a:has-text("Barnes & Noble")'
-        },
-        {
-            "description": "Look Inside Link (PDP)",
-            "selector": 'a:has-text("Look Inside"), button:has-text("Look Inside"), .insight:has-text("Look Inside")'
-        },
-        {
-            "description": "Add to Bookshelf (PDP)",
-            "selector": 'div.book-shelf-add'
-        },
         
+
+
+        {
+                "description": "Amazon Retailer Link (Main Format)",
+            "selector": 'div[id^="collapse"].in .affiliate-buttons a:has-text("Amazon")'
+        },
+
+
     ],
 
     # --- Selectors for List Detail Pages (like ReadDown) ---

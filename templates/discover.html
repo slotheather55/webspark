@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Selector Discovery - Webspark</title>
+    <!-- Match homepage CSS files -->
+    <link rel="stylesheet" href="/static/base.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/footer.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Override specific styles for discovery page while keeping theme */
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Tab System */
+        .tab-container {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+
+        .tab-header {
+            display: flex;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .tab-button {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button.active {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        .tab-button:hover {
+            background: rgba(79, 121, 255, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            min-height: 600px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Discovery Form */
+        .discovery-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-light);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(79, 121, 255, 0.2);
+        }
+
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* Loading States */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid var(--border-light);
+            border-top: 3px solid var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Results */
+        .results-container {
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Categories */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .category-header {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .category-content {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .element-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-secondary);
+        }
+
+        .element-item:last-child {
+            border-bottom: none;
+        }
+
+        .element-text {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .element-selector {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            background: var(--bg-tertiary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            word-break: break-all;
+        }
+
+        /* Recommendations */
+        .recommendations-section {
+            margin-top: 2rem;
+        }
+
+        .recommendations-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recommendation-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .recommendation-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 0.5rem;
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-medium {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .rec-text {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .rec-selector {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+            background: var(--bg-tertiary);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin: 0.5rem 0;
+            word-break: break-all;
+        }
+
+        .rec-reason {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Dynamic Selector Styles */
+        .stability-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        .stability-badge.stable {
+            background: #10b981;
+            color: white;
+        }
+
+        .stability-badge.dynamic {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .stability-badge.legacy {
+            background: var(--text-tertiary);
+            color: white;
+        }
+
+        .recommendation-item.dynamic {
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .recommendation-item.legacy {
+            border-left: 3px solid var(--text-tertiary);
+        }
+
+        .rec-selector-group {
+            margin: 0.5rem 0;
+        }
+
+        .rec-selector-label {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .rec-selector.primary {
+            background: var(--accent-blue);
+            color: white;
+            font-weight: 500;
+        }
+
+        .rec-selector.original {
+            background: #f59e0b;
+            color: white;
+            text-decoration: line-through;
+        }
+
+        .rec-selector.fallback {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .selector-stats {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .selector-stats h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-item.dynamic {
+            background: rgba(79, 121, 255, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .stat-item.legacy {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-tertiary);
+        }
+
+        /* Error states */
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .tab-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .tab-content {
+                padding: 1rem;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed background -->
+    <div class="background-wrapper">
+        <img src="/static/images/space-background.webp" alt="" class="background-image">
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <header class="app-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <!-- SVG Logo -->
+                    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24.0428 14.1428C23.9006 14.0007 23.7194 13.9072 23.5233 13.8718C23.3273 13.8365 23.1255 13.8607 22.9429 13.9414C22.7603 14.0221 22.6055 14.1558 22.4981 14.3255C22.3908 14.4952 22.3357 14.6933 22.3399 14.8942C22.5201 20.1057 18.2999 21.3828 16.4399 21.7828C12.9656 22.44 9.2399 19.4171 8.8799 19.1085C8.7377 18.9664 8.5566 18.8729 8.3605 18.8375C8.1645 18.8022 7.96267 18.8264 7.78008 18.9071C7.59749 18.9878 7.44265 19.1215 7.33534 19.2912C7.22802 19.4609 7.17291 19.659 7.17711 19.8599C7.17711 22.0828 8.5599 24.6514 11.3199 26.28C12.3646 26.9035 13.559 27.2615 14.7799 27.3199C15.0613 27.3199 15.3399 27.3199 15.6228 27.2771C19.7342 26.7214 23.2399 23.6985 23.7942 19.5599C24.0542 17.4428 24.2399 15.4114 24.0428 14.1428Z" fill="#4f79ff"/>
+                        <path d="M19.1999 9.2399C19.3421 9.38205 19.5232 9.47555 19.7193 9.51088C19.9154 9.54622 20.1172 9.52208 20.2998 9.44137C20.4824 9.36067 20.6372 9.22698 20.7446 9.05727C20.8519 8.88756 20.907 8.68949 20.9028 8.4885C20.7227 3.277 24.9429 1.99992 26.8028 1.59992C30.2828 0.942775 34.0028 3.96564 34.3628 4.27421C34.505 4.41636 34.6861 4.50986 34.8822 4.5452C35.0782 4.58053 35.28 4.55639 35.4626 4.47569C35.6452 4.39498 35.8001 4.26129 35.9074 4.09158C36.0147 3.92188 36.0698 3.7238 36.0656 3.52281C36.0656 1.29992 34.6828 -1.26865 31.9228 -2.8972C30.8781 -3.52066 29.6837 -3.87871 28.4628 -3.9372C28.1814 -3.9372 27.9028 -3.9372 27.6199 -3.89435C23.5142 -3.3372 20.0028 -0.3143 19.4485 3.7743C19.1885 5.89136 19.0028 7.92279 19.1999 9.2399Z" fill="#4f79ff"/>
+                        <path d="M11.9599 14.3143C12.1021 14.1722 12.2832 14.0787 12.4793 14.0433C12.6754 14.008 12.8772 14.0321 13.0598 14.1128C13.2424 14.1935 13.3972 14.3272 13.5045 14.4969C13.6119 14.6666 13.667 14.8647 13.6628 15.0657C13.4827 20.2771 17.7028 21.5543 19.5628 21.9543C23.0428 22.6114 26.7685 19.5886 27.1285 19.28C27.2707 19.1378 27.4518 19.0443 27.6479 19.009C27.844 18.9737 28.0458 18.9978 28.2284 19.0785C28.411 19.1592 28.5658 19.2929 28.6731 19.4626C28.7804 19.6323 28.8355 19.8304 28.8313 20.0314C28.8313 22.2543 27.4485 24.8229 24.6885 26.4514C23.6439 27.075 22.4494 27.433 21.2285 27.4914C20.9471 27.4914 20.6685 27.4914 20.3856 27.4486C16.2742 26.8929 12.7685 23.87 12.2142 19.7314C11.9542 17.6143 11.7628 15.5829 11.9599 14.3143Z" fill="#4f79ff"/>
+                        <path d="M16.8001 9.41137C16.6579 9.25922 16.4768 9.16572 16.2807 9.13039C16.0847 9.09505 15.8829 9.11919 15.7003 9.1999C15.5177 9.2806 15.3628 9.41429 15.2555 9.584C15.1482 9.75371 15.0931 9.95179 15.0972 10.1528C15.2774 15.3657 11.0572 16.6428 9.19725 17.0428C5.71725 17.7 1.99726 14.6771 1.63726 14.3685C1.49511 14.2264 1.31405 14.1329 1.11798 14.0975C0.921901 14.0622 0.720104 14.0863 0.537513 14.167C0.354922 14.2477 0.20008 14.3814 0.0927686 14.5511C-0.0145428 14.7208 -0.069648 14.9189 -0.0654505 15.1199C-0.0654505 17.3428 1.31726 19.9114 4.07726 21.54C5.12194 22.1635 6.31638 22.5215 7.53724 22.58C7.81867 22.58 8.09725 22.58 8.38011 22.5371C12.4915 21.9814 15.9972 18.9586 16.5515 14.82C16.8115 12.7028 17.0001 10.6714 16.8001 9.41137Z" fill="#4f79ff"/>
+                    </svg>
+                </div>
+                <h1>Webspark</h1>
+            </div>
+
+            <nav class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/discover" class="nav-link active">Discover</a>
+                <a href="/record" class="nav-link">Record</a>
+                <a href="#" class="nav-link">Docs</a>
+                <a href="#" class="nav-link">About</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">CSS Selector Discovery</h1>
+            <p class="page-subtitle">Automatically discover and analyze interactive elements on any webpage</p>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab-header">
+                <button class="tab-button active" data-tab="discover">
+                    <i class="fas fa-search"></i>
+                    Discover Selectors
+                </button>
+                <button class="tab-button" data-tab="analyze" id="analyze-tab" disabled>
+                    <i class="fas fa-chart-bar"></i>
+                    Analyze Results
+                </button>
+            </div>
+
+            <!-- Discovery Tab -->
+            <div class="tab-content">
+                <div class="tab-panel active" id="discover-panel">
+                    <div class="discovery-form">
+                        <h2 style="margin-bottom: 1.5rem; color: var(--text-primary);">
+                            <i class="fas fa-globe"></i> Discover Interactive Elements
+                        </h2>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="url-input">Website URL</label>
+                            <input 
+                                type="url" 
+                                id="url-input" 
+                                class="form-input" 
+                                placeholder="https://example.com"
+                                value="https://www.penguinrandomhouse.com/books/704944/happy-place-by-emily-henry/"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <button id="discover-btn" class="btn">
+                                <i class="fas fa-search"></i>
+                                Start Discovery
+                            </button>
+                        </div>
+
+                        <div id="discovery-loading" class="loading">
+                            <div class="spinner"></div>
+                            <p>Scanning webpage for interactive elements...</p>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">This may take a few moments</p>
+                        </div>
+
+                        <div id="discovery-error" class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="discovery-error-text"></span>
+                        </div>
+
+                        <div id="discovery-results" class="results-container">
+                            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">
+                                <i class="fas fa-check-circle" style="color: var(--accent-blue);"></i>
+                                Discovery Complete!
+                            </h3>
+                            
+                            <div class="stats-grid" id="discovery-stats">
+                                <!-- Stats will be populated here -->
+                            </div>
+
+                            <p style="margin-bottom: 1rem; color: var(--text-light);">
+                                Found interactive elements on the page. Click "Analyze Results" to categorize and review them.
+                            </p>
+
+                            <button id="go-to-analyze" class="btn">
+                                <i class="fas fa-arrow-right"></i>
+                                Continue to Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Tab -->
+                <div class="tab-panel" id="analyze-panel">
+                    <div id="analysis-loading" class="loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing discovered elements...</p>
+                    </div>
+
+                    <div id="analysis-error" class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="analysis-error-text"></span>
+                    </div>
+
+                    <div id="analysis-results" class="results-container">
+                        <div id="analysis-header" style="margin-bottom: 2rem;">
+                            <h2 style="color: var(--text-dark); margin-bottom: 0.5rem;">
+                                <i class="fas fa-chart-bar"></i>
+                                Selector Analysis
+                            </h2>
+                            <p id="analysis-url" style="color: var(--text-light); word-break: break-all;"></p>
+                        </div>
+
+                        <div class="recommendations-section">
+                            <h3 class="recommendations-header">
+                                <i class="fas fa-star"></i>
+                                Recommended Selectors
+                            </h3>
+                            <div id="recommendations-list">
+                                <!-- Recommendations will be populated here -->
+                            </div>
+                        </div>
+
+                        <div class="categories-section">
+                            <h3 style="color: var(--text-dark); margin-bottom: 1rem;">
+                                <i class="fas fa-layer-group"></i>
+                                Element Categories
+                            </h3>
+                            <div class="categories-grid" id="categories-container">
+                                <!-- Categories will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- End Main Content -->
+
+    <script>
+        // Global variables
+        let discoveredData = null;
+        let currentDataFile = null;
+
+        // Tab management
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.disabled) return;
+                
+                // Update tab buttons
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Update tab panels
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById(`${button.dataset.tab}-panel`).classList.add('active');
+            });
+        });
+
+        // Discovery functionality
+        document.getElementById('discover-btn').addEventListener('click', async () => {
+            const url = document.getElementById('url-input').value.trim();
+            
+            if (!url) {
+                showError('discovery', 'Please enter a valid URL');
+                return;
+            }
+
+            setDiscoveryLoading(true);
+            hideError('discovery');
+            hideResults('discovery');
+
+            try {
+                const response = await fetch('/api/discover', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Discovery failed');
+                }
+
+                // Store the results
+                discoveredData = data;
+                currentDataFile = data.output_file;
+
+                // Show results
+                displayDiscoveryResults(data);
+                enableAnalysisTab();
+
+            } catch (error) {
+                console.error('Discovery error:', error);
+                showError('discovery', error.message);
+            } finally {
+                setDiscoveryLoading(false);
+            }
+        });
+
+        // Analysis functionality
+        document.getElementById('go-to-analyze').addEventListener('click', () => {
+            // Switch to analysis tab
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById('analyze-tab').classList.add('active');
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('analyze-panel').classList.add('active');
+            
+            // Start analysis
+            runAnalysis();
+        });
+
+        async function runAnalysis() {
+            if (!currentDataFile) {
+                showError('analysis', 'No discovery data available. Please run discovery first.');
+                return;
+            }
+
+            setAnalysisLoading(true);
+            hideError('analysis');
+            hideResults('analysis');
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data_file: currentDataFile }),
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Analysis failed');
+                }
+
+                // Display analysis results
+                displayAnalysisResults(data);
+
+            } catch (error) {
+                console.error('Analysis error:', error);
+                showError('analysis', error.message);
+            } finally {
+                setAnalysisLoading(false);
+            }
+        }
+
+        function displayDiscoveryResults(data) {
+            const statsContainer = document.getElementById('discovery-stats');
+            const stats = data.stats || {};
+            
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <span class="stat-number">${stats.total_elements || 0}</span>
+                    <span class="stat-label">Total Elements</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${stats.clickable_elements || 0}</span>
+                    <span class="stat-label">Clickable Elements</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${stats.links || 0}</span>
+                    <span class="stat-label">Links</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${stats.buttons || 0}</span>
+                    <span class="stat-label">Buttons</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${stats.forms || 0}</span>
+                    <span class="stat-label">Forms</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${stats.images || 0}</span>
+                    <span class="stat-label">Images</span>
+                </div>
+            `;
+
+            showResults('discovery');
+        }
+
+        function displayAnalysisResults(data) {
+            // Update header
+            document.getElementById('analysis-url').textContent = `Analyzed: ${data.url}`;
+
+            // Display recommendations
+            const recommendationsContainer = document.getElementById('recommendations-list');
+            const recommendations = data.recommendations || [];
+
+            if (recommendations.length === 0) {
+                recommendationsContainer.innerHTML = '<p style="color: var(--text-secondary);">No high-priority recommendations found.</p>';
+            } else {
+                recommendationsContainer.innerHTML = recommendations.map(rec => {
+                    const element = rec.element;
+                    const text = element.text || 'No text content';
+                    const selector = element.selector || 'No selector';
+                    const dynamicConfig = rec.dynamic_config;
+                    
+                    let selectorDisplay = '';
+                    let stabilityBadge = '';
+                    
+                    if (dynamicConfig) {
+                        // Display dynamic selector information
+                        const stable = dynamicConfig.stable;
+                        stabilityBadge = stable ? 
+                            '<span class="stability-badge stable">✅ STABLE</span>' : 
+                            '<span class="stability-badge dynamic">⚠️ MADE DYNAMIC</span>';
+                            
+                        selectorDisplay = `
+                            <div class="rec-selector-group">
+                                <div class="rec-selector-label">Recommended Selector:</div>
+                                <div class="rec-selector primary">${dynamicConfig.primary_selector}</div>
+                                ${!stable && dynamicConfig.original_selector !== dynamicConfig.primary_selector ? 
+                                    `<div class="rec-selector-label">Original (Dynamic):</div>
+                                     <div class="rec-selector original">${dynamicConfig.original_selector}</div>` : ''}
+                                ${dynamicConfig.fallback_selectors && dynamicConfig.fallback_selectors.length > 0 ? 
+                                    `<div class="rec-selector-label">Fallbacks:</div>
+                                     ${dynamicConfig.fallback_selectors.map(fs => `<div class="rec-selector fallback">${fs}</div>`).join('')}` : ''}
+                            </div>
+                        `;
+                    } else {
+                        // Legacy selector display
+                        selectorDisplay = `<div class="rec-selector">${selector}</div>`;
+                        stabilityBadge = '<span class="stability-badge legacy">📝 LEGACY</span>';
+                    }
+                    
+                    return `
+                        <div class="recommendation-item ${dynamicConfig ? 'dynamic' : 'legacy'}">
+                            <div class="recommendation-header">
+                                <span class="priority-badge priority-${rec.priority.toLowerCase()}">${rec.priority}</span>
+                                ${stabilityBadge}
+                            </div>
+                            <div class="rec-text">${text.substring(0, 60)}${text.length > 60 ? '...' : ''}</div>
+                            ${selectorDisplay}
+                            <div class="rec-reason">${rec.reason}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Display dynamic selector statistics
+            const dynamicCount = data.dynamic_selectors_found || 0;
+            const legacyCount = data.legacy_selectors_found || 0;
+            if (dynamicCount > 0 || legacyCount > 0) {
+                const statsHtml = `
+                    <div class="selector-stats">
+                        <h4>Selector Analysis Summary</h4>
+                        <div class="stats-row">
+                            <span class="stat-item dynamic">⚡ Dynamic Selectors: ${dynamicCount}</span>
+                            <span class="stat-item legacy">📝 Legacy Selectors: ${legacyCount}</span>
+                        </div>
+                    </div>
+                `;
+                recommendationsContainer.insertAdjacentHTML('afterbegin', statsHtml);
+            }
+
+            // Display categories
+            const categoriesContainer = document.getElementById('categories-container');
+            const categories = data.categories || {};
+
+            categoriesContainer.innerHTML = Object.entries(categories).map(([categoryName, elements]) => {
+                if (elements.length === 0) return '';
+
+                const categoryElements = elements.slice(0, 10); // Show first 10 elements
+                
+                return `
+                    <div class="category-card">
+                        <div class="category-header">
+                            ${categoryName} (${elements.length})
+                        </div>
+                        <div class="category-content">
+                            ${categoryElements.map(element => `
+                                <div class="element-item">
+                                    <div class="element-text">${(element.text || 'No text content').substring(0, 50)}${element.text && element.text.length > 50 ? '...' : ''}</div>
+                                    <div class="element-selector">${element.selector || 'No selector'}</div>
+                                </div>
+                            `).join('')}
+                            ${elements.length > 10 ? `<div class="element-item" style="text-align: center; color: var(--text-light);">... and ${elements.length - 10} more</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).filter(Boolean).join('');
+
+            showResults('analysis');
+        }
+
+        // Utility functions
+        function setDiscoveryLoading(loading) {
+            const loadingEl = document.getElementById('discovery-loading');
+            const btnEl = document.getElementById('discover-btn');
+            
+            if (loading) {
+                loadingEl.classList.add('show');
+                btnEl.disabled = true;
+                btnEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Discovering...';
+            } else {
+                loadingEl.classList.remove('show');
+                btnEl.disabled = false;
+                btnEl.innerHTML = '<i class="fas fa-search"></i> Start Discovery';
+            }
+        }
+
+        function setAnalysisLoading(loading) {
+            const loadingEl = document.getElementById('analysis-loading');
+            
+            if (loading) {
+                loadingEl.classList.add('show');
+            } else {
+                loadingEl.classList.remove('show');
+            }
+        }
+
+        function showError(type, message) {
+            const errorEl = document.getElementById(`${type}-error`);
+            const textEl = document.getElementById(`${type}-error-text`);
+            textEl.textContent = message;
+            errorEl.classList.add('show');
+        }
+
+        function hideError(type) {
+            document.getElementById(`${type}-error`).classList.remove('show');
+        }
+
+        function showResults(type) {
+            document.getElementById(`${type}-results`).classList.add('show');
+        }
+
+        function hideResults(type) {
+            document.getElementById(`${type}-results`).classList.remove('show');
+        }
+
+        function enableAnalysisTab() {
+            const analyzeTab = document.getElementById('analyze-tab');
+            analyzeTab.disabled = false;
+            analyzeTab.style.opacity = '1';
+        }
+    </script>
+</body>
+</html>
