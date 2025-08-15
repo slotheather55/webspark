@@ -4,6 +4,7 @@ import re
 import traceback
 from datetime import datetime
 from typing import Dict, List, Any, AsyncGenerator
+from urllib.parse import parse_qs, unquote
 
 from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeoutError, Error as PlaywrightError, Page, Browser, BrowserContext
 
@@ -23,6 +24,49 @@ from .tealium_manual_analyzer import (
     TAG_VENDORS,
     GLOBAL_VENDOR_OBJECTS,
 )
+
+def parse_multipart_form_data(form_data: str) -> Dict[str, Any]:
+    """Parse multipart form data to extract JSON tracking payload"""
+    try:
+        # Find the boundary
+        boundary_match = re.search(r'------WebKitFormBoundary([A-Za-z0-9]+)', form_data)
+        if not boundary_match:
+            return {"error": "No boundary found in multipart data"}
+        
+        boundary = f"------WebKitFormBoundary{boundary_match.group(1)}"
+        parts = form_data.split(boundary)
+        
+        for part in parts:
+            if 'name="data"' in part:
+                # Extract the JSON data between headers and boundary
+                json_start = part.find('\r\n\r\n')
+                if json_start != -1:
+                    json_start += 4  # Skip \r\n\r\n
+                    json_end = part.rfind('\r\n')
+                    if json_end == -1:
+                        json_end = len(part)
+                    
+                    json_data = part[json_start:json_end].strip()
+                    if json_data:
+                        try:
+                            return json.loads(json_data)
+                        except json.JSONDecodeError:
+                            return {"raw_json_data": json_data, "error": "Failed to parse JSON"}
+        
+        return {"error": "No data field found in multipart form"}
+    except Exception as e:
+        return {"error": f"Failed to parse multipart data: {str(e)}"}
+
+def extract_initiator_from_url(url: str) -> str:
+    """Extract which Tealium tag initiated the request from URL or referrer"""
+    try:
+        # Look for utag patterns in the URL
+        utag_match = re.search(r'utag[\._](\d+)', url)
+        if utag_match:
+            return f"utag.{utag_match.group(1)}.js"
+        return "unknown_initiator"
+    except Exception:
+        return "unknown_initiator"
 
 async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors: List[Dict], macro_name: str = "Unknown Macro") -> AsyncGenerator[Dict[str, Any], None]:
     """
@@ -78,42 +122,54 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
         
         page.on("request", handle_request)
         
-        # Capture Tealium i.gif response payloads
+        # Capture Tealium i.gif REQUEST payloads
         tealium_i_gif_payloads = []
         
-        async def _capture_tealium_response(response):
+        async def _capture_tealium_request(request):
             try:
-                url = response.url
-                if "datacloud.tealiumiq.com" in url and url.endswith("/i.gif"):
-                    body_text = None
-                    try:
-                        body_text = await response.text()
-                    except Exception:
-                        body_text = None
-                    parsed = None
-                    if body_text:
+                url = request.url
+                if "datacloud.tealiumiq.com" in url and "/i.gif" in url:
+                    # Get the request body (contains the actual tracking data)
+                    post_data = request.post_data
+                    headers = request.headers
+                    
+                    # Parse the tracking data
+                    tracking_data = None
+                    if post_data:
                         try:
-                            parsed = json.loads(body_text)
-                        except Exception:
-                            parsed = None
+                            # Handle multipart form data
+                            if 'multipart/form-data' in headers.get('content-type', ''):
+                                tracking_data = parse_multipart_form_data(post_data)
+                            elif 'application/x-www-form-urlencoded' in headers.get('content-type', ''):
+                                # Handle URL encoded data
+                                tracking_data = parse_qs(unquote(post_data))
+                            else:
+                                # Try to parse as JSON
+                                tracking_data = json.loads(post_data)
+                        except Exception as e:
+                            # Store raw data if parsing fails
+                            tracking_data = {"raw_data": post_data[:5000], "parse_error": str(e)}
+                    
                     payload_entry = {
                         "url": url,
-                        "status": response.status,
+                        "method": request.method,
                         "timestamp": datetime.now().isoformat(),
-                        "body": parsed if parsed is not None else (body_text[:5000] if body_text else None)
+                        "headers": dict(headers),
+                        "tracking_data": tracking_data,
+                        "initiator": extract_initiator_from_url(url)
                     }
                     tealium_i_gif_payloads.append(payload_entry)
             except Exception:
-                # Never fail analysis due to response parsing
+                # Never fail analysis due to request parsing
                 pass
         
-        def handle_response(response):
+        def handle_request(request):
             try:
-                asyncio.create_task(_capture_tealium_response(response))
+                asyncio.create_task(_capture_tealium_request(request))
             except Exception:
                 pass
         
-        page.on("response", handle_response)
+        page.on("request", handle_request)
         
         # Monitor console logs
         def handle_console(msg):
@@ -208,6 +264,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                 strategy_used = None
                 clicked_handle = None
                 pre_tealium_payload_count = len(tealium_i_gif_payloads)
+                click_timestamp = None
                 
                 role = locator_bundle.get('role')
                 name = locator_bundle.get('name')
@@ -225,6 +282,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         pre_click_objects = await detect_vendor_objects(page)
                         await clear_tracking_data(page)
                         clicked_handle = target
+                        click_timestamp = datetime.now()
                         await target.click()
                         # Fast polling for events instead of fixed wait only
                         waited = 0
@@ -252,6 +310,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         pre_click_objects = await detect_vendor_objects(page)
                         await clear_tracking_data(page)
                         clicked_handle = target
+                        click_timestamp = datetime.now()
                         await target.click()
                         waited = 0
                         while waited < POST_CLICK_WAIT_MS:
@@ -278,6 +337,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         pre_click_objects = await detect_vendor_objects(page)
                         await clear_tracking_data(page)
                         clicked_handle = target
+                        click_timestamp = datetime.now()
                         await target.click()
                         waited = 0
                         while waited < POST_CLICK_WAIT_MS:
@@ -317,6 +377,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                                 pre_click_objects = await detect_vendor_objects(page)
                                 await clear_tracking_data(page)
                                 clicked_handle = target
+                                click_timestamp = datetime.now()
                                 await target.click()
                                 waited = 0
                                 while waited < POST_CLICK_WAIT_MS:
@@ -349,6 +410,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         pre_click_objects = await detect_vendor_objects(page)
                         await clear_tracking_data(page)
                         clicked_handle = target
+                        click_timestamp = datetime.now()
                         await target.click()
                         waited = 0
                         while waited < POST_CLICK_WAIT_MS:
@@ -373,6 +435,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         pre_click_objects = await detect_vendor_objects(page)
                         await clear_tracking_data(page)
                         clicked_handle = target
+                        click_timestamp = datetime.now()
                         await target.click()
                         waited = 0
                         while waited < POST_CLICK_WAIT_MS:
@@ -412,6 +475,31 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                     tealium_events = await get_data_from_page(page, "tealiumSpecificEvents")
                     # New: pull only the i.gif payloads captured during this selector
                     new_tealium_i_gif_payloads = tealium_i_gif_payloads[pre_tealium_payload_count:]
+                    
+                    # Correlate i.gif requests with the click that triggered them
+                    correlated_payloads = []
+                    if click_timestamp:
+                        for payload in new_tealium_i_gif_payloads:
+                            try:
+                                payload_time = datetime.fromisoformat(payload['timestamp'])
+                                delay_ms = (payload_time - click_timestamp).total_seconds() * 1000
+                                
+                                # Add correlation info if within reasonable time window (0-2000ms)
+                                if 0 <= delay_ms <= 2000:
+                                    payload['click_correlation'] = {
+                                        'selector': selector,
+                                        'strategy_used': strategy_used,
+                                        'delay_ms': round(delay_ms, 2),
+                                        'clicked_element': {
+                                            'text': clicked_text,
+                                            'href': clicked_href
+                                        }
+                                    }
+                                correlated_payloads.append(payload)
+                            except Exception:
+                                correlated_payloads.append(payload)
+                    else:
+                        correlated_payloads = new_tealium_i_gif_payloads
                     yield {
                         "status": "progress",
                         "message": f"    Post-click: captured {len(tealium_events) if isinstance(tealium_events, list) else 0} Tealium events; {len(new_tealium_i_gif_payloads)} i.gif payload(s); {len(tealium_requests)} network hits to Tealium/vendors"
@@ -460,7 +548,7 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         },
                         "vendors_in_network": vendors_in_network,
                         "tealium_events": tealium_events,
-                         "tealium_i_gif_payloads": new_tealium_i_gif_payloads,
+                        "tealium_i_gif_payloads": correlated_payloads,
                         "general_events": general_events
                     }
                 else:

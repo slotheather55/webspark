@@ -325,27 +325,96 @@ class MacroRecorder {
         if (!tabs || !content) return;
         tabs.innerHTML = '';
         content.innerHTML = '';
-        const btn = document.createElement('button');
-        btn.className = 'event-type-tab-button active';
-        btn.textContent = 'All Events';
-        btn.dataset.eventType = 'click';
-        tabs.appendChild(btn);
+        
+        // Create tabs for different views
+        const allTab = document.createElement('button');
+        allTab.className = 'event-type-tab-button active';
+        allTab.textContent = 'All Events';
+        allTab.dataset.eventType = 'all';
+        tabs.appendChild(allTab);
+        
+        const tealiumTab = document.createElement('button');
+        tealiumTab.className = 'event-type-tab-button';
+        tealiumTab.textContent = 'Tealium Data';
+        tealiumTab.dataset.eventType = 'tealium';
+        tabs.appendChild(tealiumTab);
 
-        const events = (results.selector_results || []).map((r) => {
+        const events = (results.selector_results || [])
+            .filter(r => r.tealium_i_gif_payloads && r.tealium_i_gif_payloads.length > 0) // Only show events with i.gif data
+            .map((r) => {
             const firstEvent = Array.isArray(r.tealium_events) ? r.tealium_events[0] : null;
             const dataVars = {};
+            
+            // Extract traditional tealium_events data
             if (firstEvent && firstEvent.data && typeof firstEvent.data === 'object') {
                 for (const [k, v] of Object.entries(firstEvent.data)) dataVars[k] = v;
             }
+            
+            // Extract i.gif payload data (the rich tracking data)
+            const iGifPayloads = r.tealium_i_gif_payloads || [];
+            const trackingData = {};
+            
+            if (iGifPayloads.length > 0) {
+                iGifPayloads.forEach((payload, index) => {
+                    if (payload.tracking_data && typeof payload.tracking_data === 'object') {
+                        // Flatten the tracking data with prefixes
+                        const prefix = iGifPayloads.length > 1 ? `payload_${index + 1}_` : '';
+                        for (const [key, value] of Object.entries(payload.tracking_data)) {
+                            if (key !== 'error' && key !== 'raw_data') {
+                                trackingData[prefix + key] = value;
+                            }
+                        }
+                        
+                        // Add correlation info if available
+                        if (payload.click_correlation) {
+                            trackingData[prefix + 'correlation_delay_ms'] = payload.click_correlation.delay_ms;
+                            trackingData[prefix + 'strategy_used'] = payload.click_correlation.strategy_used;
+                        }
+                    }
+                });
+            }
+            
             const vendors = r.vendors_in_network && typeof r.vendors_in_network === 'object' ? Object.keys(r.vendors_in_network) : [];
             if (vendors.length) dataVars['Vendors Detected (Network)'] = vendors.join(', ');
+            
+            // Determine status with more detail
+            let status = 'Failure';
+            if (r.success) {
+                if (iGifPayloads.length > 0) {
+                    status = `Tealium i.gif Captured (${iGifPayloads.length})`;
+                } else if (Array.isArray(r.tealium_events) && r.tealium_events.length) {
+                    status = 'Tealium Events Detected';
+                } else {
+                    status = 'Click Success';
+                }
+            }
+            
             return {
                 description: r.description || 'N/A',
-                selector: r.selector || 'N/A',
-                status: r.success ? (Array.isArray(r.tealium_events) && r.tealium_events.length ? 'Tealium Detected' : 'Success') : 'Failure',
-                data_variables: dataVars
+                selector: r.selector || 'N/A', 
+                status: status,
+                strategy_used: r.strategy_used || 'N/A',
+                data_variables: dataVars,
+                tracking_data: trackingData,
+                i_gif_payloads: iGifPayloads,
+                clicked_element: r.clicked_element || {}
             };
         });
+        
+        // Add click handlers for tabs
+        tabs.addEventListener('click', (e) => {
+            if (e.target.classList.contains('event-type-tab-button')) {
+                tabs.querySelectorAll('.event-type-tab-button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                const viewType = e.target.dataset.eventType;
+                if (viewType === 'all') {
+                    this.renderMacroEventTable(events, content);
+                } else if (viewType === 'tealium') {
+                    this.renderTealiumDataView(events, content);
+                }
+            }
+        });
+        
         this.renderMacroEventTable(events, content);
     }
 
@@ -358,19 +427,88 @@ class MacroRecorder {
 
     renderMacroEventTable(events, container) {
         if (!container) return;
-        let html = `<table class="event-table"><thead><tr><th></th><th>Description</th><th>Selector</th><th>Status</th></tr></thead><tbody>`;
+        let html = `<table class="event-table"><thead><tr><th></th><th>Description</th><th>Selector</th><th>Status</th><th>Strategy</th></tr></thead><tbody>`;
         events.forEach((ev) => {
-            const hasDetails = ev.data_variables && Object.keys(ev.data_variables).length > 0;
+            const hasDetails = (ev.data_variables && Object.keys(ev.data_variables).length > 0) || 
+                              (ev.tracking_data && Object.keys(ev.tracking_data).length > 0) ||
+                              (ev.i_gif_payloads && ev.i_gif_payloads.length > 0);
             const statusClass = ev.status.toLowerCase().includes('fail') ? 'status-error' : (ev.status.toLowerCase().includes('tealium') ? 'status-success' : '');
             html += `<tr><td>`;
             if (hasDetails) html += `<button class="expand-details-btn" aria-expanded="false" title="Toggle Details"><i class="fas fa-chevron-right"></i></button>`;
-            html += `</td><td>${this.escapeHtml(ev.description)}</td><td><code class="code-inline">${this.escapeHtml(ev.selector)}</code></td><td class="${statusClass}">${this.escapeHtml(ev.status)}</td></tr>`;
+            html += `</td><td>${this.escapeHtml(ev.description)}</td><td><code class="code-inline">${this.escapeHtml(ev.selector)}</code></td><td class="${statusClass}">${this.escapeHtml(ev.status)}</td><td>${this.escapeHtml(ev.strategy_used)}</td></tr>`;
+            
             if (hasDetails) {
-                html += `<tr class="event-details" style="display:none;"><td colspan="4"><h5>Data Variables:</h5><table class="data-variables-table"><tbody>`;
-                for (const [k, v] of Object.entries(ev.data_variables)) {
-                    html += `<tr><th>${this.escapeHtml(k)}</th><td>${this.escapeHtml(typeof v === 'string' ? v : JSON.stringify(v))}</td></tr>`;
+                html += `<tr class="event-details" style="display:none;"><td colspan="5">`;
+                
+                // Merge and prioritize tracking data
+                const allData = {};
+                
+                // Start with traditional data variables as fallback
+                if (ev.data_variables && Object.keys(ev.data_variables).length > 0) {
+                    Object.assign(allData, ev.data_variables);
                 }
-                html += `</tbody></table></td></tr>`;
+                
+                // Override with rich i.gif tracking data (priority)
+                if (ev.tracking_data && Object.keys(ev.tracking_data).length > 0) {
+                    // Extract the 'data' field from i.gif payload which contains the clean tracking data
+                    if (ev.tracking_data.data) {
+                        try {
+                            const cleanData = typeof ev.tracking_data.data === 'string' ? 
+                                JSON.parse(ev.tracking_data.data) : ev.tracking_data.data;
+                            Object.assign(allData, cleanData);
+                        } catch (e) {
+                            // If parsing fails, use the data as-is
+                            Object.assign(allData, { data: ev.tracking_data.data });
+                        }
+                    }
+                    
+                    // Add correlation timing if available
+                    if (ev.tracking_data.correlation_delay_ms !== undefined) {
+                        allData['correlation_delay_ms'] = ev.tracking_data.correlation_delay_ms;
+                    }
+                    if (ev.tracking_data.strategy_used) {
+                        allData['strategy_used'] = ev.tracking_data.strategy_used;
+                    }
+                }
+                
+                // Display the unified data
+                if (Object.keys(allData).length > 0) {
+                    html += `<h5>Tracking Data:</h5><table class="data-variables-table"><tbody>`;
+                    
+                    // Show key fields first in logical order
+                    const priorityFields = ['event_type', 'module_type', 'correlation_delay_ms', 'strategy_used'];
+                    for (const field of priorityFields) {
+                        if (allData[field] !== undefined) {
+                            const value = typeof allData[field] === 'string' ? allData[field] : JSON.stringify(allData[field]);
+                            html += `<tr><th>${this.escapeHtml(field)}</th><td>${this.escapeHtml(value)}</td></tr>`;
+                            delete allData[field]; // Remove so we don't show it again
+                        }
+                    }
+                    
+                    // Show remaining fields
+                    for (const [k, v] of Object.entries(allData)) {
+                        if (k !== 'Vendors Detected (Network)') { // Skip vendor data for cleaner display
+                            const value = typeof v === 'string' ? v : JSON.stringify(v);
+                            html += `<tr><th>${this.escapeHtml(k)}</th><td>${this.escapeHtml(value)}</td></tr>`;
+                        }
+                    }
+                    
+                    html += `</tbody></table>`;
+                }
+                
+                // Clicked element info
+                if (ev.clicked_element && (ev.clicked_element.text || ev.clicked_element.href)) {
+                    html += `<h5>Clicked Element:</h5><table class="data-variables-table"><tbody>`;
+                    if (ev.clicked_element.text) {
+                        html += `<tr><th>Text</th><td>${this.escapeHtml(ev.clicked_element.text)}</td></tr>`;
+                    }
+                    if (ev.clicked_element.href) {
+                        html += `<tr><th>Href</th><td><a href="${this.escapeHtml(ev.clicked_element.href)}" target="_blank">${this.escapeHtml(ev.clicked_element.href)}</a></td></tr>`;
+                    }
+                    html += `</tbody></table>`;
+                }
+                
+                html += `</td></tr>`;
             }
         });
         html += `</tbody></table>`;
@@ -390,6 +528,85 @@ class MacroRecorder {
                 }
             });
         }
+    }
+
+    renderTealiumDataView(events, container) {
+        if (!container) return;
+        
+        // Focus on events that have i.gif payloads
+        const tealiumEvents = events.filter(ev => ev.i_gif_payloads && ev.i_gif_payloads.length > 0);
+        
+        if (tealiumEvents.length === 0) {
+            container.innerHTML = `<div class="no-tealium-data">
+                <h3>No Tealium i.gif Data Captured</h3>
+                <p>No i.gif tracking payloads were captured during this analysis. This could mean:</p>
+                <ul>
+                    <li>Tealium is not configured on this page</li>
+                    <li>The clicked elements don't trigger Tealium events</li>
+                    <li>Events fired but didn't make network requests to datacloud.tealiumiq.com</li>
+                </ul>
+            </div>`;
+            return;
+        }
+        
+        let html = `<div class="tealium-data-view">
+            <h3>Captured Tealium i.gif Payloads (${tealiumEvents.length} events)</h3>`;
+        
+        tealiumEvents.forEach((ev, index) => {
+            html += `<div class="tealium-event-card">
+                <div class="tealium-event-header">
+                    <h4>Event ${index + 1}: ${this.escapeHtml(ev.description)}</h4>
+                    <div class="event-meta">
+                        <span class="strategy-badge">${this.escapeHtml(ev.strategy_used)}</span>
+                        <span class="payload-count">${ev.i_gif_payloads.length} payload(s)</span>
+                    </div>
+                </div>`;
+            
+            ev.i_gif_payloads.forEach((payload, payloadIndex) => {
+                html += `<div class="payload-section">
+                    <h5>Payload ${payloadIndex + 1}</h5>
+                    <div class="payload-meta">
+                        <div><strong>URL:</strong> <code>${this.escapeHtml(payload.url)}</code></div>
+                        <div><strong>Method:</strong> ${this.escapeHtml(payload.method)}</div>
+                        <div><strong>Timestamp:</strong> ${this.escapeHtml(payload.timestamp)}</div>`;
+                
+                if (payload.click_correlation) {
+                    html += `<div><strong>Correlation:</strong> Fired ${payload.click_correlation.delay_ms}ms after click</div>`;
+                }
+                
+                html += `</div>`;
+                
+                if (payload.tracking_data && typeof payload.tracking_data === 'object') {
+                    html += `<div class="tracking-data">
+                        <h6>Tracking Data:</h6>
+                        <table class="data-variables-table">
+                            <tbody>`;
+                    
+                    for (const [key, value] of Object.entries(payload.tracking_data)) {
+                        if (key !== 'error' && key !== 'raw_data') {
+                            const displayValue = typeof value === 'string' ? value : JSON.stringify(value);
+                            html += `<tr><th>${this.escapeHtml(key)}</th><td>${this.escapeHtml(displayValue)}</td></tr>`;
+                        }
+                    }
+                    
+                    html += `</tbody></table></div>`;
+                } else if (payload.tracking_data && payload.tracking_data.error) {
+                    html += `<div class="tracking-error">
+                        <strong>Parse Error:</strong> ${this.escapeHtml(payload.tracking_data.error)}`;
+                    if (payload.tracking_data.raw_data) {
+                        html += `<br><strong>Raw Data:</strong> <code>${this.escapeHtml(payload.tracking_data.raw_data.substring(0, 200))}...</code>`;
+                    }
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+            });
+            
+            html += `</div>`;
+        });
+        
+        html += `</div>`;
+        container.innerHTML = html;
     }
 
     createMacroVisualization(results) {
@@ -1041,32 +1258,28 @@ class MacroRecorder {
     updateActionsList() {
         if (this.recordedActions.length === 0) {
             this.actionList.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-mouse-pointer"></i>
-                    <p>Start recording to see captured interactions</p>
+                <div class="no-actions">
+                    Start recording to see captured interactions
                 </div>
             `;
             return;
         }
         
-        const actionsHtml = this.recordedActions
-            .slice(-10) // Show last 10 actions
-            .map(action => `
-                <div class="action-item" data-action-id="${action.id}">
-                    <div class="action-icon">
-                        <i class="fas ${this.getActionIcon(action.type)}"></i>
+        const actionsHtml = this.recordedActions.map(action => `
+                <div class="recorded-action" data-action-id="${action.id}">
+                    <div class="action-type">
+                        <i class="${this.getActionIcon(action.action_type || action.type)}"></i>
+                        ${action.action_type || action.type}
                     </div>
-                    <div class="action-details">
-                        <div class="action-description">${action.description}</div>
-                        <div class="action-meta">
-                            <span class="action-time">${this.formatTime(action.timestamp)}</span>
-                            <span class="action-type">${action.type}</span>
-                            ${action.selector ? `<span class="action-selector" title="${action.selector}">${action.selector}</span>` : ''}
-                        </div>
+                    <div class="action-description" title="${this.escapeHtml(action.description || action.selector)}">
+                        ${this.escapeHtml((action.description || action.selector).substring(0, 50))}${(action.description || action.selector).length > 50 ? '...' : ''}
                     </div>
-                    <button class="action-delete" onclick="recorder.removeAction(${action.id})" title="Remove action">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="action-meta">
+                        <span class="action-time">${this.formatTime(action.timestamp)}</span>
+                        <button class="action-delete" onclick="recorder.removeAction('${action.id}')" title="Remove action" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 2px;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
             `).join('');
         
@@ -2890,13 +3103,12 @@ class MacroRecorder {
         this.currentMacroAnalysis = null;
         
         // Re-enable all macro action buttons
-        const macroCards = document.querySelectorAll('.macro-card');
-        macroCards.forEach(card => {
-            const analyzeBtn = card.querySelector('.btn-analyze-primary');
-            if (analyzeBtn) {
-                analyzeBtn.disabled = false;
-                analyzeBtn.textContent = 'Analyze';
-            }
+        const analyzeButtons = document.querySelectorAll('.analyze-btn');
+        analyzeButtons.forEach(btn => {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+            const label = btn.querySelector('.label');
+            if (label) label.textContent = 'Analyze';
         });
         
         console.log('UI state reset completed');

@@ -76,7 +76,6 @@
         <input type="hidden" id="macro-name" value="">
         <div id="action-count" style="display: none;">0</div>
         <div id="recording-time" style="display: none;">00:00</div>
-        <div id="action-list" style="display: none;"></div>
         <div id="recording-status" style="display: none;">Ready to record</div>
 
         <!-- Browser Preview Section -->
@@ -104,7 +103,7 @@
                         </div>
                     </div>
                     
-                    <!-- Tealium events panel -->
+                    <!-- Tealium events and Actions panel -->
                     <div class="tealium-panel">
                         <div class="panel-section">
                             <h4><i class="fas fa-chart-line"></i> Tealium Events</h4>
@@ -117,6 +116,13 @@
                             <h4><i class="fas fa-network-wired"></i> Network Beacons</h4>
                             <div id="network-beacons-display" class="beacons-container">
                                 <div class="no-beacons">No beacons detected yet</div>
+                            </div>
+                        </div>
+                        
+                        <div class="panel-section actions-panel">
+                            <h4><i class="fas fa-mouse-pointer"></i> Recorded Actions</h4>
+                            <div id="action-list" class="actions-container">
+                                <div class="no-actions">Start recording to see captured interactions</div>
                             </div>
                         </div>
                     </div>
@@ -372,6 +378,20 @@
                 cursor: help;
                 line-height: 1.3;
                 border: 1px solid #e1e5e9;
+            }
+            
+            .action-description {
+                background: #e8f4f8;
+                color: #2c5282;
+                padding: 4px 8px;
+                border-radius: 3px;
+                font-size: 0.8rem;
+                word-break: break-all;
+                white-space: normal;
+                cursor: help;
+                line-height: 1.3;
+                border: 1px solid #bee3f8;
+                flex: 1;
             }
             
             .action-type {
