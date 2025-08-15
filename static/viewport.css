@@ -1,0 +1,315 @@
+/* Interactive Viewport Styling */
+
+.viewport-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 600px;
+    background: #000;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid rgba(99, 164, 255, 0.2);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#browser-frame {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #fff;
+}
+
+.viewport-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    z-index: 10;
+    outline: none;
+}
+
+.viewport-overlay:hover {
+    background: rgba(79, 121, 255, 0.02);
+}
+
+.viewport-overlay:active {
+    background: rgba(79, 121, 255, 0.05);
+}
+
+.viewport-overlay:focus {
+    box-shadow: inset 0 0 0 2px rgba(79, 121, 255, 0.5);
+}
+
+.viewport-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--text-secondary);
+    z-index: 5;
+}
+
+.viewport-loading i {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--accent-blue);
+}
+
+.viewport-loading p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Click feedback animation */
+@keyframes clickPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* Tealium Events Panel */
+.tealium-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.panel-section {
+    background: rgba(10, 25, 50, 0.6);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    border: 1px solid rgba(99, 164, 255, 0.15);
+}
+
+.panel-section h4 {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--text-light);
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.panel-section h4 i {
+    color: var(--accent-blue);
+}
+
+.events-container,
+.beacons-container {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(99, 164, 255, 0.3) transparent;
+}
+
+.events-container::-webkit-scrollbar,
+.beacons-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.events-container::-webkit-scrollbar-track,
+.beacons-container::-webkit-scrollbar-track {
+    background: rgba(99, 164, 255, 0.1);
+    border-radius: 3px;
+}
+
+.events-container::-webkit-scrollbar-thumb,
+.beacons-container::-webkit-scrollbar-thumb {
+    background: rgba(99, 164, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* Tealium Events */
+.tealium-event {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    background: rgba(79, 121, 255, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-blue);
+    font-size: 0.875rem;
+    animation: slideInEvent 0.3s ease;
+}
+
+.event-type {
+    font-weight: 600;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.event-data {
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    word-break: break-all;
+}
+
+.event-time {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-align: right;
+}
+
+/* Network Beacons */
+.network-beacon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    background: rgba(34, 197, 94, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid #22c55e;
+    font-size: 0.875rem;
+    animation: slideInEvent 0.3s ease;
+}
+
+.beacon-url {
+    font-weight: 600;
+    color: #22c55e;
+    flex: 1;
+}
+
+.beacon-method {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    background: rgba(99, 164, 255, 0.2);
+    border-radius: 3px;
+    margin-left: var(--spacing-sm);
+}
+
+.beacon-time {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-left: var(--spacing-sm);
+}
+
+/* Empty states */
+.no-events,
+.no-beacons {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: var(--spacing-lg);
+    border: 2px dashed rgba(99, 164, 255, 0.2);
+    border-radius: 6px;
+}
+
+/* Animations */
+@keyframes slideInEvent {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .viewport-container {
+        height: 400px;
+    }
+    
+    .tealium-panel {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .events-container,
+    .beacons-container {
+        max-height: 150px;
+    }
+    
+    .tealium-event,
+    .network-beacon {
+        padding: var(--spacing-xs);
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .viewport-container {
+        height: 300px;
+    }
+    
+    .panel-section {
+        padding: var(--spacing-sm);
+    }
+    
+    .panel-section h4 {
+        font-size: 0.9rem;
+    }
+    
+    .events-container,
+    .beacons-container {
+        max-height: 120px;
+    }
+}
+
+/* Browser status indicators */
+.browser-connected {
+    border-color: #22c55e;
+}
+
+.browser-error {
+    border-color: #ef4444;
+}
+
+.browser-loading {
+    border-color: #f59e0b;
+    animation: borderPulse 2s infinite;
+}
+
+@keyframes borderPulse {
+    0%, 100% {
+        border-color: #f59e0b;
+    }
+    50% {
+        border-color: rgba(245, 158, 11, 0.5);
+    }
+}
+
+/* Interactive feedback (already defined above) */
+
+/* Browser frame loading state */
+#browser-frame[src=""] {
+    display: none;
+}
+
+#browser-frame:not([src=""]) {
+    display: block;
+    animation: fadeInFrame 0.3s ease;
+}
+
+@keyframes fadeInFrame {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

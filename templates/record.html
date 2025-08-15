@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/static/results.css">
     <link rel="stylesheet" href="/static/footer.css">
     <link rel="stylesheet" href="/static/macros.css">
+    <link rel="stylesheet" href="/static/viewport.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -93,9 +94,31 @@
                     </div>
                 </div>
                 <div class="browser-viewport" id="browser-viewport">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading website...</p>
+                    <!-- Interactive viewport for live browser -->
+                    <div class="viewport-container">
+                        <img id="browser-frame" src="" alt="Live browser view" style="display: none;" />
+                        <div class="viewport-overlay" id="viewport-overlay"></div>
+                        <div class="viewport-loading" id="viewport-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Starting browser session...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tealium events panel -->
+                    <div class="tealium-panel">
+                        <div class="panel-section">
+                            <h4><i class="fas fa-chart-line"></i> Tealium Events</h4>
+                            <div id="tealium-events-display" class="events-container">
+                                <div class="no-events">No events captured yet</div>
+                            </div>
+                        </div>
+                        
+                        <div class="panel-section">
+                            <h4><i class="fas fa-network-wired"></i> Network Beacons</h4>
+                            <div id="network-beacons-display" class="beacons-container">
+                                <div class="no-beacons">No beacons detected yet</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

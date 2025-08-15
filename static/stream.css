@@ -142,6 +142,8 @@
     padding: var(--spacing-lg);
     position: relative;
     min-height: 450px; /* Adjusted min-height */
+    max-height: 80vh; /* Prevent taking up entire screen */
+    overflow-y: auto; /* Add scrolling when content exceeds max height */
     display: flex; /* Use flex for the main card body */
     flex-direction: column; /* Stack layout and other elements */
 }
@@ -154,6 +156,8 @@
     position: relative;
     padding: 30px var(--spacing-lg) 30px; /* Adjust overall padding */
     min-height: 450px; /* Re-adjust min height if needed */
+    max-height: 70vh; /* Constrain layout height */
+    overflow-y: auto; /* Allow scrolling within layout */
     background-color: rgba(0, 4, 14, 1);
 }
 
@@ -417,7 +421,8 @@
     border: 1px solid transparent; /* Make main border transparent */
     border-radius: 8px;
     padding: 1px; /* Padding for inner content away from pseudo-elements */
-    height: 400px; /* Increased height */
+    height: 300px; /* Reduced height to prevent overflow */
+    max-height: 40vh; /* Maximum height relative to viewport */
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 20px var(--live-log-frame-glow), inset 0 0 15px rgba(0, 0, 0, 0.5);

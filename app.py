@@ -24,7 +24,7 @@ logging.basicConfig(
 # Set the Proactor event loop on Windows for subprocess support.
 if sys.platform.startswith('win'):
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -294,6 +294,174 @@ async def force_stop_recording(session_id: str):
         
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+# Interactive Browser Viewport API Endpoints
+@app.get("/api/browser/{session_id}/screenshot")
+async def get_browser_screenshot(session_id: str):
+    """Get current browser screenshot for interactive viewport"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        screenshot = await session.get_screenshot()
+        if screenshot:
+            return {
+                "success": True,
+                "screenshot": f"data:image/jpeg;base64,{screenshot}",
+                "timestamp": time.time()
+            }
+        else:
+            return {
+                "success": False,
+                "error": "Screenshot capture failed"
+            }
+            
+    except Exception as e:
+        logger.error(f"Screenshot API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/browser/{session_id}/click")
+async def handle_browser_click(session_id: str, request: Request):
+    """Handle click interaction from interactive viewport"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        body = await request.json()
+        x = body.get('x', 0)
+        y = body.get('y', 0)
+        
+        result = await session.handle_viewport_click(x, y)
+        
+        # Get updated Tealium state
+        tealium_state = await session.capture_tealium_state()
+        
+        return {
+            "success": result.get("success", False),
+            "error": result.get("error"),
+            "tealium_events": tealium_state.get("events", []),
+            "network_beacons": session.network_beacons[-5:] if session.network_beacons else []
+        }
+        
+    except Exception as e:
+        logger.error(f"Click API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/browser/{session_id}/type")
+async def handle_browser_type(session_id: str, request: Request):
+    """Handle text input from interactive viewport"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        body = await request.json()
+        text = body.get('text', '')
+        
+        result = await session.handle_viewport_type(text)
+        return result
+        
+    except Exception as e:
+        logger.error(f"Type API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/browser/{session_id}/key")
+async def handle_browser_key(session_id: str, request: Request):
+    """Handle key press from interactive viewport"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        body = await request.json()
+        key = body.get('key', '')
+        
+        result = await session.handle_viewport_key(key)
+        return result
+        
+    except Exception as e:
+        logger.error(f"Key API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/browser/{session_id}/scroll")
+async def handle_browser_scroll(session_id: str, request: Request):
+    """Handle scroll from interactive viewport"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        body = await request.json()
+        delta_y = body.get('delta_y', 0)
+        
+        result = await session.handle_viewport_scroll(delta_y)
+        return result
+        
+    except Exception as e:
+        logger.error(f"Scroll API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/browser/{session_id}/tealium-events")
+async def get_tealium_events(session_id: str):
+    """Get captured Tealium events from interactive session"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        tealium_state = await session.capture_tealium_state()
+        
+        return {
+            "success": True,
+            "events": session.tealium_events,
+            "network_beacons": session.network_beacons,
+            "current_state": tealium_state
+        }
+        
+    except Exception as e:
+        logger.error(f"Tealium events API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/browser/{session_id}/viewport-size")
+async def get_viewport_size(session_id: str):
+    """Get current viewport size for interactive session"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        if hasattr(session, 'viewport_size'):
+            viewport = session.viewport_size
+        else:
+            viewport = {"width": 1200, "height": 800}  # Default fallback
+        
+        return {"success": True, "viewport": viewport}
+        
+    except Exception as e:
+        logger.error(f"Viewport size API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/browser/{session_id}/viewport-size")
+async def set_viewport_size(session_id: str, request: Request):
+    """Update viewport size for interactive session"""
+    try:
+        session = recorder_manager.get_session(session_id)
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+        
+        body = await request.json()
+        width = body.get('width', 1200)
+        height = body.get('height', 800)
+        
+        session.set_viewport_size(width, height)
+        
+        return {"success": True, "viewport": {"width": width, "height": height}}
+        
+    except Exception as e:
+        logger.error(f"Viewport size API error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/macros/list")
 async def list_saved_macros():

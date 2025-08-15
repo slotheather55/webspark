@@ -144,6 +144,9 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
         await page.goto(macro_url, wait_until='domcontentloaded', timeout=30000)
         await page.wait_for_timeout(POST_LOAD_WAIT_MS)
         
+        # Dismiss cookie banners and overlays automatically
+        await dismiss_cookie_overlays_advanced(page)
+        
         yield {
             "status": "page_loaded",
             "message": "Page loaded successfully",
@@ -238,12 +241,39 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                     except Exception:
                         yield {"status": "progress", "message": "    Role+name not found/visible. Trying href heuristic..."}
                 
+                # Try direct selector first (most reliable)
+                if not clicked and selector:
+                    try:
+                        yield {"status": "progress", "message": "    Trying recorded selector directly..."}
+                        target = page.locator(selector).first
+                        await target.wait_for(state='visible', timeout=3000)
+                        await target.scroll_into_view_if_needed()
+                        pre_click_tags = await detect_tags_and_vendors(page)
+                        pre_click_objects = await detect_vendor_objects(page)
+                        await clear_tracking_data(page)
+                        clicked_handle = target
+                        await target.click()
+                        waited = 0
+                        while waited < POST_CLICK_WAIT_MS:
+                            events_len = await page.evaluate("() => (window.tealiumSpecificEvents||[]).length")
+                            if isinstance(events_len, int) and events_len > 0:
+                                break
+                            await page.wait_for_timeout(100)
+                            waited += 100
+                        if waited >= POST_CLICK_WAIT_MS:
+                            await page.wait_for_timeout(100)
+                        clicked = True
+                        strategy_used = 'recorded_selector'
+                    except Exception:
+                        yield {"status": "progress", "message": "    Direct selector failed. Trying scoped CSS in expanded panel..."}
+
                 if not clicked and selector:
                     try:
                         yield {"status": "progress", "message": "    Trying scoped CSS in expanded panel..."}
                         scoped = page.locator(f'div[id^="collapse"].in {selector}')
                         target = scoped.first
                         await target.wait_for(state='visible', timeout=3000)
+                        await target.scroll_into_view_if_needed()
                         pre_click_tags = await detect_tags_and_vendors(page)
                         pre_click_objects = await detect_vendor_objects(page)
                         await clear_tracking_data(page)
@@ -261,32 +291,49 @@ async def analyze_macro_selectors_against_config(macro_url: str, macro_selectors
                         clicked = True
                         strategy_used = 'scoped_css'
                     except Exception:
-                        yield {"status": "progress", "message": "    Scoped CSS not clickable. Trying recorded selector directly..."}
+                        yield {"status": "progress", "message": "    Scoped CSS not clickable. Trying text-based approach..."}
                 
-                if not clicked and selector:
+                # Try text-based matching for buttons/links
+                if not clicked and locator_bundle.get('text'):
+                    text = locator_bundle['text']
                     try:
-                        yield {"status": "progress", "message": "    Trying recorded selector..."}
-                        element = await page.wait_for_selector(selector, timeout=3000)
-                        await element.scroll_into_view_if_needed()
-                        await element.wait_for(state='visible', timeout=2000)
-                        pre_click_tags = await detect_tags_and_vendors(page)
-                        pre_click_objects = await detect_vendor_objects(page)
-                        await clear_tracking_data(page)
-                        clicked_handle = element
-                        await element.click()
-                        waited = 0
-                        while waited < POST_CLICK_WAIT_MS:
-                            events_len = await page.evaluate("() => (window.tealiumSpecificEvents||[]).length")
-                            if isinstance(events_len, int) and events_len > 0:
+                        yield {"status": "progress", "message": f"    Trying text-based locator: '{text}'..."}
+                        # Try multiple text-based strategies
+                        candidates = [
+                            page.get_by_text(text, exact=True),
+                            page.get_by_text(text, exact=False),
+                            page.locator(f'button:has-text("{text}")'),
+                            page.locator(f'a:has-text("{text}")'),
+                            page.locator(f'[aria-label*="{text}"]'),
+                            page.locator(f'[title*="{text}"]')
+                        ]
+                        
+                        for candidate in candidates:
+                            try:
+                                target = candidate.first
+                                await target.wait_for(state='visible', timeout=1000)
+                                await target.scroll_into_view_if_needed()
+                                pre_click_tags = await detect_tags_and_vendors(page)
+                                pre_click_objects = await detect_vendor_objects(page)
+                                await clear_tracking_data(page)
+                                clicked_handle = target
+                                await target.click()
+                                waited = 0
+                                while waited < POST_CLICK_WAIT_MS:
+                                    events_len = await page.evaluate("() => (window.tealiumSpecificEvents||[]).length")
+                                    if isinstance(events_len, int) and events_len > 0:
+                                        break
+                                    await page.wait_for_timeout(100)
+                                    waited += 100
+                                if waited >= POST_CLICK_WAIT_MS:
+                                    await page.wait_for_timeout(100)
+                                clicked = True
+                                strategy_used = 'text_based'
                                 break
-                            await page.wait_for_timeout(100)
-                            waited += 100
-                        if waited >= POST_CLICK_WAIT_MS:
-                            await page.wait_for_timeout(100)
-                        clicked = True
-                        strategy_used = 'recorded_selector'
+                            except Exception:
+                                continue
                     except Exception:
-                        yield {"status": "progress", "message": "    Recorded selector failed. Trying href heuristic..."}
+                        yield {"status": "progress", "message": "    Text-based approach failed. Trying href heuristic..."}
 
                 if not clicked and isinstance(locator_bundle.get('href'), str):
                     href = locator_bundle['href']
@@ -562,6 +609,54 @@ async def detect_vendor_objects(page: Page) -> List[Dict[str, str]]:
 
 
 # Wrapper with the name expected by app.py
+async def dismiss_cookie_overlays_advanced(page: Page):
+    """Enhanced cookie dismissal for macro analyzer"""
+    try:
+        await page.wait_for_timeout(1000)  # Wait for overlays to appear
+        
+        # Common cookie banner selectors
+        dismiss_selectors = [
+            'button:has-text("Accept All")',
+            'button:has-text("Accept")', 
+            'button:has-text("I Agree")',
+            'button:has-text("Allow All")',
+            'button:has-text("Continue")',
+            'button:has-text("OK")',
+            'button:has-text("Close")',
+            'button[id*="accept"]',
+            'button[class*="accept"]',
+            'button[id*="consent"]',
+            'button[class*="consent"]',
+            'a:has-text("Accept")',
+            'a:has-text("Close")',
+            '.cookie-banner button',
+            '.gdpr-banner button',
+            '[role="dialog"] button',
+            '.modal button:has-text("Accept")',
+            '.overlay button:has-text("Close")'
+        ]
+        
+        for selector in dismiss_selectors:
+            try:
+                element = await page.locator(selector).first
+                if await element.is_visible():
+                    await element.click()
+                    await page.wait_for_timeout(500)
+                    print(f"Dismissed overlay with selector: {selector}")
+                    break
+            except Exception:
+                continue
+                
+        # Try Escape key as fallback
+        try:
+            await page.keyboard.press('Escape')
+            await page.wait_for_timeout(300)
+        except Exception:
+            pass
+            
+    except Exception as e:
+        print(f"Cookie dismissal failed: {e}")
+
 async def analyze_macro_tealium_events(macro_url: str, macro_selectors: List[Dict], macro_name: str = "Unknown Macro") -> AsyncGenerator[Dict[str, Any], None]:
     async for update in analyze_macro_selectors_against_config(macro_url, macro_selectors, macro_name):
         yield update

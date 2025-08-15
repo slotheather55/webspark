@@ -604,6 +604,9 @@ class MacroRecorder {
                 
                 // Start listening for recorded actions
                 this.startListeningForActions();
+                
+                // Initialize interactive viewport
+                this.initializeInteractiveViewport();
             } else {
                 let errorMessage = data.error || 'Failed to initialize recording session';
                 if (data.suggestion) {
@@ -780,6 +783,12 @@ class MacroRecorder {
             this.updateRecordingStatus('Completed', 'completed');
             this.updateControlButtons();
             this.hideBrowserSection();
+            
+            // Stop interactive viewport
+            this.stopInteractiveViewport();
+            
+            // Reset UI state completely
+            this.resetUIState();
             
             // Refresh macros list
             await this.loadSavedMacros();
@@ -2557,6 +2566,340 @@ class MacroRecorder {
         if (progressTextEl && text) {
             progressTextEl.textContent = text;
         }
+    }
+
+    // Interactive Viewport Client
+    initializeInteractiveViewport() {
+        if (!this.sessionId) return;
+        
+        // Start screenshot polling
+        this.startScreenshotPolling();
+        
+        // Setup interaction handlers
+        this.setupViewportInteractions();
+        
+        // Start Tealium event monitoring
+        this.startTealiumMonitoring();
+    }
+    
+    startScreenshotPolling() {
+        if (this.screenshotPolling) {
+            clearInterval(this.screenshotPolling);
+        }
+        
+        this.screenshotPolling = setInterval(async () => {
+            if (this.sessionId && this.isRecording) {
+                await this.updateViewportScreenshot();
+            }
+        }, 200); // 5 FPS for good responsiveness
+    }
+    
+    async updateViewportScreenshot() {
+        try {
+            const response = await fetch(`/api/browser/${this.sessionId}/screenshot`);
+            const data = await response.json();
+            
+            if (data.success && data.screenshot) {
+                const browserFrame = document.getElementById('browser-frame');
+                if (browserFrame) {
+                    browserFrame.src = data.screenshot;
+                    browserFrame.style.display = 'block';
+                }
+                
+                // Hide loading indicator
+                const loading = document.getElementById('viewport-loading');
+                if (loading) {
+                    loading.style.display = 'none';
+                }
+            }
+        } catch (error) {
+            console.error('Screenshot update failed:', error);
+        }
+    }
+    
+    setupViewportInteractions() {
+        const overlay = document.getElementById('viewport-overlay');
+        const browserFrame = document.getElementById('browser-frame');
+        if (!overlay || !browserFrame) return;
+        
+        // Click handling with proper coordinate mapping
+        overlay.onclick = async (e) => {
+            if (!this.sessionId) return;
+            
+            // Get the click position relative to the overlay
+            const rect = overlay.getBoundingClientRect();
+            const displayX = e.clientX - rect.left;
+            const displayY = e.clientY - rect.top;
+            
+            // Get actual browser viewport dimensions
+            const viewport = await this.getViewportDimensions();
+            
+            // Get the image element's actual display size
+            const imageRect = browserFrame.getBoundingClientRect();
+            
+            // Calculate scaling factors
+            // The image is displayed with object-fit: contain, so we need to account for that
+            const imageAspectRatio = viewport.width / viewport.height;
+            const displayAspectRatio = imageRect.width / imageRect.height;
+            
+            let scaleX, scaleY, offsetX = 0, offsetY = 0;
+            
+            if (imageAspectRatio > displayAspectRatio) {
+                // Image is wider than display - black bars on top/bottom
+                scaleX = viewport.width / imageRect.width;
+                scaleY = scaleX;
+                offsetY = (imageRect.height - (viewport.height / scaleY)) / 2;
+            } else {
+                // Image is taller than display - black bars on left/right  
+                scaleY = viewport.height / imageRect.height;
+                scaleX = scaleY;
+                offsetX = (imageRect.width - (viewport.width / scaleX)) / 2;
+            }
+            
+            // Adjust for any offset due to object-fit: contain
+            const adjustedX = displayX - offsetX;
+            const adjustedY = displayY - offsetY;
+            
+            // Scale to browser coordinates
+            const x = Math.round(adjustedX * scaleX);
+            const y = Math.round(adjustedY * scaleY);
+            
+            // Clamp to viewport bounds
+            const clampedX = Math.max(0, Math.min(x, viewport.width - 1));
+            const clampedY = Math.max(0, Math.min(y, viewport.height - 1));
+            
+            console.log(`Click: display(${displayX.toFixed(1)}, ${displayY.toFixed(1)}) -> browser(${clampedX}, ${clampedY}) | viewport: ${viewport.width}x${viewport.height} | scale: ${scaleX.toFixed(3)}, ${scaleY.toFixed(3)}`);
+            
+            this.showClickFeedback(displayX, displayY);
+            
+            try {
+                const response = await fetch(`/api/browser/${this.sessionId}/click`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({x: clampedX, y: clampedY})
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    // Update Tealium events display
+                    this.updateTealiumDisplay(result.tealium_events);
+                    // Update screenshot after click to show changes
+                    setTimeout(() => this.updateViewportScreenshot(), 500);
+                }
+            } catch (error) {
+                console.error('Click interaction failed:', error);
+            }
+        };
+        
+        // Enhanced scroll handling for desktop-like experience
+        overlay.onwheel = async (e) => {
+            if (!this.sessionId) return;
+            
+            e.preventDefault();
+            
+            // Throttle scroll events to prevent overwhelming the server
+            if (this.scrollThrottle) return;
+            this.scrollThrottle = true;
+            
+            try {
+                await fetch(`/api/browser/${this.sessionId}/scroll`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({delta_y: e.deltaY * 3}) // Amplify scroll for better feel
+                });
+                
+                // Update screenshot after scroll
+                setTimeout(() => this.updateViewportScreenshot(), 100);
+            } catch (error) {
+                console.error('Scroll interaction failed:', error);
+            } finally {
+                // Reset throttle after a short delay
+                setTimeout(() => this.scrollThrottle = false, 50);
+            }
+        };
+        
+        // Add keyboard support for better interaction
+        overlay.onkeydown = async (e) => {
+            if (!this.sessionId) return;
+            
+            // Handle common navigation keys
+            const navigationKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End'];
+            if (navigationKeys.includes(e.key)) {
+                e.preventDefault();
+                
+                try {
+                    await fetch(`/api/browser/${this.sessionId}/key`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({key: e.key})
+                    });
+                    
+                    // Update screenshot after key press
+                    setTimeout(() => this.updateViewportScreenshot(), 200);
+                } catch (error) {
+                    console.error('Key interaction failed:', error);
+                }
+            }
+        };
+        
+        // Make overlay focusable for keyboard events
+        overlay.tabIndex = 0;
+    }
+    
+    // Get actual viewport dimensions from backend
+    async getViewportDimensions() {
+        if (!this.sessionId) return {width: 1200, height: 800};
+        
+        try {
+            const response = await fetch(`/api/browser/${this.sessionId}/viewport-size`);
+            const data = await response.json();
+            if (data.success && data.viewport) {
+                return data.viewport;
+            }
+        } catch (error) {
+            console.error('Failed to get viewport dimensions:', error);
+        }
+        
+        // Fallback to default dimensions
+        return {width: 1200, height: 800};
+    }
+    
+    showClickFeedback(x, y) {
+        const feedback = document.createElement('div');
+        feedback.className = 'click-feedback';
+        feedback.style.cssText = `
+            position: absolute;
+            left: ${x - 10}px;
+            top: ${y - 10}px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #4f79ff;
+            border-radius: 50%;
+            background: rgba(79, 121, 255, 0.2);
+            pointer-events: none;
+            animation: clickPulse 0.6s ease-out;
+            z-index: 1000;
+        `;
+        
+        const overlay = document.getElementById('viewport-overlay');
+        if (overlay) {
+            overlay.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 600);
+        }
+    }
+    
+    startTealiumMonitoring() {
+        if (this.tealiumMonitoring) {
+            clearInterval(this.tealiumMonitoring);
+        }
+        
+        this.tealiumMonitoring = setInterval(async () => {
+            if (this.sessionId && this.isRecording) {
+                await this.updateTealiumEvents();
+            }
+        }, 1000); // Check every second
+    }
+    
+    async updateTealiumEvents() {
+        try {
+            const response = await fetch(`/api/browser/${this.sessionId}/tealium-events`);
+            const data = await response.json();
+            
+            if (data.success) {
+                this.updateTealiumDisplay(data.events);
+                this.updateNetworkBeacons(data.network_beacons);
+            }
+        } catch (error) {
+            console.error('Tealium events update failed:', error);
+        }
+    }
+    
+    updateTealiumDisplay(events) {
+        const container = document.getElementById('tealium-events-display');
+        if (!container || !events) return;
+        
+        const recentEvents = events.slice(-5); // Show last 5 events
+        container.innerHTML = recentEvents.map(event => `
+            <div class="tealium-event">
+                <span class="event-type">${event.type}</span>
+                <span class="event-data">${JSON.stringify(event.data).substring(0, 100)}...</span>
+                <span class="event-time">${new Date(event.timestamp).toLocaleTimeString()}</span>
+            </div>
+        `).join('');
+    }
+    
+    updateNetworkBeacons(beacons) {
+        const container = document.getElementById('network-beacons-display');
+        if (!container || !beacons) return;
+        
+        container.innerHTML = beacons.slice(-3).map(beacon => `
+            <div class="network-beacon">
+                <span class="beacon-url">${new URL(beacon.url).hostname}</span>
+                <span class="beacon-method">${beacon.method}</span>
+                <span class="beacon-time">${new Date(beacon.timestamp * 1000).toLocaleTimeString()}</span>
+            </div>
+        `).join('');
+    }
+    
+    stopInteractiveViewport() {
+        if (this.screenshotPolling) {
+            clearInterval(this.screenshotPolling);
+            this.screenshotPolling = null;
+        }
+        
+        if (this.tealiumMonitoring) {
+            clearInterval(this.tealiumMonitoring);
+            this.tealiumMonitoring = null;
+        }
+        
+        // Clear viewport display
+        const browserFrame = document.getElementById('browser-frame');
+        if (browserFrame) {
+            browserFrame.src = '';
+            browserFrame.style.display = 'none';
+        }
+        
+        // Show loading state
+        const loadingEl = document.getElementById('viewport-loading');
+        if (loadingEl) {
+            loadingEl.style.display = 'block';
+        }
+        
+        // Reset session ID
+        this.sessionId = null;
+    }
+    
+    resetUIState() {
+        // Reset all recording state variables
+        this.isRecording = false;
+        this.isPaused = false;
+        this.recordedActions = [];
+        this.startTime = null;
+        this.sessionId = null;
+        
+        // Reset UI elements
+        this.updateRecordingStatus('Ready to record', 'ready');
+        this.updateControlButtons();
+        
+        // Clear any analysis state
+        this.currentMacroAnalysis = null;
+        
+        // Re-enable all macro action buttons
+        const macroCards = document.querySelectorAll('.macro-card');
+        macroCards.forEach(card => {
+            const analyzeBtn = card.querySelector('.btn-analyze-primary');
+            if (analyzeBtn) {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = 'Analyze';
+            }
+        });
+        
+        console.log('UI state reset completed');
     }
 
     // Utility Methods

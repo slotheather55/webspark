@@ -16,7 +16,9 @@
       "Bash(cp:*)",
       "Bash(python:*)",
       "WebFetch(domain:www.penguinrandomhouse.com)",
-      "Bash(wmic process where \"name like '%python%'\" get processid,commandline:*)"
+      "Bash(wmic process where \"name like '%python%'\" get processid,commandline:*)",
+      "Bash(tasklist:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "additionalDirectories": [

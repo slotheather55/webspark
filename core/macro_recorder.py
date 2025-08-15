@@ -11,6 +11,7 @@ import json
 import uuid
 import time
 import os
+import base64
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional, AsyncGenerator
@@ -80,6 +81,13 @@ class RecordingSession:
         self.context: Optional[BrowserContext] = None
         self.action_listeners = []  # For streaming recorded actions
         
+        # Interactive viewport properties
+        self.viewport_size = {"width": 1200, "height": 800}
+        self.screenshot_cache = None
+        self.screenshot_cache_time = 0
+        self.tealium_events = []
+        self.network_beacons = []
+        
     async def initialize_browser(self) -> bool:
         """Initialize the browser for this recording session"""
         try:
@@ -88,30 +96,21 @@ class RecordingSession:
             
             playwright = await async_playwright().start()
             
-            # Try to launch browser with more permissive settings
-            try:
-                self.browser = await playwright.chromium.launch(
-                    headless=False,  # Show browser for user interaction
-                    args=[
-                        '--no-sandbox', 
-                        '--disable-web-security',
-                        '--disable-dev-shm-usage',
-                        '--disable-extensions',
-                        '--disable-gpu',
-                        '--no-first-run'
-                    ]
-                )
-            except Exception as launch_error:
-                logger.error(f"Failed to launch browser: {launch_error}")
-                # Try headless mode as fallback
-                logger.info("Attempting fallback to headless mode...")
-                self.browser = await playwright.chromium.launch(
-                    headless=True,
-                    args=['--no-sandbox', '--disable-web-security']
-                )
+            # Launch browser in headless mode for production compatibility
+            self.browser = await playwright.chromium.launch(
+                headless=True,  # Always headless for production
+                args=[
+                    '--no-sandbox', 
+                    '--disable-web-security',
+                    '--disable-dev-shm-usage',
+                    '--disable-extensions',
+                    '--disable-gpu',
+                    '--no-first-run'
+                ]
+            )
             
             self.context = await self.browser.new_context(
-                viewport={'width': 1920, 'height': 1080},
+                viewport=self.viewport_size,
                 user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             )
             
@@ -121,6 +120,9 @@ class RecordingSession:
             logger.info(f"Navigating to {self.url}")
             await self.page.goto(self.url, wait_until='domcontentloaded', timeout=30000)
             await self.page.wait_for_timeout(2000)  # Let page settle
+            
+            # Dismiss cookie banners and overlays automatically
+            await self.dismiss_cookie_overlays()
             
             # Then set up event listeners for recording interactions
             await self.setup_recording_listeners()
@@ -528,9 +530,219 @@ class RecordingSession:
         
         # Add browser close detection
         self.page.on("close", self.handle_page_close)
-        self.context.on("close", self.handle_context_close)
+    
+    # Interactive Viewport Methods
+    async def get_screenshot(self) -> Optional[str]:
+        """Get base64 encoded screenshot for interactive viewport"""
+        if not self.page:
+            return None
+            
+        try:
+            # Check cache (200ms cache to improve performance)
+            current_time = time.time()
+            if (self.screenshot_cache and 
+                current_time - self.screenshot_cache_time < 0.2):
+                return self.screenshot_cache
+            
+            # Take new screenshot
+            screenshot = await self.page.screenshot(
+                type='jpeg',
+                quality=70,
+                full_page=False
+            )
+            
+            # Encode and cache
+            screenshot_b64 = base64.b64encode(screenshot).decode()
+            self.screenshot_cache = screenshot_b64
+            self.screenshot_cache_time = current_time
+            
+            return screenshot_b64
+            
+        except Exception as e:
+            logger.error(f"Screenshot capture failed: {e}")
+            return None
+    
+    async def dismiss_cookie_overlays(self):
+        """Automatically dismiss cookie banners, GDPR notices, and modal overlays"""
+        if not self.page:
+            return
+            
+        try:
+            # Wait a bit for any overlays to appear
+            await self.page.wait_for_timeout(1000)
+            
+            # Common cookie banner and overlay selectors
+            dismiss_selectors = [
+                # Generic cookie/GDPR dismissal
+                'button[id*="accept"]', 'button[class*="accept"]',
+                'button[id*="consent"]', 'button[class*="consent"]', 
+                'button[id*="cookie"]', 'button[class*="cookie"]',
+                'button[id*="agree"]', 'button[class*="agree"]',
+                'button[id*="close"]', 'button[class*="close"]',
+                'button[id*="dismiss"]', 'button[class*="dismiss"]',
+                'button[id*="ok"]', 'button[class*="ok"]',
+                
+                # Text-based selectors
+                'button:has-text("Accept")', 'button:has-text("Accept All")',
+                'button:has-text("I Agree")', 'button:has-text("Agree")',
+                'button:has-text("OK")', 'button:has-text("Close")',
+                'button:has-text("Dismiss")', 'button:has-text("Got it")',
+                'button:has-text("Continue")', 'button:has-text("Allow")',
+                
+                # Links that act as buttons
+                'a:has-text("Accept")', 'a:has-text("I Agree")', 
+                'a:has-text("Close")', 'a:has-text("Dismiss")',
+                
+                # Modal close buttons
+                '.modal .close', '.modal [aria-label="Close"]',
+                '.overlay .close', '.popup .close',
+                '[role="dialog"] button[aria-label="Close"]',
+                
+                # Specific common implementations
+                '.cookie-banner button', '.gdpr-banner button',
+                '.privacy-notice button', '.consent-banner button'
+            ]
+            
+            for selector in dismiss_selectors:
+                try:
+                    # Check if element exists and is visible
+                    element = await self.page.locator(selector).first
+                    if await element.is_visible():
+                        logger.info(f"Dismissing overlay with selector: {selector}")
+                        await element.click()
+                        await self.page.wait_for_timeout(500)  # Wait for overlay to disappear
+                        break  # Only dismiss one overlay to avoid conflicts
+                except Exception:
+                    continue  # Try next selector
+                    
+            # Also try to dismiss any modal dialogs by pressing Escape
+            try:
+                await self.page.keyboard.press('Escape')
+                await self.page.wait_for_timeout(500)
+            except Exception:
+                pass
+                
+        except Exception as e:
+            logger.warning(f"Cookie overlay dismissal failed: {e}")
+            # Don't fail the whole session for this
+    
+    async def handle_viewport_click(self, x: int, y: int) -> dict:
+        """Handle click from interactive viewport with proper coordinate scaling"""
+        if not self.page:
+            return {"success": False, "error": "No active page"}
         
-        logger.info(f"Recording listeners set up for session {self.session_id}")
+        try:
+            # Get actual viewport size from browser (it's a property, not a method)
+            viewport = self.page.viewport_size
+            if not viewport:
+                viewport = {"width": 1200, "height": 800}  # fallback
+            
+            # Scale coordinates from viewport display to actual browser viewport
+            # The frontend should send us the scale factors, but for now we'll use the viewport size
+            scaled_x = int(x * (viewport["width"] / self.viewport_size["width"]))
+            scaled_y = int(y * (viewport["height"] / self.viewport_size["height"]))
+            
+            # Ensure coordinates are within bounds
+            scaled_x = max(0, min(scaled_x, viewport["width"] - 1))
+            scaled_y = max(0, min(scaled_y, viewport["height"] - 1))
+            
+            logger.info(f"Viewport click: original({x}, {y}) -> scaled({scaled_x}, {scaled_y})")
+            
+            # Click at scaled coordinates
+            await self.page.mouse.click(scaled_x, scaled_y)
+            
+            # Small delay to allow any events to trigger
+            await self.page.wait_for_timeout(100)
+            
+            # Record this as a click action
+            await self.record_action({
+                'type': 'click',
+                'selector': f'mouse_click_at({scaled_x},{scaled_y})',
+                'text': '',
+                'coordinates': {'x': scaled_x, 'y': scaled_y, 'pageX': scaled_x, 'pageY': scaled_y},
+                'timestamp': time.time() * 1000
+            })
+            
+            # Capture any Tealium events that might have been triggered
+            await self.capture_tealium_state()
+            
+            return {"success": True}
+            
+        except Exception as e:
+            logger.error(f"Viewport click failed: {e}")
+            return {"success": False, "error": str(e)}
+    
+    async def handle_viewport_type(self, text: str) -> dict:
+        """Handle text input from interactive viewport"""
+        if not self.page:
+            return {"success": False, "error": "No active page"}
+        
+        try:
+            await self.page.keyboard.type(text)
+            return {"success": True}
+            
+        except Exception as e:
+            logger.error(f"Viewport type failed: {e}")
+            return {"success": False, "error": str(e)}
+    
+    async def handle_viewport_key(self, key: str) -> dict:
+        """Handle key press from interactive viewport"""
+        if not self.page:
+            return {"success": False, "error": "No active page"}
+        
+        try:
+            await self.page.keyboard.press(key)
+            return {"success": True}
+            
+        except Exception as e:
+            logger.error(f"Viewport key failed: {e}")
+            return {"success": False, "error": str(e)}
+    
+    async def handle_viewport_scroll(self, delta_y: int) -> dict:
+        """Handle scroll from interactive viewport"""
+        if not self.page:
+            return {"success": False, "error": "No active page"}
+        
+        try:
+            await self.page.mouse.wheel(0, delta_y)
+            return {"success": True}
+            
+        except Exception as e:
+            logger.error(f"Viewport scroll failed: {e}")
+            return {"success": False, "error": str(e)}
+    
+    async def capture_tealium_state(self) -> dict:
+        """Capture current Tealium events and data layer state"""
+        if not self.page:
+            return {"events": [], "dataLayer": {}}
+        
+        try:
+            # Evaluate JavaScript to get Tealium state
+            tealium_state = await self.page.evaluate("""
+                () => {
+                    return {
+                        events: window.tealiumCapture?.events || [],
+                        dataLayer: window.tealiumCapture?.dataLayer || {},
+                        utag_data: window.utag_data || {}
+                    };
+                }
+            """)
+            
+            # Store new events
+            for event in tealium_state.get('events', []):
+                if event not in self.tealium_events:
+                    self.tealium_events.append(event)
+            
+            return tealium_state
+            
+        except Exception as e:
+            logger.error(f"Tealium state capture failed: {e}")
+            return {"events": [], "dataLayer": {}}
+    
+    def set_viewport_size(self, width: int, height: int):
+        """Update viewport size for interactive display"""
+        self.viewport_size = {"width": width, "height": height}
+        logger.info(f"Updated viewport size to {width}x{height} for session {self.session_id}")
     
     async def record_page_load(self):
         """Record page load event"""

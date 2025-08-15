@@ -117,6 +117,8 @@
   /* Results Container */
   .results-container {
     display: none;
+    max-height: 80vh;
+    overflow-y: auto;
   }
   
   /* Tabs */
@@ -149,6 +151,8 @@
   
   .tab-content {
     margin-bottom: var(--spacing-md);
+    max-height: 70vh;
+    overflow-y: auto;
   }
   
   .tab-pane {
@@ -330,7 +334,7 @@
     color: var(--text-light);
     overflow-x: auto;
     white-space: pre-wrap;
-    max-height: 500px;
+    max-height: 400px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(99, 164, 255, 0.3) transparent;
