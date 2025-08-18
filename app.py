@@ -80,7 +80,7 @@ async def index(request: Request):
     """
     Renders the main HTML page.
     """
-    return templates.TemplateResponse("index.html", {"request": request, "default_url": DEFAULT_URL})
+    return templates.TemplateResponse("index.html", {"request": request, "default_url": DEFAULT_URL, "current_page": "home"})
 
 @app.get("/stream")
 async def stream(request: Request, url: str = DEFAULT_URL):
@@ -139,7 +139,7 @@ async def stream(request: Request, url: str = DEFAULT_URL):
 # Record page route  
 @app.get("/record", response_class=HTMLResponse)
 async def show_record_page(request: Request):
-    return templates.TemplateResponse("record.html", {"request": request, "default_url": DEFAULT_URL})
+    return templates.TemplateResponse("record.html", {"request": request, "default_url": DEFAULT_URL, "current_page": "record"})
 
 
 

@@ -4,18 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis Results for {{ results.url }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Optional: Add icon library if needed, e.g., Font Awesome -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+    <!-- Link all your CSS files for consistency -->
+    <link rel="stylesheet" href="/static/base.css">
+    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="/static/analyzer-form.css">
+    <link rel="stylesheet" href="/static/stream.css">
+    <link rel="stylesheet" href="/static/results.css">
+    <link rel="stylesheet" href="/static/footer.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="page-container">
-        <div class="card card-main-header">
-            <h1>Website Tag & Event Analyzer</h1>
-            <p><strong>URL:</strong> <a href="{{ results.url }}" target="_blank" rel="noopener noreferrer">{{ results.url }}</a></p>
-            <p><strong>Analyzed At:</strong> {{ results.analysisTimestamp | default('N/A') }}</p>
-            <a href="{{ url_for('index') }}" class="button button-secondary"> ← Analyze Another URL</a>
-        </div>
+    <!-- Fixed background -->
+    <div class="background-wrapper">
+        <img src="/static/images/space-background.webp" alt="" class="background-image">
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        {% include 'partials/header.html' %}
+        
+        <div class="page-container">
+            <div class="card card-main-header">
+                <h1>Analysis Results</h1>
+                <p><strong>URL:</strong> <a href="{{ results.url }}" target="_blank" rel="noopener noreferrer">{{ results.url }}</a></p>
+                <p><strong>Analyzed At:</strong> {{ results.analysisTimestamp | default('N/A') }}</p>
+                <a href="/" class="button button-secondary"> ← Analyze Another URL</a>
+            </div>
 
         <!-- Analysis Steps Card -->
         <div class="card card-analysis-steps">
@@ -268,7 +287,53 @@
              <summary>Show Raw JSON Output</summary>
              <pre><code>{{ results | tojson(indent=2) }}</code></pre>
          </details>
-    </div>
+        </div>
+
+        <!-- Enhanced Footer Section -->
+        <footer class="app-footer">
+            <!-- Footer Navigation -->
+            <nav class="footer-nav">
+                <a href="/" class="footer-nav-link">Home</a>
+                <a href="/record" class="footer-nav-link">Record</a>
+                <a href="#" class="footer-nav-link">Documentation</a>
+                <a href="#" class="footer-nav-link">About</a>
+                <a href="#" class="footer-nav-link">Privacy Policy</a>
+                <a href="#" class="footer-nav-link">Terms of Service</a>
+            </nav>
+
+            <!-- Copyright -->
+            <p>© 2025 Webspark Tag Analyzer | All rights reserved</p>
+
+            <!-- Attribution -->
+            <div class="attribution">
+                Made with <i class="fas fa-heart" style="color: #ef4444;"></i> for web developers
+            </div>
+
+            <!-- Visual Effects -->
+            <div class="footer-wave"></div>
+            <div class="star-field">
+                <!-- Stars generated via JavaScript -->
+            </div>
+        </footer>
+
+        <!-- Star Generation Script -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const starField = document.querySelector('.star-field');
+            if (starField) {
+                for (let i = 0; i < 50; i++) {
+                    const star = document.createElement('div');
+                    star.classList.add('star');
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.animationDelay = `${Math.random() * 4}s`;
+                    starField.appendChild(star);
+                }
+            }
+        });
+        </script>
+
+    </div> <!-- End Main Content -->
 
     <script>
         function toggleJsonViewer(id) {
